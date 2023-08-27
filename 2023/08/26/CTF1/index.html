@@ -131,13 +131,14 @@
 	<div class="mypage">		
 	  		
 
-	  <h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p>图片ctf题目<br>图片虚拟机描述<br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
-<h2 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h2><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
+	  <h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
+<h1 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h1><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> update
 <span class="token function">apt-get</span> <span class="token function">install</span> python3 python3-pip python3-dev <span class="token function">git</span> libssl-dev libffi-dev build-essential
 python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pip <span class="token comment">#升级pip，可以不执行 </span>
 python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pwntools <span class="token comment">#可能会升级pip，而且使用国外源，比较慢</span>
 python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> pwntools <span class="token parameter variable">-i</span> https://pypi.tuna.tsinghua.edu.cn/simple/ <span class="token comment">#使用国内源，不更新pip，建议使用这条</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h1 id="使用pwntools"><a href="#使用pwntools" class="headerlink" title="使用pwntools"></a>使用pwntools</h1><p>稍微了解了一下pwntools的用法，基本够用：</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python">send<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送数据</span>
 sendline<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送一行数据，相当于在末尾加\n      </span>
@@ -148,6 +149,7 @@ recvline<span class="token punctuation">(</span>keepends<span class="token opera
 recvall<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#接收到EOF</span>
 recvrepeat<span class="token punctuation">(</span>timeout<span class="token operator">=</span>default<span class="token punctuation">)</span> <span class="token comment">#接收到EOF或timeout</span>
 interactive<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#与shell交互</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment">#引用库</span>
 
 r <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">"192.168.36.1"</span><span class="token punctuation">,</span><span class="token string">"63551"</span><span class="token punctuation">)</span> <span class="token comment">#远程连接容器</span>
@@ -182,7 +184,7 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
         i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
         <span class="token comment">#time.sleep(1)</span>
     times <span class="token operator">=</span> times <span class="token operator">+</span> <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>输入执行，得到flag<br>flag图片</p>
+<p>输入执行，得到flag<br><img src="/images/working.PNG"><br><img src="/images/getflag.PNG"></p>
 <h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.pwn题目的byte要用decode转化为字符串才能用split处理<br>2.与容器交互时也要将输入字符转为byte（有一些教程不用，或许都要试试？）</p>
 
 	  <div class="article-footer-copyright">
@@ -264,7 +266,7 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/CTF-PWN/">CTF,PWN<span>1</span></a></li>
+  <li><a href="/tags/CTF/">CTF<span>1</span></a></li> <li><a href="/tags/PWN/">PWN<span>1</span></a></li>
     </ul>
 	</div>
 		
