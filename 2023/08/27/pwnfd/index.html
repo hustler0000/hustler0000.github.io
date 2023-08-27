@@ -138,7 +138,7 @@
 <h2 id="fd-的值范围是什么？"><a href="#fd-的值范围是什么？" class="headerlink" title="fd 的值范围是什么？"></a>fd 的值范围是什么？</h2><p>在 POSIX 语义中，0，1，2 这三个 fd 值已经被赋予特殊含义，分别是标准输入（ STDIN_FILENO ），标准输出（ STDOUT_FILENO ），标准错误（ STDERR_FILENO ）。</p>
 <p>文件描述符是有一个范围的：0 ～ OPEN_MAX-1 ，最早期的 UNIX 系统中范围很小，现在的主流系统单就这个值来说，变化范围是几乎不受限制的，只受到系统硬件配置和系统管理员配置的约束。</p>
 <p>看完上面的介绍我们知道：</p>
-<p>2.1.fd是一个非负整数<br>2.fd用来表示一个被程序打开的文件<br>3.fd中0，1，2已经被赋予特殊含义<br>4.fd可以非常大</p>
+<p>1.fd是一个非负整数<br>2.fd用来表示一个被程序打开的文件<br>3.fd中0，1，2已经被赋予特殊含义<br>4.fd可以非常大</p>
 <p>一个想法从我心中诞生，是不是只要我从3开始一直试就能试出flag的fd。但问题又来了，如上面的图2和图3，当我向程序输入一个fd之后，程序会立即断开我的连接，这样会使我无法进行后面的穷举，该怎么办呢？很简单，那就再开一个连接，让我的脚本控制连接与中断，试完3就断开，然后开启新的连接试4，以此类推，把主动权掌握在自己手里。</p>
 <h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><p>用python写脚本，并且请出我们的pwntools,写完后运行：<br><img src="/images/fdproblem.PNG"><br>如果我们只是这样尝试，一条一条回显的看，很容易错过flag，而且浪费宝贵时间，于是，我增加了匹配与flag相关字符串的代码，上网搜索的代码有些很复杂，其实只需要一个in就可以，当字符串匹配时会返回一个True布尔变量。</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
