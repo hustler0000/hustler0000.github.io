@@ -139,6 +139,38 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/08/27/pwnfd/" >PWN-File Descriptor</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-08-27  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/pwnfd1.PNG"><br><img src="/images/pwnfd2.PNG"><br><img src="/images/pwnfd3.PNG"><br>大概是要我们输入一个叫fd的东西来读取文件，也就是只要我们输入正确的fd就可以得到flag，那什么是fd呢？</p>
+<p>FD，即“文件描述符”，以下是摘录于知乎的简述：</p>
+<h2 id="fd是什么？"><a href="#fd是什么？" class="headerlink" title="fd是什么？"></a>fd是什么？</h2><p>fd是File descriptor的缩写，中文名叫做：文件描述符。文件描述符是一个非负整数，本质上是一个索引值（这句话非常重要）。</p>
+<h2 id="什么时候拿到的fd？"><a href="#什么时候拿到的fd？" class="headerlink" title="什么时候拿到的fd？"></a>什么时候拿到的fd？</h2><p>当打开一个文件时，内核向进程返回一个文件描述符（ <code>open</code> 系统调用得到 ），后续 <code>read</code>、<code>write</code> 这个文件时，则只需要用这个文件描述符来标识该文件，将其作为参数传入 <code>read</code>、<code>write</code> 。</p>
+<h2 id="fd-的值范围是什么？"><a href="#fd-的值范围是什么？" class="headerlink" title="fd 的值范围是什么？"></a>fd 的值范围是什么？</h2><p>在 POSIX 语义中，0，1，2 这三个 fd 值已经被赋予特殊含义，分别是标准输入（ STDIN_FILENO ），标准输出（ STDOUT_FILENO ），标准错误（ STDERR_FILENO ）。</p>
+<p>文件描述符是有一个范围的：0 ～ OPEN_MAX-1 ，最早期的 UNIX 系统中范围很小，现在的主流系统单就这个值来说，变化范围是几乎不受限制的，只受到系统硬件配置和系统管理员配置的约束。</p>
+	
+	</div>
+  <a type="button" href="/2023/08/27/pwnfd/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/08/26/CTF1/" >PWN-BabyCalculator</a>
 		</h3>
 		</div>
@@ -281,11 +313,11 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 		<h4>Categories</h4>
 		<ul class="tag_box inline list-unstyled">
 		
-			<li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>1</span></a></li>
+			<li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>2</span></a></li>
 		
-			<li><a href="/categories/CTF/">CTF<span>1</span></a></li>
+			<li><a href="/categories/CTF/">CTF<span>2</span></a></li>
 		
-			<li><a href="/categories/CTF/2023MoeCTF/PWN/">PWN<span>1</span></a></li>
+			<li><a href="/categories/CTF/2023MoeCTF/PWN/">PWN<span>2</span></a></li>
 		
 		</ul>
 	</div>
@@ -296,9 +328,9 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/PWN/">PWN<span>1</span></a></li>
+			<li><a href="/tags/PWN/">PWN<span>2</span></a></li>
 		
-			<li><a href="/tags/CTF/">CTF<span>1</span></a></li>
+			<li><a href="/tags/CTF/">CTF<span>2</span></a></li>
 		
 		 
 		</ul>
@@ -310,6 +342,10 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 <div class="widget">
   <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2023/08/27/pwnfd/" ><i class="fa fa-file-o"></i>PWN-File Descriptor</a>
+      </li>
     
       <li>
         <a href="/2023/08/26/CTF1/" ><i class="fa fa-file-o"></i>PWN-BabyCalculator</a>
