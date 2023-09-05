@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>Web-http</title>
+      <link href="/2023/09/05/http/"/>
+      <url>/2023/09/05/http/</url>
+      
+        <content type="html"><![CDATA[<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/http1.JPG"><br>满足题目的5点要求即可得到flag</p><h1 id="使用Postman"><a href="#使用Postman" class="headerlink" title="使用Postman"></a>使用Postman</h1><p>要满足这些要求，有一个十分好用的工具叫postman，它是一个浏览器插件，也有exe的版本，这里我选用了exe版本的postman</p><h2 id="使用post请求"><a href="#使用post请求" class="headerlink" title="使用post请求"></a>使用post请求</h2><p>直接修改postman的设置，如图：<br><img src="/images/httppost.JPG"></p><h2 id="满足use-parameter-UwU-u"><a href="#满足use-parameter-UwU-u" class="headerlink" title="满足use parameter: UwU&#x3D;u"></a>满足use parameter: UwU&#x3D;u</h2><p>在postman的params一栏里设置，也可以直接在网站后面加：<br><img src="/iamges/httpparam.JPG"></p><h2 id="满足post-form-Luv-u"><a href="#满足post-form-Luv-u" class="headerlink" title="满足post form: Luv&#x3D;u"></a>满足post <strong>form</strong>: Luv&#x3D;u</h2><p>这里要求post from-data格式或者x-www-from-urlencoded格式的数据，并且满足Luv&#x3D;u，如图：</p><h2 id="满足use-admin-character"><a href="#满足use-admin-character" class="headerlink" title="满足use admin character"></a>满足use admin character</h2><p>这里可以通过修改cookies来达成，任意post一次后会返回cookie：<br><img src="/images/httpck1.JPG"><br>然后将鼠标停在cookie一栏，点击go to cookie，进入界面后点击character，将character&#x3D;guest改成character&#x3D;admin<br><img src="/images/httpck2.JPG"><br>然后点击save</p><h2 id="满足request-from-127-0-0-1"><a href="#满足request-from-127-0-0-1" class="headerlink" title="满足request from 127.0.0.1"></a>满足request from 127.0.0.1</h2><p>当时我想了很久，因为我就是用127.0.0.1的ip来post的，但是不行，进而想到伪造ip，查了很久发现在请求头加入x-forwarded-for&#x3D;127.0.0.1一条可以伪造ip，于是添加：<br><img src="/images/httpfake.JPG"></p><hr><p>将127.0.0.1改成其他也可以伪造成其他ip</p><hr><h2 id="满足use-browser-‘MoeBrowser’"><a href="#满足use-browser-‘MoeBrowser’" class="headerlink" title="满足use browser ‘MoeBrowser’"></a>满足use browser ‘MoeBrowser’</h2><p>很简单，修改header的user-agent就可以了：<br><img src="/images/httpbro.JPG"></p><h1 id="post得到flag"><a href="#post得到flag" class="headerlink" title="post得到flag"></a>post得到flag</h1><p>直接点击右上角的send，发送后得到flag：<br><img src="/images/httpflag.JPG"></p><h1 id="总结反思"><a href="#总结反思" class="headerlink" title="总结反思"></a>总结反思</h1><p>1.这个伪造ip的方法当时真的不会，看到很多人做出来甚至有点怀疑自己</p><hr><p>这是在莞工写的第一篇write up，草草写了篇简单的，就当纪念吧</p><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+          <category> 2023MoeCTF </category>
+          
+          <category> Web </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CTF </tag>
+            
+            <tag> Web </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>自制树莓派无人机</title>
       <link href="/2023/09/01/drone/"/>
       <url>/2023/09/01/drone/</url>
