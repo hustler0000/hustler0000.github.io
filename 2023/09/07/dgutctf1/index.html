@@ -131,7 +131,7 @@
 	<div class="mypage">		
 	  		
 
-	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
+	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial1.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
 <h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>我们需要传入参数，但是遇到这种改怎么传参呢？我们注意到源代码有<code>if($_GET[&#39;user&#39;])</code>这样一段，这样的代码就是php获取网址后的参数的，比方这里就是获取user的值，那么我们传参时就可以写<code>?user=需要传入的数据</code>这种结构是可以直接写在网址后面的。<br>知道了如何传参，那我们要传入什么数据呢？我们注意到，题目里有一个<code>unserialize()</code>函数，这就是反序列化函数，那什么是序列和反序列呢？以下摘录网络的解释：<br>php程序为了保存和转储对象，提供了序列化的方法。php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成字符串，但仅保留对象里的成员变量，不保留函数方法。</p>
 <p>php序列化的函数为serialize，可以将对象中的成员变量转换成字符串。</p>
 <p>反序列化的函数为unserilize，可以将serialize生成的字符串重新还原为对象中的成员变量。</p>
