@@ -238,6 +238,59 @@ private &#39;c&#39; &#x3D;&gt; string &#39;ThisC&#39; (length&#x3D;5)<span aria-
 <pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token constant">O</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">:</span><span class="token string double-quoted-string">"User"</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">&#123;</span>s<span class="token punctuation">:</span><span class="token number">14</span><span class="token punctuation">:</span><span class="token string double-quoted-string">"%00User%00Username"</span><span class="token punctuation">;</span>s<span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token string double-quoted-string">"admin"</span><span class="token punctuation">;</span>s<span class="token punctuation">:</span><span class="token number">14</span><span class="token punctuation">:</span><span class="token string double-quoted-string">"%00User%00Password"</span><span class="token punctuation">;</span>s<span class="token punctuation">:</span><span class="token number">9</span><span class="token punctuation">:</span><span class="token string double-quoted-string">"0xDktb111"</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>贴在网址后面，提交参数，得到flag：<br><img src="/images/dgctfflag.JPG"></p>
 <h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.刚开始做题时不懂序列化，构造的payload有问题，导致了一些误解，总之此题admin的password没有特别要求。</p>
+<hr>
+<p>以下附上一些关于反序列化的知识：<br>PHP反序列化漏洞中可能会用到的魔术方法</p>
+<p>php类可能会包含魔术方法，魔术方法命名是以符号__开头的，比如 __construct, __destruct, __toString, __sleep, __wakeup等等。这些函数在某些情况下会自动调用。</p>
+<p>__construct():具有构造函数的类会在每次创建新对象时先调用此方法。</p>
+<p>__destruct():析构函数会在到某个对象的所有引用都被删除或者当对象被显式销毁时执行。</p>
+<p>__toString()方法用于一个类被当成字符串时应怎样回应。例如echo $obj;应该显示些什么。</p>
+<p>此方法必须返回一个字符串，否则将发出一条 E_RECOVERABLE_ERROR 级别的致命错误。</p>
+<p>__sleep()方法在一个对象被序列化之前调用；</p>
+<p>__wakeup():unserialize( )会检查是否存在一个_wakeup( )方法。如果存在，则会先调用_wakeup方法，预先准备对象需要的资源。</p>
+<p>__construct() # 当对象被创建时调用<br>__destruct()    # 当对象被销毁时调用<br>__toString()    # 当对象被当做字符串使用<br>__sleep()       # 在对象被序列化之前调用<br>__wakeup()  # 在对象被反序列化之前调用</p>
+<p>现在5个魔法函数的执行顺序就明确了。</p>
+<p>对象被创建时执行__construct。</p>
+<p>使用serialize()序列化对象。先执行__sleep，再序列化。</p>
+<p>unserialize( )会检查是否存在一个_wakeup( )方法。如果存在，则会先调用_wakeup()方法，预先准备对象需要的资源。</p>
+<p>把对象当做字符串使用，比如将对象与字符串进行拼接，或者使用echo输出对象，会执行__toString</p>
+<p>程序运行完毕，对象自动销毁，执行__destruct。</p>
+<p>安全问题</p>
+<p>如何利用反序列化漏洞，取决于应用程序的逻辑、可用的类和魔法函数。unserialize的参数用户可控，攻击者可以构造恶意的序列化字符串。当应用程序将恶意字符串反序列化为对象后，也就执行了攻击者指定的操作，如代码执行、任意文件读取等。</p>
+<hr>
+<p>2．概述</p>
+<p>PHP 序列化后的内容是简单的文本格式，但是对字母大小写和空白（空格、回车、换行等）敏感，而且字符串是按照字节（或者说是 8 位的字符）计算的，因此，更合适的说法是 PHP 序列化后的内容是字节流格式。因此用其他语言实现时，如果所实现的语言中的字符串不是字节储存格式，而是 Unicode 储存格式的话，序列化后的内容不适合保存为字符串，而应保存为字节流对象或者字节数组，否则在与 PHP 进行数据交换时会产生错误。</p>
+<p>PHP 对不同类型的数据用不同的字母进行标示，Yahoo 开发网站提供的Using Serialized PHP with Yahoo! Web Services 一文中给出所有的字母标示及其含义：</p>
+<pre><code>    a - array
+    b - boolean
+    d - double
+    i - integer
+    o - common object
+    r - reference
+    s - string
+    C - custom object
+    O - class
+    N - null
+    R - pointer reference
+    U - unicode string
+</code></pre>
+<p>N 表示的是 NULL，而 b、d、i、s 表示的是四种标量类型，目前其它语言所实现的 PHP 序列化程序基本上都实现了对这些类型的序列化和反序列化，不过有一些实现中对 s （字符串）的实现存在问题。</p>
+<p>a、O 属于最常用的复合类型，大部分其他语言的实现都很好的实现了对 a 的序列化和反序列化，但对 O 只实现了 PHP4 中对象序列化格式，而没有提供对 PHP 5 中扩展的对象序列化格式的支持。</p>
+<p>r、R 分别表示对象引用和指针引用，这两个也比较有用，在序列化比较复杂的数组和对象时就会产生带有这两个标示的数据，后面我们将详细讲解这两个标示，目前这两个标示尚没有发现有其他语言的实现。</p>
+<p>C 是 PHP5 中引入的，它表示自定义的对象序列化方式，尽管这对于其它语言来说是没有必要实现的，因为很少会用到它，但是后面还是会对它进行详细讲解的。</p>
+<p>U 是 PHP6 中才引入的，它表示 Unicode 编码的字符串。因为 PHP6 中提供了 Unicode 方式保存字符串的能力，因此它提供了这种序列化字符串的格式，不过这个类型 PHP5、PHP4 都不支持，而这两个版本目前是主流，因此在其它语言实现该类型时，不推荐用它来进行序列化，不过可以实现它的反序列化过程。在后面我也会对它的格式进行说 明。</p>
+<p>最后还有一个 o，这也是我唯一还没弄清楚的一个数据类型标示。这个标示在 PHP3 中被引入用来序列化对象，但是到了 PHP4 以后就被 O 取代了。在 PHP3 的源代码中可以看到对 o 的序列化和反序列化与数组 a 基本上是一样的。但是在 PHP4、PHP5 和 PHP6 的源代码中序列化部分里都找不到它的影子，但是在这几个版本的反序列化程序源代码中却都有对它的处理，不过把它处理成什么我还没弄清楚。因此对它暂时不再 作更多说明了。<br>补充</p>
+<p>最近的 PHP CVS 版本中，序列化的方式有所变化，基本类型的序列化仍然保持原来的格式，只是对 Unicode 支持上，有了新的进展。另外，对普通字符串的序列化也分成了 2 种。一种是 non-escaped 字符串，也就是我们上面说的那个小写 s 标识的字符串；另一种是 escaped 字符串，这种字符串格式用大写 S 标识。所以上面那个表现在应该改为：</p>
+<pre><code>    a - array
+    b - boolean
+    d - double
+    i - integer
+    o - common object
+    r - reference
+    s - non-escaped binary string
+    S - escaped binary string
+    C - custom object
+</code></pre>
+<hr>
 
 	  <div class="article-footer-copyright">
 
