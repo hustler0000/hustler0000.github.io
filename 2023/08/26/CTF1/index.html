@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>Hustler&#39;s Blog</title>
+  <title>PWN-BabyCalculator | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="PWN-BabyCalculator"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -109,149 +109,29 @@
 
   <div class="container">
   	<div class="content">
-    	 <div class="page-header logo">
-  <h1>A Hacker<span class="blink-fast">|</span></h1>
-</div>
+    	 
 
-<div class="row page">
 
 	
+		<div class="page-header">
+			<h1> PWN-BabyCalculator</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
 	<div class="col-md-9">
 	
 
-		<div class="slogan">
+	<!-- content -->
+	<div class="mypage">		
+	  		
 
-
-		<i class="fa fa-heart blink-slow"></i>
-
-		wubba lubba dub dub.
-
-</div>    
-
-		<div id="top_search"></div>
-		<div class="mypage">
-		
-		<!-- title and entry -->
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/07/dgctf2/" >Web-Unserialize</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-07  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
-<h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
-<h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
-<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
-
-	
-	</div>
-  <a type="button" href="/2023/09/07/dgctf2/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/07/dgutctf1/" >Web-Unserialize</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-07  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial1.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
-<h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>我们需要传入参数，但是遇到这种改怎么传参呢？我们注意到源代码有<code>if($_GET[&#39;user&#39;])</code>这样一段，这样的代码就是php获取网址后的参数的，比方这里就是获取user的值，那么我们传参时就可以写<code>?user=需要传入的数据</code>这种结构是可以直接写在网址后面的。<br>知道了如何传参，那我们要传入什么数据呢？我们注意到，题目里有一个<code>unserialize()</code>函数，这就是反序列化函数，那什么是序列和反序列呢？以下摘录网络的解释：<br>php程序为了保存和转储对象，提供了序列化的方法。php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成字符串，但仅保留对象里的成员变量，不保留函数方法。</p>
-<p>php序列化的函数为serialize，可以将对象中的成员变量转换成字符串。</p>
-<p>反序列化的函数为unserilize，可以将serialize生成的字符串重新还原为对象中的成员变量。</p>
-<p>将用户可控的数据进行了反序列化，就是PHP反序列化漏洞。</p>
-<p>序列化</p>
-<p>序列化的目的是方便数据的传输和存储。</p>
-<p>在PHP应用中，序列化和反序列化一般用作缓存，比如session缓存，cookie等。</p>
-	
-	</div>
-  <a type="button" href="/2023/09/07/dgutctf1/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/01/drone/" >自制树莓派无人机</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-01  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><p>灵感来源于watch dogs里面的黑客无人机，以树莓派+pixhawk为主体，搭载大疆F450机架，配以2000毫安锂电池，可以凭借pixhawk出色的飞控能力，以及树莓派优秀的运算能力，在空中完成近源渗透，人脸识别，数据转发（星链），无人机送货等多项功能。</p>
-<hr>
-<p>注意：建议先给pixhawk和树莓派刷入固件，调试好各项参数（根据情况可以无线调试，建议先调试完可以无线调试的项目），再组装飞机（gps，电机电调调试必须先组装好飞机），不一定要按照文章顺序来做</p>
-<hr>
-<h1 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h1><p>大概要这些<br><img src="/images/dronemt1.jpg"></p>
-<h2 id="F450机架（动力套装）"><a href="#F450机架（动力套装）" class="headerlink" title="F450机架（动力套装）"></a>F450机架（动力套装）</h2><p>如果懂得焊接可以更自由的购买电机电调来组装，不懂焊接的建议直接咸鱼（淘宝上很少或者没有组装好的）买F450的动力套装，因为动力套装插上飞控就可以操作，不需焊接，购买前请注意是否真的不需要焊接。<br><img src="/images/djijia1.jpg"><br><img src="/images/djijia2.jpg"></p>
-<h2 id="减震板"><a href="#减震板" class="headerlink" title="减震板"></a>减震板</h2>
-	
-	</div>
-  <a type="button" href="/2023/09/01/drone/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/08/26/CTF1/" >PWN-BabyCalculator</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-08-26  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
+	  <h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
 <h1 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h1><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> update
 <span class="token function">apt-get</span> <span class="token function">install</span> python3 python3-pip python3-dev <span class="token function">git</span> libssl-dev libffi-dev build-essential
@@ -302,152 +182,116 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
         i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
         <span class="token comment">#time.sleep(1)</span>
     times <span class="token operator">=</span> times <span class="token operator">+</span> <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-	
-	</div>
-  <a type="button" href="/2023/08/26/CTF1/#more" class="btn btn-default more">Read More</a>
+<p>输入执行，得到flag<br><img src="/images/working.PNG"><br><img src="/images/getflag.PNG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.pwn题目的byte要用decode转化为字符串才能用split处理<br>2.与容器交互时也要将输入字符转为byte（有一些教程不用，或许都要试试？）<br>3.接受数据时采用recvline是因为当时不清楚recvuntil的用法，用recvuntil会更好</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
 </div>
 
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/08/25/hello-world/" >Hello World</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-08-25  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-	
-	</div>
-  <a type="button" href="/2023/08/25/hello-world/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-
-		</div>
-
-		<!-- pagination -->
-		<div>
-  		<center>
-		<div class="pagination">
-
-   
-</div>
-
-  		</center>
-		</div>
-
-		
-		
-	</div> <!-- col-md-9 -->
-
-	
-		<div class="col-md-3">
-	<div id="sidebar">
-	
-			
-  <div id="site_search">
-   <div class="form-group">
-    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
-   </div>  
-  <div id="local-search-result"></div>
-  </div>
-
-
-		
-			
-	<div class="category-block">
-		<h3 class="asidetitle">Categories</h3>
-			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
 	</div>
 
-
-		
-			
-	<div class="widget">
-		<h4>Tag Cloud</h4>
-		<ul class="tag_box inline list-unstyled">		
-		
-			<li><a href="/tags/Web/">Web<span>2</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>3</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>1</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>1</span></a></li>
-		
-		 
-		</ul>
-	</div>
-
-
-		
-			
-<div class="widget">
-  <h4>Recent Posts</h4>
-  <ul class="entry list-unstyled">
-    
-      <li>
-        <a href="/2023/09/07/dgctf2/" ><i class="fa fa-file-o"></i>Web-Unserialize</a>
-      </li>
-    
-      <li>
-        <a href="/2023/09/07/dgutctf1/" ><i class="fa fa-file-o"></i>Web-Unserialize</a>
-      </li>
-    
-      <li>
-        <a href="/2023/09/01/drone/" ><i class="fa fa-file-o"></i>自制树莓派无人机</a>
-      </li>
-    
-      <li>
-        <a href="/2023/08/26/CTF1/" ><i class="fa fa-file-o"></i>PWN-BabyCalculator</a>
-      </li>
-    
-      <li>
-        <a href="/2023/08/25/hello-world/" ><i class="fa fa-file-o"></i>Hello World</a>
-      </li>
-    
-  </ul>
-</div>
-
-		
-			
-<div class="widget">
-	<h4>Links</h4>
-	<ul class="blogroll list-unstyled">
 	
-		<li><i class="false"></i><a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" title="" target="_blank"]);">hexo-theme-bithack</a></li>
 	
-	</ul>
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/09/01/drone/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2023/08/25/hello-world/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
 </div>
 
 
-		
-	</div> <!-- sidebar -->
-</div> <!-- col-md-3 -->
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
 
 	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
 	
-</div> <!-- row-fluid -->
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-08-26 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/CTF/">CTF<span>3</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>1</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/PWN/">PWN<span>1</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/CTF/">CTF<span>3</span></a></li> <li><a href="/tags/PWN/">PWN<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
 	</div>
   </div>
   <div class="container-narrow">
