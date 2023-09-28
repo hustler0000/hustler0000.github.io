@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>Web-Unserialize | Hustler&#39;s Blog</title>
+  <title>Web-http | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Web-Unserialize"/>
+  <meta property="og:title" content="Web-http"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -114,7 +114,7 @@
 
 	
 		<div class="page-header">
-			<h1> Web-Unserialize</h1>
+			<h1> Web-http</h1>
 		</div>
 	
 
@@ -131,10 +131,22 @@
 	<div class="mypage">		
 	  		
 
-	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
-<h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
-<h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
-<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
+	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/http1.JPG"><br>满足题目的5点要求即可得到flag</p>
+<h1 id="使用Postman"><a href="#使用Postman" class="headerlink" title="使用Postman"></a>使用Postman</h1><p>要满足这些要求，有一个十分好用的工具叫postman，它是一个浏览器插件，也有exe的版本，这里我选用了exe版本的postman</p>
+<h2 id="使用post请求"><a href="#使用post请求" class="headerlink" title="使用post请求"></a>使用post请求</h2><p>直接修改postman的设置，如图：<br><img src="/images/httppost.JPG"></p>
+<h2 id="满足use-parameter-UwU-u"><a href="#满足use-parameter-UwU-u" class="headerlink" title="满足use parameter: UwU&#x3D;u"></a>满足use parameter: UwU&#x3D;u</h2><p>在postman的params一栏里设置，也可以直接在网站后面加：<br><img src="/iamges/httpparam.JPG"></p>
+<h2 id="满足post-form-Luv-u"><a href="#满足post-form-Luv-u" class="headerlink" title="满足post form: Luv&#x3D;u"></a>满足post <strong>form</strong>: Luv&#x3D;u</h2><p>这里要求post from-data格式或者x-www-from-urlencoded格式的数据，并且满足Luv&#x3D;u，如图：</p>
+<h2 id="满足use-admin-character"><a href="#满足use-admin-character" class="headerlink" title="满足use admin character"></a>满足use admin character</h2><p>这里可以通过修改cookies来达成，任意post一次后会返回cookie：<br><img src="/images/httpck1.JPG"><br>然后将鼠标停在cookie一栏，点击go to cookie，进入界面后点击character，将character&#x3D;guest改成character&#x3D;admin<br><img src="/images/httpck2.JPG"><br>然后点击save</p>
+<h2 id="满足request-from-127-0-0-1"><a href="#满足request-from-127-0-0-1" class="headerlink" title="满足request from 127.0.0.1"></a>满足request from 127.0.0.1</h2><p>当时我想了很久，因为我就是用127.0.0.1的ip来post的，但是不行，进而想到伪造ip，查了很久发现在请求头加入x-forwarded-for&#x3D;127.0.0.1一条可以伪造ip，于是添加：<br><img src="/images/httpfake.JPG"></p>
+<hr>
+<p>将127.0.0.1改成其他也可以伪造成其他ip</p>
+<hr>
+<h2 id="满足use-browser-‘MoeBrowser’"><a href="#满足use-browser-‘MoeBrowser’" class="headerlink" title="满足use browser ‘MoeBrowser’"></a>满足use browser ‘MoeBrowser’</h2><p>很简单，修改header的user-agent就可以了：<br><img src="/images/httpbro.JPG"></p>
+<h1 id="post得到flag"><a href="#post得到flag" class="headerlink" title="post得到flag"></a>post得到flag</h1><p>直接点击右上角的send，发送后得到flag：<br><img src="/images/httpflag.JPG"></p>
+<h1 id="总结反思"><a href="#总结反思" class="headerlink" title="总结反思"></a>总结反思</h1><p>1.这个伪造ip的方法当时真的不会，看到很多人做出来甚至有点怀疑自己</p>
+<hr>
+<p>这是在莞工写的第一篇write up，草草写了篇简单的，就当纪念吧</p>
+<hr>
 
 	  <div class="article-footer-copyright">
 
@@ -152,12 +164,13 @@
 
     
     
-    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
+    <a href="/2023/09/07/dgutctf1/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2023/09/07/dgutctf1/" type="button" class="btn btn-default ">Next<i
+    <a href="/2023/09/01/drone/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -191,7 +204,7 @@
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2023-09-07 
+	2023-09-05 
 	</div>
 	
 
@@ -202,7 +215,7 @@
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/CTF/">CTF<span>6</span></a></li> <li><a href="/categories/CTF/DgutCTF/">DgutCTF<span>2</span></a></li> <li><a href="/categories/CTF/DgutCTF/Web/">Web<span>2</span></a></li> <li><a href="/categories/CTF/DgutCTF/Web/unicode/">unicode<span>1</span></a></li>
+    <li><a href="/categories/CTF/">CTF<span>6</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>4</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/Web/">Web<span>2</span></a></li>
   </li>
 
     </ul>
