@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>Web-Unicode | Hustler&#39;s Blog</title>
+  <title>Web-cookit and json | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="Web-Unicode"/>
+  <meta property="og:title" content="Web-cookit and json"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -114,7 +114,7 @@
 
 	
 		<div class="page-header">
-			<h1> Web-Unicode</h1>
+			<h1> Web-cookit and json</h1>
 		</div>
 	
 
@@ -131,10 +131,16 @@
 	<div class="mypage">		
 	  		
 
-	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
-<h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
-<h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
-<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
+	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>用浏览器访问，发现是这样，结合题目给的附件，应该是要发送json数据来得到flag：<br><img src="/images/ctfjson1.JPG"></p>
+<h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>查看附件，发现给出了&#x2F;register,&#x2F;login,&#x2F;flag等地址，判断是要我们注册用户，登录后用get请求得到flag，使用postman发送json数据，方便快捷。先试了一下附件给出的账号，注册发现用户已存在，而且登录密码也不正确，所以需要自己注册一个用户：<br><img src="/images/ctfjson1.JPG"><br><img src="/images/ctfjson2.JPG"><br><img src="/images/ctfjson3.JPG"><br>注册和登录都返回ok，但是获取flag时返回了一个假flag，并提示我们不是admin，根据题目cookie，判断问题出在cookie上，查看cookie发现有一个token，内容如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">token&#x3D;eyJ1c2VybmFtZSI6ICJodXN0bGVyIiwgInBhc3N3b3JkIjogIjEyMzQ1NiIsICJyb2xlIjogInVzZXIifQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>看着末尾的两个大等号，说明这有可能时base64，进行base64解码后的数据是这样的：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"user"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>显然，我们将role的值改为admin，即：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"admin"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>再将这串数据用base64编码，得到修改后的token</p>
+<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>用postman修改cookie，并且get请求&#x2F;flag后得到flag：<br><img src="/images/ctfjsonflag.JPG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.刚开始做的时候以为是给cookie增加新的键值对，没有注意token是base64编码过后的。</p>
 
 	  <div class="article-footer-copyright">
 
@@ -152,13 +158,13 @@
 
     
     
-    <a href="/2023/10/01/ctfjson/" type="button" class="btn btn-default"><i
+    <a href="/2023/10/05/ctfspencode/" type="button" class="btn btn-default"><i
                 class="fa fa-arrow-circle-o-left"></i> Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2023/09/07/dgutctf1/" type="button" class="btn btn-default ">Next<i
+    <a href="/2023/09/07/dgctf2/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -192,7 +198,7 @@
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2023-09-07 
+	2023-10-01 
 	</div>
 	
 
@@ -203,7 +209,7 @@
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/CTF/">CTF<span>5</span></a></li> <li><a href="/categories/CTF/DgutCTF/">DgutCTF<span>2</span></a></li> <li><a href="/categories/CTF/DgutCTF/Web/">Web<span>2</span></a></li> <li><a href="/categories/CTF/DgutCTF/Web/unicode/">unicode<span>1</span></a></li>
+    <li><a href="/categories/CTF/">CTF<span>5</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>3</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/Web/">Web<span>1</span></a></li>
   </li>
 
     </ul>

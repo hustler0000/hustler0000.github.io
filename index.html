@@ -139,6 +139,72 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/05/ctfspencode/" >Misc-special encoding</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-05  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>“锟斤拷烫烫烫”明显在暗示编码错误，下载附件，发现是一种没见过的编码：<br>    +j9k-+Zi8-+T2A-+doQ-flag+&#x2F;xo-+AAo-+AAo-a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262+AAo-+AAo-+T0Y-+Zi8-flag+dSg-AES+UqA-+W8Y-+ToY-+&#x2F;ww-key+Zi8-+Tgs-+l2I-+j9k-+iEw-+W1c-+doQ-sha256+&#x2F;wg-hash+UDw-+doQ-+XwA-+WTQ-+Zi8-b34edc782d68fda34dc23329+&#x2F;wk-+AAo-+AAo-+YkA-+TuU-+i&#x2F;Q-+&#x2F;ww-codepage+dx8-+doQ-+X4g-+kc0-+iYE-+VUo-+&#x2F;wg-+AAo-</p>
+<h1 id="UTF-7解码"><a href="#UTF-7解码" class="headerlink" title="UTF-7解码"></a>UTF-7解码</h1><p>经过尝试，知道这是utf-7编码（谁丧心病狂会用这种啊），解码后有这样的信息：<br>    这是你的flag<br>    a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262<br>    但是flag用AES加密了，key是下面这行字的sha256（hash值的开头是b34edc782d68fda34dc23329）<br>    所以说，codepage真的很重要啊（<br>在线转换，得到key为：<br>    b34edc782d68fda34dc2332967273b0f0900a0ebd0dcec48467851bc6117bad1</p>
+<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>通过aes解密后得到flag：<br><img src="/images/ctfspencodeflag.JPG"><br>(注意所有都是hex)</p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做因为不知道utf-7而卡了很久<br>2.附上一些不那么常见的编码：</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/q20010619/article/details/120942973">https://blog.csdn.net/q20010619/article/details/120942973</a></p>
+<p>感谢丁神的总结博客链接<br>常见编码</p>
+	
+	</div>
+  <a type="button" href="/2023/10/05/ctfspencode/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2023/10/01/ctfjson/" >Web-cookit and json</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-01  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>用浏览器访问，发现是这样，结合题目给的附件，应该是要发送json数据来得到flag：<br><img src="/images/ctfjson1.JPG"></p>
+<h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>查看附件，发现给出了&#x2F;register,&#x2F;login,&#x2F;flag等地址，判断是要我们注册用户，登录后用get请求得到flag，使用postman发送json数据，方便快捷。先试了一下附件给出的账号，注册发现用户已存在，而且登录密码也不正确，所以需要自己注册一个用户：<br><img src="/images/ctfjson1.JPG"><br><img src="/images/ctfjson2.JPG"><br><img src="/images/ctfjson3.JPG"><br>注册和登录都返回ok，但是获取flag时返回了一个假flag，并提示我们不是admin，根据题目cookie，判断问题出在cookie上，查看cookie发现有一个token，内容如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">token&#x3D;eyJ1c2VybmFtZSI6ICJodXN0bGVyIiwgInBhc3N3b3JkIjogIjEyMzQ1NiIsICJyb2xlIjogInVzZXIifQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>看着末尾的两个大等号，说明这有可能时base64，进行base64解码后的数据是这样的：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"user"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>显然，我们将role的值改为admin，即：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"admin"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>再将这串数据用base64编码，得到修改后的token</p>
+	
+	</div>
+  <a type="button" href="/2023/10/01/ctfjson/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/09/07/dgctf2/" >Web-Unicode</a>
 		</h3>
 		</div>
@@ -237,6 +303,83 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/08/26/CTF1/" >PWN-BabyCalculator</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-08-26  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
+<h1 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h1><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> update
+<span class="token function">apt-get</span> <span class="token function">install</span> python3 python3-pip python3-dev <span class="token function">git</span> libssl-dev libffi-dev build-essential
+python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pip <span class="token comment">#升级pip，可以不执行 </span>
+python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pwntools <span class="token comment">#可能会升级pip，而且使用国外源，比较慢</span>
+python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> pwntools <span class="token parameter variable">-i</span> https://pypi.tuna.tsinghua.edu.cn/simple/ <span class="token comment">#使用国内源，不更新pip，建议使用这条</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="使用pwntools"><a href="#使用pwntools" class="headerlink" title="使用pwntools"></a>使用pwntools</h1><p>稍微了解了一下pwntools的用法，基本够用：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">send<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送数据</span>
+sendline<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送一行数据，相当于在末尾加\n      </span>
+recv<span class="token punctuation">(</span>numb<span class="token operator">=</span><span class="token number">4096</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span>default<span class="token punctuation">)</span>  <span class="token comment">#给出接收字节数,timeout指定超时</span>
+recvuntil<span class="token punctuation">(</span><span class="token string">"hello,world\n"</span><span class="token punctuation">,</span> drop<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment">#接收直到我们设置的标志出现</span>
+<span class="token comment">#（以下可以看作until的特例）</span>
+recvline<span class="token punctuation">(</span>keepends<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token comment">#接收到\n，keepends指定保留\n</span>
+recvall<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#接收到EOF</span>
+recvrepeat<span class="token punctuation">(</span>timeout<span class="token operator">=</span>default<span class="token punctuation">)</span> <span class="token comment">#接收到EOF或timeout</span>
+interactive<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#与shell交互</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment">#引用库</span>
+
+r <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">"192.168.36.1"</span><span class="token punctuation">,</span><span class="token string">"63551"</span><span class="token punctuation">)</span> <span class="token comment">#远程连接容器</span>
+i <span class="token operator">=</span> <span class="token number">0</span>                    
+t <span class="token operator">=</span> <span class="token number">0</span>
+times <span class="token operator">=</span> <span class="token number">0</span>
+win <span class="token operator">=</span> <span class="token string">"BlackBird"</span>        
+lose <span class="token operator">=</span> <span class="token string">"WingS"</span>
+context<span class="token punctuation">.</span>log_level<span class="token operator">=</span><span class="token string">"debug"</span> <span class="token comment">#显示pwntools的debug输出</span>
+
+<span class="token keyword">while</span> t <span class="token operator">&lt;</span> <span class="token number">7</span><span class="token punctuation">:</span>
+    welcome <span class="token operator">=</span> r<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#逐行接受欢迎信息</span>
+    t <span class="token operator">=</span> t <span class="token operator">+</span> <span class="token number">1</span>
+<span class="token keyword">while</span> times <span class="token operator">&lt;</span> <span class="token number">102</span><span class="token punctuation">:</span>
+    i <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">while</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">:</span>
+        line <span class="token operator">=</span> r<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span>keepends<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment">#逐行检查接受信息，并去掉行尾的\n </span>
+        mystr <span class="token operator">=</span> line<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span> <span class="token comment">#将接受到的byte类型字符转化为字符串</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>mystr<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> i <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">:</span>   <span class="token comment">#拆分给出的算式，判断答案，并将字符串转为byte并与容器交互</span>
+            x <span class="token operator">=</span> mystr<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"+"</span><span class="token punctuation">)</span>
+            a <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            d <span class="token operator">=</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+            e <span class="token operator">=</span> d<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"="</span><span class="token punctuation">)</span>
+            b <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>e<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            c <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>e<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            con <span class="token operator">=</span> a <span class="token operator">+</span> b
+            <span class="token keyword">if</span> con <span class="token operator">==</span> c<span class="token punctuation">:</span>
+                r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>win<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">elif</span> con <span class="token operator">!=</span> c<span class="token punctuation">:</span>
+                r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>lose<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token comment">#time.sleep(1)</span>
+    times <span class="token operator">=</span> times <span class="token operator">+</span> <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+	
+	</div>
+  <a type="button" href="/2023/08/26/CTF1/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/08/25/hello-world/" >Hello World</a>
 		</h3>
 		</div>
@@ -300,7 +443,7 @@
 			
 	<div class="category-block">
 		<h3 class="asidetitle">Categories</h3>
-			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
+			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
 	</div>
 
 
@@ -312,9 +455,13 @@
 		
 			<li><a href="/tags/项目/">项目<span>1</span></a></li>
 		
-			<li><a href="/tags/CTF/">CTF<span>2</span></a></li>
+			<li><a href="/tags/Misc/">Misc<span>1</span></a></li>
 		
-			<li><a href="/tags/Web/">Web<span>2</span></a></li>
+			<li><a href="/tags/Web/">Web<span>3</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>5</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -328,6 +475,14 @@
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2023/10/05/ctfspencode/" ><i class="fa fa-file-o"></i>Misc-special encoding</a>
+      </li>
+    
+      <li>
+        <a href="/2023/10/01/ctfjson/" ><i class="fa fa-file-o"></i>Web-cookit and json</a>
+      </li>
+    
+      <li>
         <a href="/2023/09/07/dgctf2/" ><i class="fa fa-file-o"></i>Web-Unicode</a>
       </li>
     
@@ -337,10 +492,6 @@
     
       <li>
         <a href="/2023/09/01/drone/" ><i class="fa fa-file-o"></i>自制树莓派无人机</a>
-      </li>
-    
-      <li>
-        <a href="/2023/08/25/hello-world/" ><i class="fa fa-file-o"></i>Hello World</a>
       </li>
     
   </ul>
