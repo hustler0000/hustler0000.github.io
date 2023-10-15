@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>Misc-Wav</title>
+      <link href="/2023/10/09/miscwav/"/>
+      <url>/2023/10/09/miscwav/</url>
+      
+        <content type="html"><![CDATA[<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>这是一道音频隐写的题目，解压附件发现是一个音频文件</p><h1 id="Audacity-and-Steghind"><a href="#Audacity-and-Steghind" class="headerlink" title="Audacity and Steghind"></a>Audacity and Steghind</h1><p>丢进处理文件中查看频谱图：<br><img src="/images/miscwav1.JPG"><br>发现有隐藏的信息，使用steghind并且用key：youseeme解压隐藏的文件：<br><img src="/images/miscwav2.JPG"></p><h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>解压出一个文本文件“兔兔”，暗示rabbit解密，使用youseeme上面的英文作为密匙，尝试后解出flag：<br><img src="/images/miscwavflag.JPG"></p><h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始不知道steghind这个工具，导致做不出来</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+          <category> 2023MoeCTF </category>
+          
+          <category> Misc </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CTF </tag>
+            
+            <tag> Misc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2023/10/08/hello-world/"/>
       <url>/2023/10/08/hello-world/</url>

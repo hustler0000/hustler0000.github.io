@@ -139,6 +139,37 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/09/miscwav/" >Misc-Wav</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-09  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>这是一道音频隐写的题目，解压附件发现是一个音频文件</p>
+<h1 id="Audacity-and-Steghind"><a href="#Audacity-and-Steghind" class="headerlink" title="Audacity and Steghind"></a>Audacity and Steghind</h1><p>丢进处理文件中查看频谱图：<br><img src="/images/miscwav1.JPG"><br>发现有隐藏的信息，使用steghind并且用key：youseeme解压隐藏的文件：<br><img src="/images/miscwav2.JPG"></p>
+<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>解压出一个文本文件“兔兔”，暗示rabbit解密，使用youseeme上面的英文作为密匙，尝试后解出flag：<br><img src="/images/miscwavflag.JPG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始不知道steghind这个工具，导致做不出来</p>
+
+	
+	</div>
+  <a type="button" href="/2023/10/09/miscwav/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/10/08/hello-world/" >Hello World</a>
 		</h3>
 		</div>
@@ -443,40 +474,6 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/29/ezup/" >Web-EZ FileUpload</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-29  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/ezup1.JPG"><br>一道经典的文件上传，看到这个思路马上就来了，就是上传一个php一句话木马，然后用蚁剑回连</p>
-<h1 id="初步尝试"><a href="#初步尝试" class="headerlink" title="初步尝试"></a>初步尝试</h1><p>我们先抓个包看看，这里有一个小插曲，就是如果我用127.0.0.1这个环回地址来访问，burp是抓不到包的，用局域网中的ip加端口号来访问就可以抓到包，配置好burp和浏览器的代理，先任意上传一个文件，得到如下提示：<br><img src="/images/ezup2.JPG"><br>抓包并修改文件后缀为png发现能够上传，说明这是一个前端验证，很好绕过<br>我们再次尝试，这次传一个符合要求的文件：<br><img src="/images/ezup3.JPG"><br><img src="/images/ezup4.JPG"><br>发现上传成功，并返回了一个地址，但是直接访问这个地址会返回404，根据抓包结果以及题目的hint，猜想正确地址应该只有upload以及后面的url，尝试发现可以访问。<br>那么，我们是不是只要通过抓包修改后缀绕过前端，就可以上传php木马了呢？</p>
-<h1 id="进一步尝试"><a href="#进一步尝试" class="headerlink" title="进一步尝试"></a>进一步尝试</h1><p>首先我们先构造一个一句话木马，使用文本编辑器编写，完成后将后缀改为png，下面附上一句话木马的基本知识：</p>
-<p>什么是一句话木马</p>
-<pre><code>一句话木马就是只需要一行代码的木马，短短一行代码，就能做到和大马相当的功能。为了绕过waf的检测，一句话木马出现了无数中变形，但本质是不变的：木马的函数执行了我们发送的命令。
-</code></pre>
-<p>我们如何发送命令，发送的命令如何执行？</p>
-<p>我们可以通过GET 、POST 、COOKIE这三种方式向一个网站提交数据，一句话木马用$_GET[‘ ‘]、$_POST[‘ ‘]、$_COOKIE[‘ ‘] 接收我们传递的数据，并把接收的数据传递给一句话木马中执行命令的函数，进而执行命令。<br>所以看到的经典一句话木马大多都是只有两个部分，一个是可以执行代码的函数部分，一个是接收数据的部分。</p>
-	
-	</div>
-  <a type="button" href="/2023/09/29/ezup/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -522,7 +519,7 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
 			
 	<div class="category-block">
 		<h3 class="asidetitle">Categories</h3>
-			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">14</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
+			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li></ul>
 	</div>
 
 
@@ -532,15 +529,15 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>17</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
 		
-			<li><a href="/tags/CTF/">CTF<span>16</span></a></li>
-		
 			<li><a href="/tags/项目/">项目<span>1</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>4</span></a></li>
-		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
 			<li><a href="/tags/Web/">Web<span>7</span></a></li>
 		
@@ -556,6 +553,10 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2023/10/09/miscwav/" ><i class="fa fa-file-o"></i>Misc-Wav</a>
+      </li>
+    
+      <li>
         <a href="/2023/10/08/hello-world/" ><i class="fa fa-file-o"></i>Hello World</a>
       </li>
     
@@ -569,10 +570,6 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
     
       <li>
         <a href="/2023/10/05/ctfpic/" ><i class="fa fa-file-o"></i>Misc-broken picture_2</a>
-      </li>
-    
-      <li>
-        <a href="/2023/10/03/pwnintof/" ><i class="fa fa-file-o"></i>PWN-Int Overflow</a>
       </li>
     
   </ul>
