@@ -1,0 +1,362 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Web-another upload | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Web-another upload"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> Web-another upload</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>先来看题，很经典的一个文件上传：<br><img src="/images/meoupload1.JPG"></p>
+<h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p>看起来没什么问题，那就先debug一下，先上传一个正常的文件，发现返回了地址，点击查看观察地址组成，发现这个地址被images.php处理过，不能直接利用：<br><img src="/images/meoupload2.JPG"><br>尝试访问一个不存在的地址，发现返回错误：<br><img src="/images/meoupload3.JPG"><br>发现有函数file_get_contents()，搜索发现，此函数可能会导致文件包含或者目录穿越，尝试发现有目录穿越漏洞，以下是关于目录穿越的知识：</p>
+<p>什么是目录遍历？</p>
+<p>目录遍历（目录穿越）是一个Web安全漏洞，攻击者可以利用该漏洞读取运行应用程序的服务器上的任意文件。 这可能包括应用程序代码和数据，后端系统的登录信息以及敏感的操作系统文件。</p>
+<p>在某些情况下，攻击者可能能够在服务器上写入任意文件，（如，FFFTP是一款小型的FTP客户端软件。FFFTP客户端没有正确地验证FTP服务器所返回的LIST命令响应中包含有目录遍历序列（斜线）的文件名，如果用户受骗从恶意的FTP服务器下载的目录包含有带有恶意文件名的文件的话，就可能导致向用户系统的任意位置写入文件）从而允许他们修改应用程序数据或行为，并最终完全控制服务器。</p>
+<p>漏洞原理</p>
+<p>若web要显示一个商品的图像，有时候开发者会用通过HTML加载，如：</p>
+<img src="/loadImage?filename=214.png">
+
+<p>使用filename参数加载图像文件，图片文件位置可能映射在 &#x2F;var&#x2F;www&#x2F;images&#x2F; 上，所以真实的路径是 &#x2F;var&#x2F;www&#x2F;images&#x2F;214.png </p>
+<p>这就导致了攻击者可以读取服务器上的任意文件：</p>
+<p><a target="_blank" rel="noopener" href="https://www.*****.com/loadImage?filename=../../../etc/passwd">https://www.*****.com/loadImage?filename=../../../etc/passwd</a></p>
+<p>filename的参数值与真实路径组合起来就是：</p>
+<p>&#x2F;var&#x2F;www&#x2F;images&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd</p>
+<p>其等价于：</p>
+<p>&#x2F;etc&#x2F;passwd</p>
+<pre><code>在Unix操作系统上，../ 是一个标准的返回上一级路径的语法；
+
+在Windows操作系统上， ../ 和 ..\ 都是返回上一级的语句。
+</code></pre>
+<p>实验<br>0x00  基础目录遍历</p>
+<p>查看商品的图片，可以看到是通过filename参数来确定图片的：</p>
+<p>右键打开图片，同时抓包，可以修改filename参数值，利用 ..&#x2F; 返回上一级来遍历任意文件：</p>
+<p>filename&#x3D;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd</p>
+<p>0x01  绝对路径</p>
+<p>web网站有时候会采取目录遍历的防御措施，如过滤 ..&#x2F; 上一级等关键字，然后简单的过滤通常会被绕过。有时候可以直接采用绝对路径，无须..&#x2F;返回上一级目录遍历：</p>
+<p>filename&#x3D;&#x2F;etc&#x2F;passwd</p>
+<p>0x02  双写..&#x2F;绕过</p>
+<p>有时候，防御措施是直接将 ..&#x2F; 替换为空，可以直接采用双写&#x2F;复写直接绕过：</p>
+<p>filename&#x3D;….&#x2F;&#x2F;….&#x2F;&#x2F;….&#x2F;&#x2F;&#x2F;etc&#x2F;passwd</p>
+<p>如果在….&#x2F;&#x2F;中，将..&#x2F;替换为空，最后的路径就变成：</p>
+<pre><code>....//  =&gt; ../
+</code></pre>
+<p>0x03  URL编码绕过</p>
+<p>也可以采用URL编码来绕过服务器对 . 或者 &#x2F; 的检测：</p>
+<pre><code>.   =&gt;  %2e
+
+/   =&gt;  %2f
+
+% =&gt; %25  (双重URL编码)
+</code></pre>
+<p>先尝试编码 &#x2F; ，失败:</p>
+<p> 全编码，失败：</p>
+<p>双重编码，即将%编码，成功：</p>
+<p>0x04  绝对路径配合..&#x2F;</p>
+<p>有些web在获取filename图片文件的时候，会首先判断是否以一个固定的路径开头：</p>
+<p>那么就可以配合..&#x2F;来返回上一级遍历任意文件：</p>
+<p>filename&#x3D;&#x2F;var&#x2F;www&#x2F;images&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd</p>
+<p>0x05  截断文件后缀</p>
+<p>某些web对filename的文件类型作了限制，只有当后缀为图片时才解析</p>
+<p>这时候就可以利用 %00 来截断：</p>
+<p>总之，目录遍历漏洞不会仅限于一个绕过姿势，通常会配合多个姿势进行组合攻击。</p>
+<p>防御</p>
+<p>防止文件路径遍历漏洞的最有效方法是避免将用户提供的输入完全传递给文件系统API。</p>
+<p>如果认为不可避免的是将用户提供的输入传递给文件系统API，则应同时使用两层防御，以防止受到攻击：</p>
+<pre><code>    应用程序应在处理之前验证用户输入。理想情况下，验证应与允许值的白名单进行比较。如果所需的功能无法做到这一点，则验证应验证输入内容仅包含允许的内容，例如纯字母数字字符。
+    验证提供的输入后，应用程序应将输入附加到基本目录，并使用平台文件系统API规范化路径。验证规范化路径以预期的基本目录开头。
+</code></pre>
+<p>以下是一些简单的Java代码示例，用于根据用户输入来验证文件的规范路径：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(BASE_DIRECTORY, userInput);</span><br><span class="line"><span class="keyword">if</span> (file.getCanonicalPath().startsWith(BASE_DIRECTORY)) &#123;</span><br><span class="line">    <span class="comment">// process file</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="初步尝试"><a href="#初步尝试" class="headerlink" title="初步尝试"></a>初步尝试</h1><p>抓包，并在burpsuit的repeater里构造重发数据包来目录穿越，发现返回了一个php文件：<br><img src="/images/meoupload4.JPG"><br>访问这个文件发现需要审计代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;param1&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;param2&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$param1</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;param1&#x27;</span>];</span><br><span class="line">    <span class="variable">$param2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;param2&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$param1</span> !== <span class="variable">$param2</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="variable">$md5Param1</span> = <span class="title function_ invoke__">md5</span>(<span class="variable">$param1</span>);</span><br><span class="line">        <span class="variable">$md5Param2</span> = <span class="title function_ invoke__">md5</span>(<span class="variable">$param2</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$md5Param1</span> == <span class="variable">$md5Param2</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;O.O!! &quot;</span> . <span class="title function_ invoke__">getenv</span>(<span class="string">&quot;FLAG&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;O.o??&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;o.O?&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;O.o?&quot;</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>审计发现，需要传param1和param2两个值，这两个值需要不一样，但是他们的md5要一样</p>
+<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>上网搜索发现这样的字符，构造url访问，得到flag：<br><img src="/images/meouploadflag.JPG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.当时做的时候尝试访问各种url，尝试泄露，即使知道file_get_content()也不会使用，看了其他人的wp后知道目录穿越就会做了<br>2.附上一些字符不同但md5相同的字符做备用：</p>
+<p>附上一个5位数和一个6位数的0e开头md5全数字的值：</p>
+<p>byGcY<br>0e591948146966052067035298880982<br>sonZ7y<br>0e463306343746311593316642162425</p>
+<p>只包含一种字符的0e开头的md5值：</p>
+<p>1FVWc<br>0ef715f5943144181839f9f321584156<br>2uM8z<br>0e0081018231f666742748f3540f4761<br>3za1b<br>0e02f196724391824188f3f90f732735</p>
+<p>只包含两种字符的0e开头的md5值：</p>
+<p>00c84<br>0e17d931d17f1948d37d691693995ff1<br>01bDI<br>0ee26113820055502806791698800f47<br>01NxP<br>0e72096d884f956d9618012679405269<br>02K7w<br>0e543091322e0f42ef1126374409f755<br>04072<br>0e8f06d06387944ff396030861fd2698<br>044Dt<br>0e91946379408e6f2f62152293e4f596<br>05nnu<br>0ef580f7a2f4176f57544f8091f33936<br>05wPJ<br>0e49528768d18f101816843669079475</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/10/02/pwnshell0/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2023/10/01/ctfjson/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-10-02 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/CTF/">CTF<span>19</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>17</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/Web/">Web<span>6</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">1</span></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/CTF/">CTF<span>20</span></a></li> <li><a href="/tags/Web/">Web<span>10</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2024 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

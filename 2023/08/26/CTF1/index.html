@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>PWN-BabyCalculator | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="PWN-BabyCalculator"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> PWN-BabyCalculator</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
+<h1 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h1><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install python3 python3-pip python3-dev git libssl-dev libffi-dev build-essential</span><br><span class="line">python3 -m pip install --upgrade pip #升级pip，可以不执行 </span><br><span class="line">python3 -m pip install --upgrade pwntools #可能会升级pip，而且使用国外源，比较慢</span><br><span class="line">python3 -m pip install pwntools -i https://pypi.tuna.tsinghua.edu.cn/simple/ #使用国内源，不更新pip，建议使用这条</span><br></pre></td></tr></table></figure>
+<h1 id="使用pwntools"><a href="#使用pwntools" class="headerlink" title="使用pwntools"></a>使用pwntools</h1><p>稍微了解了一下pwntools的用法，基本够用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">send(data) <span class="comment">#发送数据</span></span><br><span class="line">sendline(data) <span class="comment">#发送一行数据，相当于在末尾加\n      </span></span><br><span class="line">recv(numb=<span class="number">4096</span>, timeout=default)  <span class="comment">#给出接收字节数,timeout指定超时</span></span><br><span class="line">recvuntil(<span class="string">&quot;hello,world\n&quot;</span>, drop=<span class="literal">False</span>) <span class="comment">#接收直到我们设置的标志出现</span></span><br><span class="line"><span class="comment">#（以下可以看作until的特例）</span></span><br><span class="line">recvline(keepends=<span class="literal">True</span>) <span class="comment">#接收到\n，keepends指定保留\n</span></span><br><span class="line">recvall() <span class="comment">#接收到EOF</span></span><br><span class="line">recvrepeat(timeout=default) <span class="comment">#接收到EOF或timeout</span></span><br><span class="line">interactive() <span class="comment">#与shell交互</span></span><br></pre></td></tr></table></figure>
+<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> * <span class="comment">#引用库</span></span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">&quot;192.168.36.1&quot;</span>,<span class="string">&quot;63551&quot;</span>) <span class="comment">#远程连接容器</span></span><br><span class="line">i = <span class="number">0</span>                    </span><br><span class="line">t = <span class="number">0</span></span><br><span class="line">times = <span class="number">0</span></span><br><span class="line">win = <span class="string">&quot;BlackBird&quot;</span>        </span><br><span class="line">lose = <span class="string">&quot;WingS&quot;</span></span><br><span class="line">context.log_level=<span class="string">&quot;debug&quot;</span> <span class="comment">#显示pwntools的debug输出</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> t &lt; <span class="number">7</span>:</span><br><span class="line">    welcome = r.recvline() <span class="comment">#逐行接受欢迎信息</span></span><br><span class="line">    t = t + <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> times &lt; <span class="number">102</span>:</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; <span class="number">3</span>:</span><br><span class="line">        line = r.recvline(keepends=<span class="literal">False</span>) <span class="comment">#逐行检查接受信息，并去掉行尾的\n </span></span><br><span class="line">        mystr = line.decode(<span class="string">&quot;utf-8&quot;</span>) <span class="comment">#将接受到的byte类型字符转化为字符串</span></span><br><span class="line">        <span class="built_in">print</span>(mystr)</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">2</span>:   <span class="comment">#拆分给出的算式，判断答案，并将字符串转为byte并与容器交互</span></span><br><span class="line">            x = mystr.split(<span class="string">&quot;+&quot;</span>)</span><br><span class="line">            a = <span class="built_in">int</span>(x[<span class="number">0</span>])</span><br><span class="line">            d = x[<span class="number">1</span>]</span><br><span class="line">            e = d.split(<span class="string">&quot;=&quot;</span>)</span><br><span class="line">            b = <span class="built_in">int</span>(e[<span class="number">0</span>])</span><br><span class="line">            c = <span class="built_in">int</span>(e[<span class="number">1</span>])</span><br><span class="line">            con = a + b</span><br><span class="line">            <span class="keyword">if</span> con == c:</span><br><span class="line">                r.sendline(win.encode(<span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line">            <span class="keyword">elif</span> con != c:</span><br><span class="line">                r.sendline(lose.encode(<span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">        <span class="comment">#time.sleep(1)</span></span><br><span class="line">    times = times + <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>输入执行，得到flag<br><img src="/images/working.PNG"><br><img src="/images/getflag.PNG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.pwn题目的byte要用decode转化为字符串才能用split处理<br>2.与容器交互时也要将输入字符转为byte（有一些教程不用，或许都要试试？）<br>3.接受数据时采用recvline是因为当时不清楚recvuntil的用法，用recvuntil会更好</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/08/27/pwnfd/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a type="button" class="btn btn-default disabled">Next<i class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-08-26 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/CTF/">CTF<span>19</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>17</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/PWN/">PWN<span>4</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">1</span></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/CTF/">CTF<span>20</span></a></li> <li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2024 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

