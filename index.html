@@ -94,7 +94,7 @@
 		  </li>
 		  
 		  <li>
-			<a href="/atom.xml" title="Subscribe me.">
+			<a href="/archives" title="Subscribe me.">
 			  <i class=""></i>RSS
 			</a>
 		  </li>
@@ -130,6 +130,39 @@
 		<div class="mypage">
 		
 		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2024/01/24/hexoblog/" >从零开始的hexo博客搭建</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-01-24  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为想总结一下博客的搭建过程，但是忘记都改了什么地方，所以干脆直接重新搭建一次好了</p>
+<h1 id="基本安装"><a href="#基本安装" class="headerlink" title="基本安装"></a>基本安装</h1><p>首先我们要在设备上安装nodejs，我这里使用的是termux环境，其他linux环境和windows环境应该大同小异，执行以下命令以安装基础包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg install nodejs</span><br></pre></td></tr></table></figure>
+<p>然后安装hexo，这里是hexo官方的安装方法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init blog #blog只是一个名字，可以改成自己想要的</span><br><span class="line">cd blog</span><br><span class="line">npm install</span><br><span class="line">hexo server #启动hexo博客</span><br></pre></td></tr></table></figure>
+<h1 id="主题安装"><a href="#主题安装" class="headerlink" title="主题安装"></a>主题安装</h1><p>这里安装了freemind-bithack这个主题，后面我们会改动这个主题，使其更加实用<br>安装命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd blog/theme #进入博客的theme目录</span><br><span class="line">git clone https://github.com/Ares-X/hexo-theme-freemind.bithack</span><br><span class="line">mv hexo-theme-freemind.bithack freemind.bithack #将名字改为freemind.bithack</span><br><span class="line">npm install hexo-tag-bootstrap --save</span><br><span class="line">npm install hexo-generator-search --save</span><br></pre></td></tr></table></figure>
+	
+	</div>
+  <a type="button" href="/2024/01/24/hexoblog/#more" class="btn btn-default more">Read More</a>
+</div>
+
 		
 			
 	
@@ -249,9 +282,9 @@
 	
 		<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>最近在渗透一台比较老，环境比较不完整的机子时，尝试反弹shell出了很多乱七八糟的问题，在尝试nc，msf等常规上传方法失败后，找到一种小众的方法，通过windows自带的regsvr32反注册dll文件来坦shell，用nc连接</p>
 <h1 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a>具体方法</h1><p>先下载这个MFC服务配置端：<br><a href="/files/MFC.exe">MFC服务配置端口</a><br>首先我们先在这个MFC服务配置端里根据目标的架构生成dll文件：<br><img src="/images/shitsheet2/ss2-1.JPG"><br>ip地址填自己的ip，端口号选择一个喜欢的，其他信息随便填（不填也可以），下面根据架构，点击生成dll文件<br>在本地开启nc的端口监听，将dll上传到目标机器，使用指令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regsvr32 /s /u 你上传的server.dll文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regsvr32 /s /u 你上传的server.dll文件</span><br></pre></td></tr></table></figure>
 <p>来反弹shell，当nc有反应，就代表连接成功</p>
-<h1 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h1><p>我用这个方法，虽然成功反弹了shell，但神奇的是，反弹的不是我上传的目标机器的shell，二十反弹了一台不知道是什么设备的shell，而且里面还有重要文件，权限也是admin，赚麻了，也怕了。十分恶心的是，这个shell不仅10秒断一次，而且每次重连还要换端口，恶心人有个度啊。</p>
+<h1 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h1><p>我用这个方法，虽然成功反弹了shell，但神奇的是，反弹的不是我上传的目标机器的shell，而是反弹了一台不知道是什么设备的shell，而且里面还有重要文件，权限也是admin，赚麻了，也怕了。十分恶心的是，这个shell不仅10秒断一次，而且每次重连还要换端口，恶心人有个度啊。</p>
 
 	
 	</div>
@@ -419,38 +452,6 @@
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/05/ctfspencode/" >Misc-special encoding</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-05  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>“锟斤拷烫烫烫”明显在暗示编码错误，下载附件，发现是一种没见过的编码：<br>    +j9k-+Zi8-+T2A-+doQ-flag+&#x2F;xo-+AAo-+AAo-a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262+AAo-+AAo-+T0Y-+Zi8-flag+dSg-AES+UqA-+W8Y-+ToY-+&#x2F;ww-key+Zi8-+Tgs-+l2I-+j9k-+iEw-+W1c-+doQ-sha256+&#x2F;wg-hash+UDw-+doQ-+XwA-+WTQ-+Zi8-b34edc782d68fda34dc23329+&#x2F;wk-+AAo-+AAo-+YkA-+TuU-+i&#x2F;Q-+&#x2F;ww-codepage+dx8-+doQ-+X4g-+kc0-+iYE-+VUo-+&#x2F;wg-+AAo-</p>
-<h1 id="UTF-7解码"><a href="#UTF-7解码" class="headerlink" title="UTF-7解码"></a>UTF-7解码</h1><p>经过尝试，知道这是utf-7编码（谁丧心病狂会用这种啊），解码后有这样的信息：<br>    这是你的flag<br>    a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262<br>    但是flag用AES加密了，key是下面这行字的sha256（hash值的开头是b34edc782d68fda34dc23329）<br>    所以说，codepage真的很重要啊（<br>在线转换，得到key为：<br>    b34edc782d68fda34dc2332967273b0f0900a0ebd0dcec48467851bc6117bad1</p>
-<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>通过aes解密后得到flag：<br><img src="/images/ctfspencodeflag.JPG"><br>(注意所有都是hex)</p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做因为不知道utf-7而卡了很久<br>2.附上一些不那么常见的编码：</p>
-<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/q20010619/article/details/120942973">https://blog.csdn.net/q20010619/article/details/120942973</a></p>
-<p>感谢丁神的总结博客链接<br>常见编码</p>
-	
-	</div>
-  <a type="button" href="/2023/10/05/ctfspencode/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -496,7 +497,7 @@
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">1</span></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">19</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/Web/">Web</a><span class="category-list-count">6</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/">Web</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/Web/unicode/">unicode</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a><span class="category-list-count">1</span></li></ul></li></ul> 
 </div>
  
 
@@ -506,31 +507,35 @@
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/项目/">项目<span>1</span></a></li>
-		
-			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
 		
 			<li><a href="/tags/速查/">速查<span>1</span></a></li>
 		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
 		
 			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
 		
 			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+		
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
+		
+			<li><a href="/tags/杂项/">杂项<span>1</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>1</span></a></li>
 		
 			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
 			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
 		
-			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
+			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -542,6 +547,10 @@
 <div class="widget">
   <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2024/01/24/hexoblog/" ><i class="fa fa-file-o"></i>从零开始的hexo博客搭建</a>
+      </li>
     
       <li>
         <a href="/2023/12/29/spcapture/" ><i class="fa fa-file-o"></i>抓包技巧-App以及小程序抓包总结</a>
@@ -557,10 +566,6 @@
     
       <li>
         <a href="/2023/12/10/shitsheet2/" ><i class="fa fa-file-o"></i>奇技淫巧-dll乱弹shell</a>
-      </li>
-    
-      <li>
-        <a href="/2023/12/10/shitsheet1/" ><i class="fa fa-file-o"></i>奇技淫巧-更适合蚁剑宝宝的免杀jsp一句话</a>
       </li>
     
   </ul>
