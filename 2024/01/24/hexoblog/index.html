@@ -209,6 +209,21 @@ layout: categories <span class="token comment">#与页面名称相同</span>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">title: example
 password: password<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>其他给多篇文章加密的方法这里不在赘述，可以参考：<a target="_blank" rel="noopener" href="https://xsin.gitee.io/2019/01/11/hexo-blog-encrypt/">https://xsin.gitee.io/2019/01/11/hexo-blog-encrypt/</a><br>可能会出现输了密码没反应的情况，查阅资料得知，这是因为该模块对http的支持不好，导致在内网环境下无法使用，同时，因为浏览器无条件信任http所以使用回环地址访问是可以的，这个问题不需要担心，只要上传到github后使用https就迎刃而解了。详见这篇文章：<a target="_blank" rel="noopener" href="https://d0n9x1n.dev/post/619/">https://d0n9x1n.dev/post/619/</a></p>
+<h2 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h2><p>我们可以修改（下划线）config.yml文件来选取prism这个更好看的代码高亮方式，修改示例如下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">syntax_highlighter: prismjs
+<span class="token comment">#highlight.js</span>
+highlight:
+  enable: <span class="token boolean">false</span>
+  line_number: <span class="token boolean">true</span>
+  auto_detect: <span class="token boolean">false</span>
+  tab_replace: <span class="token string">''</span>
+  wrap: <span class="token boolean">true</span>
+  hljs: <span class="token boolean">false</span>
+prismjs:
+  enable: <span class="token boolean">true</span>
+  preprocess: <span class="token boolean">true</span>
+  line_number: <span class="token boolean">true</span>
+  tab_replace: <span class="token string">''</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="个性化"><a href="#个性化" class="headerlink" title="个性化"></a>个性化</h2><p>修改（下划线）config.yml以及主题的yml配置可以使得个性化，这里只讲一些重要的配置，请将以下给出的地方修改好：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># Pagination</span>
 <span class="token comment">## Set per_page to 0 to disable pagination</span>
