@@ -130,7 +130,7 @@
 
 	  <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>最近在渗透一台比较老，环境比较不完整的机子时，尝试反弹shell出了很多乱七八糟的问题，在尝试nc，msf等常规上传方法失败后，找到一种小众的方法，通过windows自带的regsvr32反注册dll文件来坦shell，用nc连接</p>
 <h1 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a>具体方法</h1><p>先下载这个MFC服务配置端：<br><a href="/files/MFC.exe">MFC服务配置端口</a><br>首先我们先在这个MFC服务配置端里根据目标的架构生成dll文件：<br><img src="/images/shitsheet2/ss2-1.JPG"><br>ip地址填自己的ip，端口号选择一个喜欢的，其他信息随便填（不填也可以），下面根据架构，点击生成dll文件<br>在本地开启nc的端口监听，将dll上传到目标机器，使用指令：</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regsvr32 /s /u 你上传的server.dll文件</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">regsvr32 &#x2F;s &#x2F;u 你上传的server.dll文件<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>来反弹shell，当nc有反应，就代表连接成功</p>
 <h1 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h1><p>我用这个方法，虽然成功反弹了shell，但神奇的是，反弹的不是我上传的目标机器的shell，而是反弹了一台不知道是什么设备的shell，而且里面还有重要文件，权限也是admin，赚麻了，也怕了。十分恶心的是，这个shell不仅10秒断一次，而且每次重连还要换端口，恶心人有个度啊。</p>
 
