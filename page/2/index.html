@@ -471,7 +471,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2023/09/07/dgutctf1/" >Web-Unserialize</a>
+			<a href="/2023/09/07/dgctf2/" >Web-Unicode</a>
 		</h3>
 		</div>
 	<div class="col-md-4">
@@ -485,17 +485,14 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial1.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
-<h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>我们需要传入参数，但是遇到这种改怎么传参呢？我们注意到源代码有<code>if($_GET[&#39;user&#39;])</code>这样一段，这样的代码就是php获取网址后的参数的，比方这里就是获取user的值，那么我们传参时就可以写<code>?user=需要传入的数据</code>这种结构是可以直接写在网址后面的。<br>知道了如何传参，那我们要传入什么数据呢？我们注意到，题目里有一个<code>unserialize()</code>函数，这就是反序列化函数，那什么是序列和反序列呢？以下摘录网络的解释：<br>php程序为了保存和转储对象，提供了序列化的方法。php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成字符串，但仅保留对象里的成员变量，不保留函数方法。</p>
-<p>php序列化的函数为serialize，可以将对象中的成员变量转换成字符串。</p>
-<p>反序列化的函数为unserilize，可以将serialize生成的字符串重新还原为对象中的成员变量。</p>
-<p>将用户可控的数据进行了反序列化，就是PHP反序列化漏洞。</p>
-<p>序列化</p>
-<p>序列化的目的是方便数据的传输和存储。</p>
-<p>在PHP应用中，序列化和反序列化一般用作缓存，比如session缓存，cookie等。</p>
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
+<h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
+<h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
+<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
+
 	
 	</div>
-  <a type="button" href="/2023/09/07/dgutctf1/#more" class="btn btn-default more">Read More</a>
+  <a type="button" href="/2023/09/07/dgctf2/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -554,35 +551,35 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
-		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>1</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
 			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
 		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
 		
-			<li><a href="/tags/项目/">项目<span>1</span></a></li>
-		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
-		
-			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
 			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
 		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
+		
+			<li><a href="/tags/速查/">速查<span>1</span></a></li>
+		
 			<li><a href="/tags/其他/">其他<span>1</span></a></li>
 		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+			<li><a href="/tags/项目/">项目<span>1</span></a></li>
 		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -625,6 +622,8 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 	<ul class="blogroll list-unstyled">
 	
 		<li><i class="false"></i><a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" title="" target="_blank"]);">hexo-theme-bithack</a></li>
+	
+		<li><i class="false"></i><a href="https://edu.cnblogs.com/campus/dglgxy/HackApwn/" title="Dgut HackTB Menbers' Blog" target="_blank"]);">Dgut Blog</a></li>
 	
 	</ul>
 </div>
