@@ -153,7 +153,7 @@
 	
 		<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为实验室群需要统计最后发言时间，于是写了一个微信机器人，代码和注意事项已经存放在github上，这里仅作个人记录,并备份主程序和部分程序代码<br>项目地址：<a target="_blank" rel="noopener" href="https://github.com/hustler0000/SimpleWxbot/">https://github.com/hustler0000/SimpleWxbot/</a></p>
 <h1 id="帮助-功能文档"><a href="#帮助-功能文档" class="headerlink" title="帮助&#x2F;功能文档"></a>帮助&#x2F;功能文档</h1><p>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令</p>
-<h2 id="改昵称必看（重要）"><a href="#改昵称必看（重要）" class="headerlink" title="改昵称必看（重要）"></a>改昵称必看（重要）</h2><p>\nroomname 群昵称 新老群成员可以使用这个修改在数据库里的群昵称，方便机器人称呼和统计最后发言时间，此功能只有在自己修改了群昵称后需要操作一次<br>\nusername 群昵称 此指令可以修改在数据库里的微信昵称，如果机器人没有提示请不要操作<br>以上两条指令，如无必要请不要操作，并且不要同时修改群昵称和微信昵称，不然机器人可能会坏掉</p>
+<h2 id="改昵称必看（重要）"><a href="#改昵称必看（重要）" class="headerlink" title="改昵称必看（重要）"></a>改昵称必看（重要）</h2><p>roomname 群昵称 新老群成员可以使用这个修改在数据库里的群昵称，方便机器人称呼和统计最后发言时间，此功能只有在自己修改了群昵称后需要操作一次<br>username 群昵称 此指令可以修改在数据库里的微信昵称，如果机器人没有提示请不要操作<br>以上两条指令，如无必要请不要操作，并且不要同时修改群昵称和微信昵称，不然机器人可能会坏掉</p>
 <h2 id="常规指令"><a href="#常规指令" class="headerlink" title="常规指令"></a>常规指令</h2><p>help 显示本帮助文档<br>last 显示本人最后发言时间<br>search 某人 输出某人的最后发言时间<br>all 输出一个文件，里面是所有人的最后发言时间<br>check 检查机器人存活状态<br>feedback 反馈内容 发送反馈</p>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>当有群成员使用发送反馈时，机器人会向你的主微信账号发送反馈内容，当有新群员加入时，机器人也会提醒你引导成员将自己的群昵称添加进数据库内，当然你也可以手动操作数据库来添加。<br>为了方便地手动操作数据库，还有一个SqliteOperate.py文件，这个python程序提供了简单管理sqlite数据库的条件，运行该程序，并输入相应数据库语句来对你的数据库进行操作。<br>用post请求访问服务器的3001端口下的&#x2F;healthz?token&#x3D;你的token 路径可以检查机器人是否掉线</p>
 	
@@ -614,35 +614,35 @@ c<span class="token operator">=</span> b<span class="token punctuation">.</span>
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>1</span></a></li>
-		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+			<li><a href="/tags/项目/">项目<span>2</span></a></li>
 		
 			<li><a href="/tags/其他/">其他<span>1</span></a></li>
 		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>2</span></a></li>
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
 			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
 		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/速查/">速查<span>1</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
 			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
 		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
 		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
 		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
 		
 		 
 		</ul>
