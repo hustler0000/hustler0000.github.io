@@ -65,7 +65,7 @@
           
           <category> 速查 </category>
           
-          <category> 博客搭建 </category>
+          <category> 博客 </category>
           
       </categories>
       
@@ -301,6 +301,8 @@
       <categories>
           
           <category> 速查 </category>
+          
+          <category> CTF </category>
           
       </categories>
       
