@@ -289,6 +289,15 @@ password: password #如需加密单篇文章，可以这样设置密码</span>
 |GPS|GPS|I2C|
 |6pin线数传（连接机载电脑）|telem 2|——|
 |电流计|power|——|<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h2><p>这里给出一个示例：</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown">![](/images/spcapture/cap1.JPG)
+<span class="token title important"><span class="token punctuation">#</span> 这里引用了images目录下的spcapture目录下的一张图片</span>
+<span class="token title important"><span class="token punctuation">#</span> 因为如果将所有图片都存在images目录下会很不方便</span>
+<span class="token title important"><span class="token punctuation">#</span> 于是采用了为每篇文章创建一个文件夹，并且将图片放入相应文件夹的方案</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="写一个简单的目录"><a href="#写一个简单的目录" class="headerlink" title="写一个简单的目录"></a>写一个简单的目录</h2><p>说是一个目录，其实就是在文章的开头写超链接，点击跳转到文章的标题</p>
+<pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token url">[<span class="token content">超链接的名字</span>](<span class="token url">####标题和对应的井号</span>)</span>
+
+<span class="token title important"><span class="token punctuation">#</span> 注意标题和井号之间不要隔开</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.正文内容如果有太多类似百分号这些符号，建议使用代码块括起来，不然会引发错误<br>2.修改重要的文件时记得备份<br>3.博客只有你想不到没有做不到</p>
 <hr>
 <p>2024的第一篇文章:)<br>有好多偷懒的地方:(</p>
