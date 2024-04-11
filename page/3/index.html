@@ -137,6 +137,40 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/09/29/ezup/" >Web-EZ FileUpload</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-09-29  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/ezup1.JPG"><br>一道经典的文件上传，看到这个思路马上就来了，就是上传一个php一句话木马，然后用蚁剑回连</p>
+<h1 id="初步尝试"><a href="#初步尝试" class="headerlink" title="初步尝试"></a>初步尝试</h1><p>我们先抓个包看看，这里有一个小插曲，就是如果我用127.0.0.1这个环回地址来访问，burp是抓不到包的，用局域网中的ip加端口号来访问就可以抓到包，配置好burp和浏览器的代理，先任意上传一个文件，得到如下提示：<br><img src="/images/ezup2.JPG"><br>抓包并修改文件后缀为png发现能够上传，说明这是一个前端验证，很好绕过<br>我们再次尝试，这次传一个符合要求的文件：<br><img src="/images/ezup3.JPG"><br><img src="/images/ezup4.JPG"><br>发现上传成功，并返回了一个地址，但是直接访问这个地址会返回404，根据抓包结果以及题目的hint，猜想正确地址应该只有upload以及后面的url，尝试发现可以访问。<br>那么，我们是不是只要通过抓包修改后缀绕过前端，就可以上传php木马了呢？</p>
+<h1 id="进一步尝试"><a href="#进一步尝试" class="headerlink" title="进一步尝试"></a>进一步尝试</h1><p>首先我们先构造一个一句话木马，使用文本编辑器编写，完成后将后缀改为png，下面附上一句话木马的基本知识：</p>
+<p>什么是一句话木马</p>
+<pre><code>一句话木马就是只需要一行代码的木马，短短一行代码，就能做到和大马相当的功能。为了绕过waf的检测，一句话木马出现了无数中变形，但本质是不变的：木马的函数执行了我们发送的命令。
+</code></pre>
+<p>我们如何发送命令，发送的命令如何执行？</p>
+<p>我们可以通过GET 、POST 、COOKIE这三种方式向一个网站提交数据，一句话木马用$_GET[‘ ‘]、$_POST[‘ ‘]、$_COOKIE[‘ ‘] 接收我们传递的数据，并把接收的数据传递给一句话木马中执行命令的函数，进而执行命令。<br>所以看到的经典一句话木马大多都是只有两个部分，一个是可以执行代码的函数部分，一个是接收数据的部分。</p>
+	
+	</div>
+  <a type="button" href="/2023/09/29/ezup/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/09/28/moebase64/" >Reverse-base64</a>
 		</h3>
 		</div>
@@ -458,33 +492,6 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/04/11/typora/" >Typora学习版</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-04-11  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		Here's something encrypted, password is required to continue reading.
-	
-	</div>
-  <a type="button" href="/2023/04/11/typora/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -540,37 +547,37 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
-			<li><a href="/tags/博客/">博客<span>1</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
 			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
 		
 			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
-			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
-		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
-		
-			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
 			<li><a href="/tags/速查/">速查<span>2</span></a></li>
 		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+		
+			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
 			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
+		
+			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -582,6 +589,10 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 <div class="widget">
   <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
+      </li>
     
       <li>
         <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
@@ -597,10 +608,6 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
     
       <li>
         <a href="/2023/12/29/spcapture/" ><i class="fa fa-file-o"></i>抓包技巧-App以及小程序抓包总结</a>
-      </li>
-    
-      <li>
-        <a href="/2023/12/20/sescape/" ><i class="fa fa-file-o"></i>Web-字符串反序列化逃逸</a>
       </li>
     
   </ul>
