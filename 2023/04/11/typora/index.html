@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>奇技淫巧-dll乱弹shell | Hustler&#39;s Blog</title>
+  <title>Typora学习版 | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="奇技淫巧-dll乱弹shell"/>
+  <meta property="og:title" content="Typora学习版"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -112,7 +112,7 @@
 
 	
 		<div class="page-header">
-			<h1> 奇技淫巧-dll乱弹shell</h1>
+			<h1> Typora学习版</h1>
 		</div>
 	
 
@@ -128,12 +128,18 @@
 	<div class="mypage">		
 	  		
 
-	  <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>最近在渗透一台比较老，环境比较不完整的机子时，尝试反弹shell出了很多乱七八糟的问题，在尝试nc，msf等常规上传方法失败后，找到一种小众的方法，通过windows自带的regsvr32反注册dll文件来坦shell，用nc连接</p>
-<h1 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a>具体方法</h1><p>先下载这个MFC服务配置端：<br><a href="/files/MFC.exe">MFC服务配置端口</a><br>首先我们先在这个MFC服务配置端里根据目标的架构生成dll文件：<br><img src="/images/shitsheet2/ss2-1.JPG"><br>ip地址填自己的ip，端口号选择一个喜欢的，其他信息随便填（不填也可以），下面根据架构，点击生成dll文件<br>在本地开启nc的端口监听，将dll上传到目标机器，使用指令：</p>
-<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">regsvr32 &#x2F;s &#x2F;u 你上传的server.dll文件<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>来反弹shell，当nc有反应，就代表连接成功</p>
-<h1 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h1><p>我用这个方法，虽然成功反弹了shell，但神奇的是，反弹的不是我上传的目标机器的shell，而是反弹了一台不知道是什么设备的shell，而且里面还有重要文件，权限也是admin，赚麻了，也怕了。十分恶心的是，这个shell不仅10秒断一次，而且每次重连还要换端口，恶心人有个度啊。</p>
-
+	  <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="3b3d73d14faf4a9e4b72e24066387d6aad198cfdead06739c4ff98d6874dda14">0362f91ab39deb1871b55de115c452196f82f4f25fe7fa28885872cb86da6db5f9ddf61ac460897d1964c038719991be9ecb6999a533a03e89a484bc2b812bb46f72f1423a39dda01e996882504098509d54b7c7cff5ca8763f45e661fdc193e03acdc08943857f2a2651a1db0d0182b617530187c14a83f4df9a6c5ebb2b6c7761ca9f8f0eb8209764d177537d1c3e5af87bc92e3d5e3bfa2451371e9f58c1b650d999250fff57ae798e37e110355d1c0d34f208a973a31f077550dfab002e4a7e29fe1ac1d98e15d8a452d4c68865916e394729e38f80e2e1a2726250720567b149b198c4e7d3d4d1b3f4c8c86dcf3ad4e335b6e5ea074680af6380bd533a933e09b7d4fc1b325b0b156e756444ecfcf140dc9c8773c071e93d5870a3208864d38e360dea747f23a5b39d4057d986683294e59ab56bd7586221433c54befa34110fd813a7138acebe3a2fffcfea5f25783c0e7506b7ffea771b2ecf4e6557fcbb937cccf0f760fbcf7abe855aa0694593a077d94dbcfb0aec03f0a0d3fc2414e0e5431605efd0f597ba7d405b0cf9fc1243e18394c4397f502f3d0916963904f7a7cb458e85bc177f788240fec505d4575421695e5797fccee42fafeabfe81ab997edfb249bdbda07b7c037132cf065d988a30f0ad5106f21ebeddce9c12d70a9ec2698c57f20b4ae4aa6276c8e16b00f0190d6caa7676f360f1466b93837278b9bc970e1f91bb142ce56017fda7a58bfce971f30fa9072f807c991120e59abe177d75a30951c7e5889e806c4972034941cc585bc9e494914e233ab1af7a7ed4f5c9800eb5c2db08a8476d1a1a0acf90faf20b665d57d706fc4ce2209d2f699e3f8c94d899df67f5d3dd8f03be67eb2b6085ede6b3e555ae608be7d0609e8b40e69296e594c8817e3f0e4c5e6829670981bda5207c4335117f583562ff9b3fa47b883c2b74a7171cbb32c5de4dcc6317bccbbf004a92da01c2d0a1de4fc06b51361ea55ba57d8a5ce08a59c67a487736d6360c4af6fcba5349f28e911e79bc7e18c43af26c800fbd4450b29173dcb407720048448e5c5226da630aed8d3f3e89ecd407fea051719795c252016eac506af00648a7129c17754012239c42a77a303a5cc24c91360b2ff972df5d6218dedcf0e600ccf4e9d410f931abbe7ce767fce752cf2bb4a72ab1adba450f27b346bd4a8db8b3873ac0d84efd251fa361d460c41d0f50c8ba94676528ce6befee87d0e6216260acadfc0e5da7b44989177b50d4c8122da37136ea075c3d548fed09865acfe41e68b5ed54f16e5c1d295bf1fac718f003168676cf8952b55c14ea44b6984869c7a18f003f3ea0b8d48bb0b2f9b469e26d2be953fd3b07f4e90acc3bc48e203fbaace5453be6a814e482310e0c9b6efe50d8666110f34cb87f7e1de618f678812e0dfb39f8787bfbc1f79955fe3cfb57c117c327dca05b48cfe13cee</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-default">
+      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
 	  <div class="article-footer-copyright">
 
     本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
@@ -150,14 +156,13 @@
 
     
     
-    <a href="/2023/12/11/phppreg/" type="button" class="btn btn-default"><i
+    <a href="/2023/08/26/CTF1/" type="button" class="btn btn-default"><i
                 class="fa fa-arrow-circle-o-left"></i> Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2023/12/10/shitsheet1/" type="button" class="btn btn-default ">Next<i
-                class="fa fa-arrow-circle-o-right"></i></a>
+    <a type="button" class="btn btn-default disabled">Next<i class="fa fa-arrow-circle-o-right"></i></a>
     
 
     
@@ -190,7 +195,7 @@
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2023-12-10 
+	2023-04-11 
 	</div>
 	
 
@@ -201,7 +206,7 @@
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/渗透测试/">渗透测试<span>5</span></a></li> <li><a href="/categories/奇技淫巧/">奇技淫巧<span>2</span></a></li> <li><a href="/categories/渗透测试/Web/">Web<span>4</span></a></li> <li><a href="/categories/奇技淫巧/Getshell/">Getshell<span>2</span></a></li> <li><a href="/categories/渗透测试/Web/Web-Shell/">Web Shell<span>2</span></a></li> <li><a href="/categories/渗透测试/LAN-Network/">LAN Network<span>1</span></a></li> <li><a href="/categories/渗透测试/LAN-Network/Shell/">Shell<span>1</span></a></li>
+    <li><a href="/categories/速查/">速查<span>3</span></a></li> <li><a href="/categories/速查/博客/">博客<span>2</span></a></li>
 
 <div class="widget tag">
   <h3 class="title">All Categories</h3>
@@ -220,7 +225,7 @@
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+  <li><a href="/tags/速查/">速查<span>2</span></a></li> <li><a href="/tags/博客/">博客<span>1</span></a></li>
     </ul>
 	</div>
 		
