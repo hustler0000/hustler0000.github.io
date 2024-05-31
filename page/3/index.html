@@ -137,6 +137,40 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/01/ctfjson/" >Web-cookit and json</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-01  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>用浏览器访问，发现是这样，结合题目给的附件，应该是要发送json数据来得到flag：<br><img src="/images/ctfjson1.JPG"></p>
+<h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>查看附件，发现给出了&#x2F;register,&#x2F;login,&#x2F;flag等地址，判断是要我们注册用户，登录后用get请求得到flag，使用postman发送json数据，方便快捷。先试了一下附件给出的账号，注册发现用户已存在，而且登录密码也不正确，所以需要自己注册一个用户：<br><img src="/images/ctfjson1.JPG"><br><img src="/images/ctfjson2.JPG"><br><img src="/images/ctfjson3.JPG"><br>注册和登录都返回ok，但是获取flag时返回了一个假flag，并提示我们不是admin，根据题目cookie，判断问题出在cookie上，查看cookie发现有一个token，内容如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">token&#x3D;eyJ1c2VybmFtZSI6ICJodXN0bGVyIiwgInBhc3N3b3JkIjogIjEyMzQ1NiIsICJyb2xlIjogInVzZXIifQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>看着末尾的两个大等号，说明这有可能时base64，进行base64解码后的数据是这样的：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"user"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>显然，我们将role的值改为admin，即：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"admin"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>再将这串数据用base64编码，得到修改后的token</p>
+	
+	</div>
+  <a type="button" href="/2023/10/01/ctfjson/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/09/29/ezup/" >Web-EZ FileUpload</a>
 		</h3>
 		</div>
@@ -537,7 +571,7 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">39</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">39</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li></ul> 
 </div>
  
 
@@ -547,37 +581,39 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+			<li><a href="/tags/速查/">速查<span>2</span></a></li>
+		
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
 		
 			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
 		
 			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
 		
-			<li><a href="/tags/速查/">速查<span>2</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
-		
 			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
-		
-			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
 		
 			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
 		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
 		
 			<li><a href="/tags/博客/">博客<span>1</span></a></li>
 		
-			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -591,11 +627,11 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
+        <a href="/2024/05/23/awdfix/" ><i class="fa fa-file-o"></i>AWD（P）常见FIX</a>
       </li>
     
       <li>
-        <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
+        <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
       </li>
     
       <li>
@@ -603,11 +639,11 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
       </li>
     
       <li>
-        <a href="/2024/01/24/hexoblog/" ><i class="fa fa-file-o"></i>从零开始的hexo博客搭建</a>
+        <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
       </li>
     
       <li>
-        <a href="/2023/12/29/spcapture/" ><i class="fa fa-file-o"></i>抓包技巧-App以及小程序抓包总结</a>
+        <a href="/2024/01/24/hexoblog/" ><i class="fa fa-file-o"></i>从零开始的hexo博客搭建</a>
       </li>
     
   </ul>

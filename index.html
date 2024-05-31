@@ -137,6 +137,44 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2024/05/23/awdfix/" >AWD（P）常见FIX</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-05-23  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="Sql注入"><a href="#Sql注入" class="headerlink" title="Sql注入"></a>Sql注入</h1><p>1.常见的SQL注入漏洞主要是由于程序开发过程中不注意规范书写Sql语句以及对特殊字符的不严格过滤，从而导致客户端可以通过全局变量POST和GET提交恶意代码。<br>2.Fix：基于黑名单、转义、报错</p>
+<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token comment">//黑名单过滤通防</span>
+<span class="token variable">$filter</span> <span class="token operator">=</span> <span class="token string double-quoted-string">"regexp|from|count|procedure|and|ascii|substr|substring|left|right|union|if|case|pow|exp|order|sleep|benchmark|into|load|outfile|dumpfile|load_file|join|show|select|update|set|concat|delete|alter|insert|create|union|or|drop|not|for|join|is|between|group_concat|like|where|user|ascii|greatest|mid|substr|left|right|char|hex|ord|case|limit|conv|table|mysql_history|flag|count|rpad|\&amp;|\*|\.|-"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/"</span><span class="token operator">.</span><span class="token variable">$filter</span><span class="token operator">.</span><span class="token string double-quoted-string">"/is"</span><span class="token punctuation">,</span><span class="token variable">$username</span><span class="token punctuation">)</span><span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/"</span><span class="token operator">.</span><span class="token variable">$filter</span><span class="token operator">.</span><span class="token string double-quoted-string">"/is"</span><span class="token punctuation">,</span><span class="token variable">$password</span><span class="token punctuation">)</span><span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="转义"><a href="#转义" class="headerlink" title="转义"></a>转义</h2><p>详见EasySQL加固题，这里提供几个函数：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token function">addslashes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>PS：PHP 5.4 之前 PHP 指令 magic_quotes_gpc 默认是 on， 实际上所有的 GET、POST 和 COOKIE 数据都用被 addslashes() 了。 不要对已经被 magic_quotes_gpc 转义过的字符串使用 addslashes()，因为这样会导致双层转义。 遇到这种情况时可以使用函数 get_magic_quotes_gpc() 进行检测</strong></p>
+<p>控制错误信息：</p>
+<pre class="line-numbers language-none"><code class="language-none">php代码开头添加语句：error_reporting(0);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+	
+	</div>
+  <a type="button" href="/2024/05/23/awdfix/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2024/04/11/typora/" >Typora学习版</a>
 		</h3>
 		</div>
@@ -155,37 +193,6 @@
 	
 	</div>
   <a type="button" href="/2024/04/11/typora/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2024/02/04/winwxbot/" >Windows服务器微信机器人</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2024-02-04  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p>xiaozhao为本项目的测试工作给予了很大帮助，感谢<br>这里是他的博客地址：<a target="_blank" rel="noopener" href="https://aaaaaaamua.github.io/">https://aaaaaaamua.github.io</a></p>
-<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为实验室群需要统计最后发言时间，于是写了一个微信机器人，代码和注意事项已经存放在github上，这里仅作个人记录,并备份主程序和部分程序代码<br>项目地址：<a target="_blank" rel="noopener" href="https://github.com/hustler0000/AWindowsSimpleWxbot/">https://github.com/hustler0000/AWindowsSimpleWxbot/</a></p>
-<h1 id="帮助-功能文档"><a href="#帮助-功能文档" class="headerlink" title="帮助&#x2F;功能文档"></a>帮助&#x2F;功能文档</h1><p>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令，机器人每天会在群内推送新闻消息，每个小时都会自动微信发送存活信息到我微信，还会每月定时提醒和清理未发言的成员，这个版本比linux版本要强大，但问题是微信版本有限制<br>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令</p>
-<h2 id="常规指令："><a href="#常规指令：" class="headerlink" title="常规指令："></a>常规指令：</h2><p>help 显示本帮助文档<br>last 显示本人最后发言时间<br>search 路人甲,路人乙 输出一个或多个成员的最后发言时间的最后发言时间，要搜索的每个成员之间用英文逗号隔开<br>all 输出一个文件，里面是所有人的最后发言时间<br>check 检查机器人存活状态<br>feedback 反馈内容 发送反馈</p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>注意！在群里要积极发言哦！每个月25号会在群内通知这个月还没有发言过的同学，每个月最后一天清除群内未发言同学，希望大家珍惜在群里的机会呀！<br>当有群成员使用发送反馈时，机器人会向你的主微信账号发送反馈内容，当有新群员加入并发言时，机器人会自动记录，如果新人一个月没有发言也将被移出<br>为了方便地手动操作数据库，还有一个sqlop.py文件，这个python程序提供了简单管理sqlite数据库的条件，运行该程序，并输入相应数据库语句来对你的数据库进行操作。<br>用get请求访问服务器8080端口下的&#x2F;check 路径可以检查机器人是否掉线</p>
-	
-	</div>
-  <a type="button" href="/2024/02/04/winwxbot/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -217,6 +224,37 @@
 	
 	</div>
   <a type="button" href="/2024/02/04/wxbot/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2024/02/04/winwxbot/" >Windows服务器微信机器人</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-02-04  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p>xiaozhao为本项目的测试工作给予了很大帮助，感谢<br>这里是他的博客地址：<a target="_blank" rel="noopener" href="https://aaaaaaamua.github.io/">https://aaaaaaamua.github.io</a></p>
+<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为实验室群需要统计最后发言时间，于是写了一个微信机器人，代码和注意事项已经存放在github上，这里仅作个人记录,并备份主程序和部分程序代码<br>项目地址：<a target="_blank" rel="noopener" href="https://github.com/hustler0000/AWindowsSimpleWxbot/">https://github.com/hustler0000/AWindowsSimpleWxbot/</a></p>
+<h1 id="帮助-功能文档"><a href="#帮助-功能文档" class="headerlink" title="帮助&#x2F;功能文档"></a>帮助&#x2F;功能文档</h1><p>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令，机器人每天会在群内推送新闻消息，每个小时都会自动微信发送存活信息到我微信，还会每月定时提醒和清理未发言的成员，这个版本比linux版本要强大，但问题是微信版本有限制<br>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令</p>
+<h2 id="常规指令："><a href="#常规指令：" class="headerlink" title="常规指令："></a>常规指令：</h2><p>help 显示本帮助文档<br>last 显示本人最后发言时间<br>search 路人甲,路人乙 输出一个或多个成员的最后发言时间的最后发言时间，要搜索的每个成员之间用英文逗号隔开<br>all 输出一个文件，里面是所有人的最后发言时间<br>check 检查机器人存活状态<br>feedback 反馈内容 发送反馈</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>注意！在群里要积极发言哦！每个月25号会在群内通知这个月还没有发言过的同学，每个月最后一天清除群内未发言同学，希望大家珍惜在群里的机会呀！<br>当有群成员使用发送反馈时，机器人会向你的主微信账号发送反馈内容，当有新群员加入并发言时，机器人会自动记录，如果新人一个月没有发言也将被移出<br>为了方便地手动操作数据库，还有一个sqlop.py文件，这个python程序提供了简单管理sqlite数据库的条件，运行该程序，并输入相应数据库语句来对你的数据库进行操作。<br>用get请求访问服务器8080端口下的&#x2F;check 路径可以检查机器人是否掉线</p>
+	
+	</div>
+  <a type="button" href="/2024/02/04/winwxbot/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -520,43 +558,6 @@ r <span class="token operator">=</span> requests<span class="token punctuation">
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/10/22/miao/" >Classical Crypto-喵喵喵？</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-22  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目给了一个文本文件，里面都是喵喵喵，内容如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">喵喵？ 喵喵喵喵喵喵喵喵喵喵喵喵 喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵？ 喵喵喵喵喵？ 喵喵喵喵喵？喵喵？ 喵喵喵喵喵？ 喵喵喵喵喵喵 喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵？喵喵喵 喵喵喵喵喵？ 喵喵？ 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？ 喵喵？ 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵喵喵喵喵 喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵？喵喵喵 喵喵喵喵喵？ 喵喵喵喵喵？喵喵喵喵喵喵 喵喵喵喵喵？喵喵喵喵喵喵 喵喵喵 喵喵？喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵？喵喵喵 喵喵？喵喵？喵喵？ 喵喵喵喵喵喵喵喵？ 喵喵？喵喵？喵喵喵喵喵喵 喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵喵喵喵喵 喵喵？喵喵喵喵喵？喵喵？ 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵喵喵喵？喵喵喵 喵喵？喵喵喵喵喵喵喵喵？<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h1 id="猜想"><a href="#猜想" class="headerlink" title="猜想"></a>猜想</h1><p>“喵喵？”出现了很多次，根据题目信息，这是莫斯电码，也就是说明“喵喵？”要么是点要么是横，同时我们猜想，“喵喵？”有三个字，那么三个“喵”在一起组成的“喵喵喵”有没有可能是另一个符号呢？</p>
-<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><p>写一个程序，先尝试将“喵喵？”换成横，“喵喵喵“换成点：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># encoding=utf-8</span>
-a <span class="token operator">=</span> <span class="token string">"喵喵？ 喵喵喵喵喵喵喵喵喵喵喵喵 喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵？ 喵喵喵喵喵？ 喵喵喵喵喵？喵喵？ 喵喵喵喵喵？ 喵喵喵喵喵喵 喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵？喵喵喵 喵喵喵喵喵？ 喵喵？ 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？ 喵喵？ 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵喵喵喵喵 喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵？喵喵喵 喵喵喵喵喵？ 喵喵喵喵喵？喵喵喵喵喵喵 喵喵喵喵喵？喵喵喵喵喵喵 喵喵喵 喵喵？喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵？喵喵喵 喵喵？喵喵？喵喵？ 喵喵喵喵喵喵喵喵？ 喵喵？喵喵？喵喵喵喵喵喵 喵喵喵喵喵喵 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵？喵喵喵喵喵喵喵喵喵 喵喵？喵喵喵喵喵？喵喵？ 喵喵喵喵喵喵喵喵？喵喵？喵喵喵喵喵？ 喵喵喵喵喵？喵喵喵 喵喵？喵喵喵喵喵喵喵喵？"</span>
-b <span class="token operator">=</span> a<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"喵喵？"</span><span class="token punctuation">,</span><span class="token string">"-"</span><span class="token punctuation">)</span>
-c<span class="token operator">=</span> b<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"喵喵喵"</span><span class="token punctuation">,</span><span class="token string">"."</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>结果如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">- .... . ..--.- -.- .- .-- .- .. .. ..--.- -.-. .- - ..--.- -... ..- - ..--.- -... . ..--.- -.-. .- .-.. .-.. . -.. ..--.- --. --- ..- --.. .. ..--.- -... -.-- ..--.- .-. -..-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-	
-	</div>
-  <a type="button" href="/2023/10/22/miao/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -602,7 +603,7 @@ c<span class="token operator">=</span> b<span class="token punctuation">.</span>
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">39</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">39</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li></ul> 
 </div>
  
 
@@ -612,37 +613,39 @@ c<span class="token operator">=</span> b<span class="token punctuation">.</span>
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
 			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
-		
-			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
-		
-			<li><a href="/tags/博客/">博客<span>1</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
 		
 			<li><a href="/tags/项目/">项目<span>3</span></a></li>
 		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
-		
-			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
-		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
 		
 			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
 		
 			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
 			<li><a href="/tags/速查/">速查<span>2</span></a></li>
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
+		
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
 			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
 		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+		
+			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
 		
 		 
 		</ul>
@@ -656,11 +659,11 @@ c<span class="token operator">=</span> b<span class="token punctuation">.</span>
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
+        <a href="/2024/05/23/awdfix/" ><i class="fa fa-file-o"></i>AWD（P）常见FIX</a>
       </li>
     
       <li>
-        <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
+        <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
       </li>
     
       <li>
@@ -668,11 +671,11 @@ c<span class="token operator">=</span> b<span class="token punctuation">.</span>
       </li>
     
       <li>
-        <a href="/2024/01/24/hexoblog/" ><i class="fa fa-file-o"></i>从零开始的hexo博客搭建</a>
+        <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
       </li>
     
       <li>
-        <a href="/2023/12/29/spcapture/" ><i class="fa fa-file-o"></i>抓包技巧-App以及小程序抓包总结</a>
+        <a href="/2024/01/24/hexoblog/" ><i class="fa fa-file-o"></i>从零开始的hexo博客搭建</a>
       </li>
     
   </ul>
