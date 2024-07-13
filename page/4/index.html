@@ -1,0 +1,403 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Page 4 | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header logo">
+  <h1>A Hacker<span class="blink-fast">|</span></h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+
+
+		<i class="fa fa-heart blink-slow"></i>
+
+		wubba lubba dub dub.
+
+</div>    
+
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2023/08/26/CTF1/" >PWN-BabyCalculator</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-08-26  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
+<h1 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h1><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> update
+<span class="token function">apt-get</span> <span class="token function">install</span> python3 python3-pip python3-dev <span class="token function">git</span> libssl-dev libffi-dev build-essential
+python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pip <span class="token comment">#升级pip，可以不执行 </span>
+python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pwntools <span class="token comment">#可能会升级pip，而且使用国外源，比较慢</span>
+python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> pwntools <span class="token parameter variable">-i</span> https://pypi.tuna.tsinghua.edu.cn/simple/ <span class="token comment">#使用国内源，不更新pip，建议使用这条</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="使用pwntools"><a href="#使用pwntools" class="headerlink" title="使用pwntools"></a>使用pwntools</h1><p>稍微了解了一下pwntools的用法，基本够用：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">send<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送数据</span>
+sendline<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送一行数据，相当于在末尾加\n      </span>
+recv<span class="token punctuation">(</span>numb<span class="token operator">=</span><span class="token number">4096</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span>default<span class="token punctuation">)</span>  <span class="token comment">#给出接收字节数,timeout指定超时</span>
+recvuntil<span class="token punctuation">(</span><span class="token string">"hello,world\n"</span><span class="token punctuation">,</span> drop<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment">#接收直到我们设置的标志出现</span>
+<span class="token comment">#（以下可以看作until的特例）</span>
+recvline<span class="token punctuation">(</span>keepends<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token comment">#接收到\n，keepends指定保留\n</span>
+recvall<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#接收到EOF</span>
+recvrepeat<span class="token punctuation">(</span>timeout<span class="token operator">=</span>default<span class="token punctuation">)</span> <span class="token comment">#接收到EOF或timeout</span>
+interactive<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#与shell交互</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment">#引用库</span>
+
+r <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">"192.168.36.1"</span><span class="token punctuation">,</span><span class="token string">"63551"</span><span class="token punctuation">)</span> <span class="token comment">#远程连接容器</span>
+i <span class="token operator">=</span> <span class="token number">0</span>                    
+t <span class="token operator">=</span> <span class="token number">0</span>
+times <span class="token operator">=</span> <span class="token number">0</span>
+win <span class="token operator">=</span> <span class="token string">"BlackBird"</span>        
+lose <span class="token operator">=</span> <span class="token string">"WingS"</span>
+context<span class="token punctuation">.</span>log_level<span class="token operator">=</span><span class="token string">"debug"</span> <span class="token comment">#显示pwntools的debug输出</span>
+
+<span class="token keyword">while</span> t <span class="token operator">&lt;</span> <span class="token number">7</span><span class="token punctuation">:</span>
+    welcome <span class="token operator">=</span> r<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#逐行接受欢迎信息</span>
+    t <span class="token operator">=</span> t <span class="token operator">+</span> <span class="token number">1</span>
+<span class="token keyword">while</span> times <span class="token operator">&lt;</span> <span class="token number">102</span><span class="token punctuation">:</span>
+    i <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">while</span> i <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">:</span>
+        line <span class="token operator">=</span> r<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span>keepends<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment">#逐行检查接受信息，并去掉行尾的\n </span>
+        mystr <span class="token operator">=</span> line<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span> <span class="token comment">#将接受到的byte类型字符转化为字符串</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>mystr<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> i <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">:</span>   <span class="token comment">#拆分给出的算式，判断答案，并将字符串转为byte并与容器交互</span>
+            x <span class="token operator">=</span> mystr<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"+"</span><span class="token punctuation">)</span>
+            a <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>x<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            d <span class="token operator">=</span> x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+            e <span class="token operator">=</span> d<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"="</span><span class="token punctuation">)</span>
+            b <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>e<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            c <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>e<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            con <span class="token operator">=</span> a <span class="token operator">+</span> b
+            <span class="token keyword">if</span> con <span class="token operator">==</span> c<span class="token punctuation">:</span>
+                r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>win<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token keyword">elif</span> con <span class="token operator">!=</span> c<span class="token punctuation">:</span>
+                r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>lose<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token comment">#time.sleep(1)</span>
+    times <span class="token operator">=</span> times <span class="token operator">+</span> <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+	
+	</div>
+  <a type="button" href="/2023/08/26/CTF1/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+
+   
+    
+     <a href="/page/3/" type="button" class="btn btn-default"><i class="fa fa-arrow-circle-o-left"></i> Prev</a>
+      
+
+        <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+ 
+          <a type="button" class="btn btn-default disabled">Next<i class="fa fa-arrow-circle-o-right"></i></a>
+        
+
+  
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">39</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/2023MoeCTF/">2023MoeCTF</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/DgutCTF/">DgutCTF</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/">奇技淫巧</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A5%87%E6%8A%80%E6%B7%AB%E5%B7%A7/Getshell/">Getshell</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/">LAN Network</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/LAN-Network/Shell/">Shell</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/">Web</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Packet-Capture/">Packet Capture</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/Web-Shell/">Web Shell</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/Web/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li></ul> 
+</div>
+ 
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/代码审计/">代码审计<span>1</span></a></li>
+		
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+		
+			<li><a href="/tags/Packet-Capture/">Packet Capture<span>1</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+		
+			<li><a href="/tags/WAF绕过/">WAF绕过<span>1</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>11</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>3</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
+			<li><a href="/tags/速查/">速查<span>3</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2024/07/13/infogather/" ><i class="fa fa-file-o"></i>信息搜集指南</a>
+      </li>
+    
+      <li>
+        <a href="/2024/05/23/awdfix/" ><i class="fa fa-file-o"></i>AWD（P）常见FIX</a>
+      </li>
+    
+      <li>
+        <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
+      </li>
+    
+      <li>
+        <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
+      </li>
+    
+      <li>
+        <a href="/2024/02/04/wxbot/" ><i class="fa fa-file-o"></i>Linux服务器微信机器人</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="false"></i><a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" title="" target="_blank"]);">hexo-theme-bithack</a></li>
+	
+		<li><i class="false"></i><a href="https://edu.cnblogs.com/campus/dglgxy/HackApwn/" title="Dgut HackTB Menbers' Blog" target="_blank"]);">Dgut Blog</a></li>
+	
+		<li><i class="false"></i><a href="https://aaaaaaamua.github.io/" title="Friend's Blog" target="_blank"]);">XiaoZhao&#39;s Blog</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2024 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
