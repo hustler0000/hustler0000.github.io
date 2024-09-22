@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>抓包技巧-App以及小程序抓包总结 | Hustler&#39;s Blog</title>
+  <title>抓包技巧-App以及小程序抓包简单总结 | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="抓包技巧-App以及小程序抓包总结"/>
+  <meta property="og:title" content="抓包技巧-App以及小程序抓包简单总结"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -112,7 +112,7 @@
 
 	
 		<div class="page-header">
-			<h1> 抓包技巧-App以及小程序抓包总结</h1>
+			<h1> 抓包技巧-App以及小程序抓包简单总结</h1>
 		</div>
 	
 
@@ -133,7 +133,7 @@
 <h4 id="Burp小技巧"><a href="#Burp小技巧" class="headerlink" title="Burp小技巧"></a>Burp小技巧</h4><h5 id="启用远程代理"><a href="#启用远程代理" class="headerlink" title="启用远程代理"></a>启用远程代理</h5><p>我们进入Proxy选项的设置中，在proxy listener处添加一个有specific address的代理，这里的specific address填写抓包电脑的内网地址，端口填写想要的端口：<br><img src="/images/spcapture/cap5.JPG"><br>设置好之后就可以让局域网中的其他设备通过burp的代理抓包了</p>
 <h5 id="启用HTTP-1-0"><a href="#启用HTTP-1-0" class="headerlink" title="启用HTTP 1.0"></a>启用HTTP 1.0</h5><p>之前抓包的时候遇到过一些网站不能使用HTTP 2.0，会导致burp报错，无法访问网页，面对合格问题，我们可以同样在proxy的设置中，滑倒最下面Miscellaneous选项，启用Use HTTP&#x2F;1.0的选项：<br><img src="/images/spcapture/cap6.JPG"></p>
 <h5 id="拦截设置"><a href="#拦截设置" class="headerlink" title="拦截设置"></a>拦截设置</h5><p>我们可以通过Proxy的设置来控制burp对请求和响应的拦截，这里我将所有都打开了：<br><img src="/images/spcapture/cap7.JPG"></p>
-<h3 id="Proxifier"><a href="#Proxifier" class="headerlink" title="Proxifier"></a>Proxifier</h3><p>打开Proxifier，进入profile—-&gt;proxy servers，加入本地响应的代理，比如我的burp监听本地的8080端口：<br><img src="/images/spcapture/cap3.JPG"><br>然后进入profile—-&gt;proxification rules—-&gt;Add，添加一条规则，名字可以随便取，然后在Application处填入你想抓的进程，可以点击browse来浏览，也可以打开任务管理器直接输入进程的名字，比如这里微信网页和小程序的进程名为WeChatAppEX.exe<br><img src="/images/spcapture/cap4.JPG"><br>这样就配置完成了</p>
+<h3 id="Proxifier"><a href="#Proxifier" class="headerlink" title="Proxifier"></a>Proxifier</h3><p>打开Proxifier，进入profile—-&gt;proxy servers，加入本地响应的代理，比如我的burp监听本地的8080端口：<br><img src="/images/spcapture/cap3.JPG"><br>然后进入profile—-&gt;proxification rules—-&gt;Add，添加一条规则，名字可以随便取，然后在Application处填入你想抓的进程，可以点击browse来浏览，也可以打开任务管理器直接输入进程的名字，比如这里微信网页和小程序的进程名为WeChatAppEX.exe<br><img src="/images/spcapture/cap4.JPG"><br>并且确认default规则一定是direct直连规则（否则会出现问题），随后在左上角file处选择save as，保存新建的配置文件，这样就配置完成了</p>
 <h3 id="Fiddler"><a href="#Fiddler" class="headerlink" title="Fiddler"></a>Fiddler</h3><p>fiddler的设置总体上和burp差不多，使用fiddler的好处是可以让整个浏览过程更加的流畅自然，避免被发现，fiddler虽然不能拦截，但是可以重放</p>
 <h2 id="实操示例"><a href="#实操示例" class="headerlink" title="实操示例"></a>实操示例</h2><p>这里以某小程序越权修改价格为例：<br>首先我们打开Proxifier和Burpsuit，然后进入小程序，发现每张票的价格为50元<br><img src="/images/spcapture/cap10.JPG"><br>在支付界面拦截抓包<br><img src="/images/spcapture/cap8.JPG"><br>将其中的seatPrice参数改为负数并放包，最后支付的金额减少了：<br><img src="/images/spcapture/cap9.JPG"></p>
 <h1 id="APP抓包"><a href="#APP抓包" class="headerlink" title="APP抓包"></a>APP抓包</h1><p>安卓抓包会比较麻烦，根据多种不同的情况，有多种不同的方法，以下分类说明（需要root的情况可以用模拟器，但我做实验的时候用的是真机）</p>
@@ -152,7 +152,7 @@ iptables <span class="token parameter variable">-t</span> nat <span class="token
 <h1 id="iOS抓包"><a href="#iOS抓包" class="headerlink" title="iOS抓包"></a>iOS抓包</h1><p>这里列举的是未越狱的iOS设备的抓包方法</p>
 <h2 id="WIFI代理"><a href="#WIFI代理" class="headerlink" title="WIFI代理"></a>WIFI代理</h2><p>这种方法与上文较为简单的安卓抓包方法大同小异，也是安装证书后在WIFI设置处设置代理抓包，但似乎只有在iOS13以下的设备中可行，我是用iOS16的设备测试，发现无法抓取https的包</p>
 <h2 id="VPN抓包"><a href="#VPN抓包" class="headerlink" title="VPN抓包"></a>VPN抓包</h2><h3 id="stream"><a href="#stream" class="headerlink" title="stream"></a>stream</h3><p>stream是App Store上免费的一款抓包软件（国区有），下载安装后打开，安装第三方证书，即可使用vpn抓包，操作类似上文提到的小黄鸟，只能在手机里查看包的内容，比较不方便。类似的app还有spider proxy，这款不仅可以抓包还可以写脚本重放。</p>
-<h3 id="Shadowrocket"><a href="#Shadowrocket" class="headerlink" title="Shadowrocket"></a>Shadowrocket</h3><p>有没有在电脑上操作的方法呢？有，我们可以在设备上安装一个叫Shadowrocket的app（锁国区），将流量通过VPN转发到电脑上，使用该方法需要一个非国区的Apple ID，并且Shadowrocket是付费软件。</p>
+<h3 id="Shadowrocket"><a href="#Shadowrocket" class="headerlink" title="Shadowrocket"></a>Shadowrocket</h3><p>有没有在电脑上操作的方法呢？有，我们可以在设备上安装一个叫Shadowrocket的app（锁国区），将流量通过VPN转发到电脑上，使用该方法需要一个非国区的Apple ID，并且Shadowrocket是付费软件（当然，你也可以尝试寻找破解版）。</p>
 <h1 id="SSL-Pining"><a href="#SSL-Pining" class="headerlink" title="SSL Pining"></a>SSL Pining</h1><h2 id="证书锁定原理"><a href="#证书锁定原理" class="headerlink" title="证书锁定原理"></a>证书锁定原理</h2><p>证书锁定（SSL&#x2F;TLS Pinning）提供了两种锁定方式： Certificate Pinning 和 Public Key Pinning，文头和概述描述的实际上是Certificate Pinning（证书锁定）。</p>
 <h3 id="证书锁定"><a href="#证书锁定" class="headerlink" title="证书锁定"></a>证书锁定</h3><p>我们需要将APP代码内置仅接受指定域名的证书，而不接受操作系统或浏览器内置的CA根证书对应的任何证书，通过这种授权方式，保障了APP与服务端通信的唯一性和安全性，因此我们移动端APP与服务端（例如API网关）之间的通信是可以保证绝对安全。但是CA签发证书都存在有效期问题，所以缺点是在证书续期后需要将证书重新内置到APP中。</p>
 <h3 id="公钥锁定"><a href="#公钥锁定" class="headerlink" title="公钥锁定"></a>公钥锁定</h3><p>公钥锁定则是提取证书中的公钥并内置到移动端APP中，通过与服务器对比公钥值来验证连接的合法性，我们在制作证书密钥时，公钥在证书的续期前后都可以保持不变（即密钥对不变），所以可以避免证书有效期问题。</p>
