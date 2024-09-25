@@ -17,8 +17,6 @@
           
           <category> 渗透测试 </category>
           
-          <category> Web </category>
-          
           <category> SRC挖掘 </category>
           
       </categories>
@@ -47,6 +45,8 @@
       
       
       <categories>
+          
+          <category> 竞赛 </category>
           
           <category> AWD </category>
           
@@ -183,22 +183,16 @@
           
           <category> 渗透测试 </category>
           
-          <category> Web </category>
-          
           <category> SRC挖掘 </category>
-          
-          <category> Packet Capture </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Web </tag>
-            
             <tag> 渗透测试 </tag>
             
-            <tag> Packet Capture </tag>
+            <tag> SRC挖掘 </tag>
             
         </tags>
       
@@ -216,9 +210,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Web </category>
           
@@ -247,15 +241,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> Web </category>
-          
-          <category> 渗透测试 </category>
-          
-          <category> Web </category>
-          
-          <category> 代码审计 </category>
           
       </categories>
       
@@ -265,12 +255,6 @@
             <tag> CTF </tag>
             
             <tag> Web </tag>
-            
-            <tag> 渗透测试 </tag>
-            
-            <tag> 代码审计 </tag>
-            
-            <tag> WAF绕过 </tag>
             
         </tags>
       
@@ -289,18 +273,6 @@
       <categories>
           
           <category> 渗透测试 </category>
-          
-          <category> Web </category>
-          
-          <category> 奇技淫巧 </category>
-          
-          <category> Getshell </category>
-          
-          <category> Web Shell </category>
-          
-          <category> LAN Network </category>
-          
-          <category> Shell </category>
           
       </categories>
       
@@ -327,14 +299,6 @@
           
           <category> 渗透测试 </category>
           
-          <category> Web </category>
-          
-          <category> 奇技淫巧 </category>
-          
-          <category> Getshell </category>
-          
-          <category> Web Shell </category>
-          
       </categories>
       
       
@@ -358,9 +322,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Classical Crypto </category>
           
@@ -393,6 +357,8 @@
           
           <category> CTF </category>
           
+          <category> CTF </category>
+          
       </categories>
       
       
@@ -416,9 +382,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Misc </category>
           
@@ -447,9 +413,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Misc </category>
           
@@ -478,9 +444,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Misc </category>
           
@@ -509,9 +475,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Misc </category>
           
@@ -540,11 +506,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> PWN </category>
-          
-          <category> 2023MoeCTF </category>
           
       </categories>
       
@@ -571,9 +537,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Misc </category>
           
@@ -602,11 +568,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> PWN </category>
-          
-          <category> 2023MoeCTF </category>
           
       </categories>
       
@@ -633,9 +599,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Web </category>
           
@@ -664,9 +630,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Web </category>
           
@@ -695,9 +661,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Web </category>
           
@@ -726,9 +692,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Reverse </category>
           
@@ -757,11 +723,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> Web </category>
-          
-          <category> DgutCTF </category>
           
       </categories>
       
@@ -788,11 +754,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> Web </category>
-          
-          <category> DgutCTF </category>
           
       </categories>
       
@@ -819,9 +785,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Web </category>
           
@@ -875,9 +841,9 @@
       
       <categories>
           
-          <category> CTF </category>
+          <category> 竞赛 </category>
           
-          <category> 2023MoeCTF </category>
+          <category> CTF </category>
           
           <category> Web </category>
           
@@ -906,11 +872,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> PWN </category>
-          
-          <category> 2023MoeCTF </category>
           
       </categories>
       
@@ -937,11 +903,11 @@
       
       <categories>
           
+          <category> 竞赛 </category>
+          
           <category> CTF </category>
           
           <category> PWN </category>
-          
-          <category> 2023MoeCTF </category>
           
       </categories>
       
