@@ -128,7 +128,7 @@
 	<div class="mypage">		
 	  		
 
-	  <h1 id="OSCP备考靶机总结"><a href="#OSCP备考靶机总结" class="headerlink" title="OSCP备考靶机总结"></a>OSCP备考靶机总结</h1><h2 id="初级阶段"><a href="#初级阶段" class="headerlink" title="初级阶段"></a>初级阶段</h2><h3 id="Vulnhub"><a href="#Vulnhub" class="headerlink" title="Vulnhub"></a>Vulnhub</h3><h4 id="BTRsys-2"><a href="#BTRsys-2" class="headerlink" title="BTRsys-2"></a>BTRsys-2</h4><p><img src="/images/OSCPBTR/BTRsys1.JPG"><br>fscan扫描可知开放了ftp和网页端，其中ftp允许匿名登录，但尝试登陆后没有文件，所以先将注意力放在web页面，对其进行目录扫描发现robots.txt，并发现隐藏的&#x2F;wordpress目录，访问发现是wordpress博客，在页面中找到登录地址，使用弱口令admin&#x2F;admin进入后台<br>在后台一番查找，尝试以文件上传等方式getshell均失败，看提示得知可以通过修改博客的主题外观插件来getshell，我们先修改其主题外观插件的404页面<br>使用在线生成shell网站：<a target="_blank" rel="noopener" href="https://shell.nctry.com/">https://shell.nctry.com/</a><br>生成php反弹shell：</p>
+	  <h1 id="BTRsys-2"><a href="#BTRsys-2" class="headerlink" title="BTRsys-2"></a>BTRsys-2</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><p><img src="/images/OSCPBTR/BTRsys1.JPG"><br>fscan扫描可知开放了ftp和网页端，其中ftp允许匿名登录，但尝试登陆后没有文件，所以先将注意力放在web页面，对其进行目录扫描发现robots.txt，并发现隐藏的&#x2F;wordpress目录，访问发现是wordpress博客，在页面中找到登录地址，使用弱口令admin&#x2F;admin进入后台<br>在后台一番查找，尝试以文件上传等方式getshell均失败，看提示得知可以通过修改博客的主题外观插件来getshell，我们先修改其主题外观插件的404页面<br>使用在线生成shell网站：<a target="_blank" rel="noopener" href="https://shell.nctry.com/">https://shell.nctry.com/</a><br>生成php反弹shell：</p>
 <pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
 <span class="token comment">// php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php</span>
 <span class="token comment">// Copyright (C) 2007 pentestmonkey@pentestmonkey.net</span>
@@ -263,13 +263,13 @@
 
     
     
-    <a href="/2023/09/07/dgutctf1/" type="button" class="btn btn-default"><i
+    <a href="/2024/12/16/OSCP-symfonos1/" type="button" class="btn btn-default"><i
                 class="fa fa-arrow-circle-o-left"></i> Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2023/09/05/http/" type="button" class="btn btn-default ">Next<i
+    <a href="/2024/07/13/infogather/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -303,7 +303,7 @@
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2023-09-05 
+	2024-09-05 
 	</div>
 	
 
@@ -314,11 +314,11 @@
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/靶场练习/">靶场练习<span>1</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>1</span></a></li> <li><a href="/categories/靶场练习/OSCP/Easy/">Easy<span>1</span></a></li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>2</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>2</span></a></li> <li><a href="/categories/靶场练习/OSCP/Vulnhub/">Vulnhub<span>2</span></a></li> <li><a href="/categories/靶场练习/OSCP/Vulnhub/Easy/">Easy<span>1</span></a></li>
 
 <div class="widget tag">
   <h3 class="title">All Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Easy/">Easy</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
   </li>
@@ -333,7 +333,7 @@
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/OSCP/">OSCP<span>1</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>1</span></a></li> <li><a href="/tags/考证/">考证<span>1</span></a></li>
+  <li><a href="/tags/OSCP/">OSCP<span>2</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>2</span></a></li> <li><a href="/tags/Vulnhub/">Vulnhub<span>2</span></a></li>
     </ul>
 	</div>
 		

