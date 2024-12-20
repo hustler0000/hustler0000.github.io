@@ -137,6 +137,38 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/05/ctfpic/" >Misc-broken picture_2</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-05  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>又是一张打不开的图片，但这一次“牛头不对马嘴”，先导入winhex查看：<br><img src="/images/ctfpic2.JPG"></p>
+<h1 id="png文件头"><a href="#png文件头" class="headerlink" title="png文件头"></a>png文件头</h1><p>检查发现是png的文件头：<br><img src="/images/ctfpic1.png"></p>
+<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>修改后将文件后缀改为png，打开获得flag：<br><img src="/images/ctfpicflag.png"><br>是马男波杰克！！！</p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始被jpg的后缀骗了，卡了好久</p>
+
+	
+	</div>
+  <a type="button" href="/2023/10/05/ctfpic/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/10/03/pwnintof/" >PWN-Int Overflow</a>
 		</h3>
 		</div>
@@ -151,7 +183,8 @@
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>nc连接后回显题目信息：<br><img src="/images/pwnintof1.JPG"><br>要求我们输入一个数，要令这个数没有负号但等于-114514</p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>nc连接后回显题目信息：<br><img src="/images/pwnintof1.JPG"><br>要求我们输入一个数，要令这个数没有负号但等于-114514</p>
 <h1 id="整形溢出"><a href="#整形溢出" class="headerlink" title="整形溢出"></a>整形溢出</h1><p>根据题目信息，可以知道变量n是整形变量，c语言中整形变量的取值范围是-2 147 483 648到 2 147 483 647，当我们输入的数超过最大值时，程序会自动回滚到最小值，比如，当我们输入2 147 483 648时，我们实际上向变量存储了-2 147 483 648这个值（就像跳绳的计数器一样），所以我们要输入-114514，只需要输入更大的数，让其回滚到-114514即可</p>
 <h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>根据上面的思路，输入4 294 852 782即可：<br><img src="/images/pwnintofflag.JPG"></p>
 <h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始不知道int有范围限制，还能回滚，导致题目做不出来</p>
@@ -182,16 +215,12 @@
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目为打不开的图片，下载附件后用winhex打开：<br><img src="/images/miscpic1.JPG"><br>发现是一个图片文件，有exif信息但是无法打开</p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目为打不开的图片，下载附件后用winhex打开：<br><img src="/images/miscpic1.JPG"><br>发现是一个图片文件，有exif信息但是无法打开</p>
 <h1 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h1><p>上网搜索相关信息，发现一种修改文件头的题型，检查发现图片的文件尾是jpeg图片的文件尾，但文件头经过修改，将文件头修改为jpeg的可以打开图片：<br><img src="/images/miscpic2.JPG"><br><img src="/images/miscpic3.JPG"><br>是一张西电的风景图</p>
 <h1 id="获取flag"><a href="#获取flag" class="headerlink" title="获取flag"></a>获取flag</h1><p>查看文件属性，发现有flag的提示：<br><img src="/images/miscpic4.JPG"><br>猜测是hex格式的flag，进行hex转字符后得到flag：<br><img src="/images/miscpicflag.JPG"></p>
 <h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做做到解密flag的时候卡住了，不知道这是hex码，以后知道了<br>2.附上关于文件头隐写的知识：<br>常见文件文件头和隐写术总结 CTF中Misc必备<br>前言</p>
 <p>对常见文件文件头和隐写术做个归纳总结</p>
-<pre><code>文件头文件尾
-图片隐写
-音频隐写
-电子文档隐写
-</code></pre>
 	
 	</div>
   <a type="button" href="/2023/10/03/miscpic/#more" class="btn btn-default more">Read More</a>
@@ -218,7 +247,8 @@
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目直接说了是shellcode，而且可以脚本一把梭，那就试试看吧</p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目直接说了是shellcode，而且可以脚本一把梭，那就试试看吧</p>
 <h1 id="检查安全性"><a href="#检查安全性" class="headerlink" title="检查安全性"></a>检查安全性</h1><p>先下载附件，放到kali里面用checksec检查一下：</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">checksec shellcode_level0 
 <span class="token punctuation">[</span>*<span class="token punctuation">]</span> <span class="token string">'/root/pwn/MoeCTF/shellcode0/shellcode_level0'</span>
@@ -238,7 +268,6 @@ payload <span class="token operator">=</span> asm<span class="token punctuation"
 <span class="token keyword">print</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
 r<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
 r<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="Get-Flag"><a href="#Get-Flag" class="headerlink" title="Get Flag"></a>Get Flag</h1>
 	
 	</div>
   <a type="button" href="/2023/10/02/pwnshell0/#more" class="btn btn-default more">Read More</a>
@@ -265,14 +294,14 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>先来看题，很经典的一个文件上传：<br><img src="/images/meoupload1.JPG"></p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>先来看题，很经典的一个文件上传：<br><img src="/images/meoupload1.JPG"></p>
 <h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p>看起来没什么问题，那就先debug一下，先上传一个正常的文件，发现返回了地址，点击查看观察地址组成，发现这个地址被images.php处理过，不能直接利用：<br><img src="/images/meoupload2.JPG"><br>尝试访问一个不存在的地址，发现返回错误：<br><img src="/images/meoupload3.JPG"><br>发现有函数file_get_contents()，搜索发现，此函数可能会导致文件包含或者目录穿越，尝试发现有目录穿越漏洞，以下是关于目录穿越的知识：</p>
 <p>什么是目录遍历？</p>
 <p>目录遍历（目录穿越）是一个Web安全漏洞，攻击者可以利用该漏洞读取运行应用程序的服务器上的任意文件。 这可能包括应用程序代码和数据，后端系统的登录信息以及敏感的操作系统文件。</p>
 <p>在某些情况下，攻击者可能能够在服务器上写入任意文件，（如，FFFTP是一款小型的FTP客户端软件。FFFTP客户端没有正确地验证FTP服务器所返回的LIST命令响应中包含有目录遍历序列（斜线）的文件名，如果用户受骗从恶意的FTP服务器下载的目录包含有带有恶意文件名的文件的话，就可能导致向用户系统的任意位置写入文件）从而允许他们修改应用程序数据或行为，并最终完全控制服务器。</p>
 <p>漏洞原理</p>
 <p>若web要显示一个商品的图像，有时候开发者会用通过HTML加载，如：</p>
-<img src="/loadImage?filename=214.png">
 	
 	</div>
   <a type="button" href="/2023/10/02/meoupload/#more" class="btn btn-default more">Read More</a>
@@ -299,14 +328,14 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>用浏览器访问，发现是这样，结合题目给的附件，应该是要发送json数据来得到flag：<br><img src="/images/ctfjson1.JPG"></p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>用浏览器访问，发现是这样，结合题目给的附件，应该是要发送json数据来得到flag：<br><img src="/images/ctfjson1.JPG"></p>
 <h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>查看附件，发现给出了&#x2F;register,&#x2F;login,&#x2F;flag等地址，判断是要我们注册用户，登录后用get请求得到flag，使用postman发送json数据，方便快捷。先试了一下附件给出的账号，注册发现用户已存在，而且登录密码也不正确，所以需要自己注册一个用户：<br><img src="/images/ctfjson1.JPG"><br><img src="/images/ctfjson2.JPG"><br><img src="/images/ctfjson3.JPG"><br>注册和登录都返回ok，但是获取flag时返回了一个假flag，并提示我们不是admin，根据题目cookie，判断问题出在cookie上，查看cookie发现有一个token，内容如下：</p>
 <pre class="line-numbers language-none"><code class="language-none">token&#x3D;eyJ1c2VybmFtZSI6ICJodXN0bGVyIiwgInBhc3N3b3JkIjogIjEyMzQ1NiIsICJyb2xlIjogInVzZXIifQ&#x3D;&#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>看着末尾的两个大等号，说明这有可能时base64，进行base64解码后的数据是这样的：</p>
 <pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"user"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>显然，我们将role的值改为admin，即：</p>
 <pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span><span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"hustler"</span><span class="token punctuation">,</span> <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span><span class="token punctuation">,</span> <span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"admin"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>再将这串数据用base64编码，得到修改后的token</p>
 	
 	</div>
   <a type="button" href="/2023/10/01/ctfjson/#more" class="btn btn-default more">Read More</a>
@@ -333,14 +362,14 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
   <div class="row">
 	
 	
-		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/ezup1.JPG"><br>一道经典的文件上传，看到这个思路马上就来了，就是上传一个php一句话木马，然后用蚁剑回连</p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/ezup1.JPG"><br>一道经典的文件上传，看到这个思路马上就来了，就是上传一个php一句话木马，然后用蚁剑回连</p>
 <h1 id="初步尝试"><a href="#初步尝试" class="headerlink" title="初步尝试"></a>初步尝试</h1><p>我们先抓个包看看，这里有一个小插曲，就是如果我用127.0.0.1这个环回地址来访问，burp是抓不到包的，用局域网中的ip加端口号来访问就可以抓到包，配置好burp和浏览器的代理，先任意上传一个文件，得到如下提示：<br><img src="/images/ezup2.JPG"><br>抓包并修改文件后缀为png发现能够上传，说明这是一个前端验证，很好绕过<br>我们再次尝试，这次传一个符合要求的文件：<br><img src="/images/ezup3.JPG"><br><img src="/images/ezup4.JPG"><br>发现上传成功，并返回了一个地址，但是直接访问这个地址会返回404，根据抓包结果以及题目的hint，猜想正确地址应该只有upload以及后面的url，尝试发现可以访问。<br>那么，我们是不是只要通过抓包修改后缀绕过前端，就可以上传php木马了呢？</p>
 <h1 id="进一步尝试"><a href="#进一步尝试" class="headerlink" title="进一步尝试"></a>进一步尝试</h1><p>首先我们先构造一个一句话木马，使用文本编辑器编写，完成后将后缀改为png，下面附上一句话木马的基本知识：</p>
 <p>什么是一句话木马</p>
 <pre><code>一句话木马就是只需要一行代码的木马，短短一行代码，就能做到和大马相当的功能。为了绕过waf的检测，一句话木马出现了无数中变形，但本质是不变的：木马的函数执行了我们发送的命令。
 </code></pre>
 <p>我们如何发送命令，发送的命令如何执行？</p>
-<p>我们可以通过GET 、POST 、COOKIE这三种方式向一个网站提交数据，一句话木马用$_GET[‘ ‘]、$_POST[‘ ‘]、$_COOKIE[‘ ‘] 接收我们传递的数据，并把接收的数据传递给一句话木马中执行命令的函数，进而执行命令。<br>所以看到的经典一句话木马大多都是只有两个部分，一个是可以执行代码的函数部分，一个是接收数据的部分。</p>
 	
 	</div>
   <a type="button" href="/2023/09/29/ezup/#more" class="btn btn-default more">Read More</a>
@@ -367,7 +396,8 @@ r<span class="token punctuation">.</span>interactive<span class="token punctuati
   <div class="row">
 	
 	
-		<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p>题目给了一个pyc文件，我们尝试在线反编译后获得源文件：</p>
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p>题目给了一个pyc文件，我们尝试在线反编译后获得源文件：</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/env python</span>
 <span class="token comment"># Version: Python 3.7</span>
 
@@ -395,7 +425,6 @@ string2 <span class="token operator">=</span> <span class="token string">'ABCDEF
 f<span class="token operator">=</span>str1<span class="token punctuation">.</span>translate<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">.</span>maketrans<span class="token punctuation">(</span>string1<span class="token punctuation">,</span>string2<span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>运行得到反映射结果：<br><img src="/images/repy1.JPG"><br>再使用base64解码，得到flag：<br><img src="/images/repyflag.JPG"></p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1>
 	
 	</div>
   <a type="button" href="/2023/09/28/moebase64/#more" class="btn btn-default more">Read More</a>
@@ -422,7 +451,8 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
+		<p>题目来源：DGUTCTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
 <h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
 <h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
 <h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
@@ -453,48 +483,17 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <div class="row">
 	
 	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial1.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
+		<p>来源：DGUTCTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial1.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
 <h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>我们需要传入参数，但是遇到这种改怎么传参呢？我们注意到源代码有<code>if($_GET[&#39;user&#39;])</code>这样一段，这样的代码就是php获取网址后的参数的，比方这里就是获取user的值，那么我们传参时就可以写<code>?user=需要传入的数据</code>这种结构是可以直接写在网址后面的。<br>知道了如何传参，那我们要传入什么数据呢？我们注意到，题目里有一个<code>unserialize()</code>函数，这就是反序列化函数，那什么是序列和反序列呢？以下摘录网络的解释：<br>php程序为了保存和转储对象，提供了序列化的方法。php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成字符串，但仅保留对象里的成员变量，不保留函数方法。</p>
 <p>php序列化的函数为serialize，可以将对象中的成员变量转换成字符串。</p>
 <p>反序列化的函数为unserilize，可以将serialize生成的字符串重新还原为对象中的成员变量。</p>
 <p>将用户可控的数据进行了反序列化，就是PHP反序列化漏洞。</p>
 <p>序列化</p>
 <p>序列化的目的是方便数据的传输和存储。</p>
-<p>在PHP应用中，序列化和反序列化一般用作缓存，比如session缓存，cookie等。</p>
 	
 	</div>
   <a type="button" href="/2023/09/07/dgutctf1/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/05/http/" >Web-http</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-05  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/http1.JPG"><br>满足题目的5点要求即可得到flag</p>
-<h1 id="使用Postman"><a href="#使用Postman" class="headerlink" title="使用Postman"></a>使用Postman</h1><p>要满足这些要求，有一个十分好用的工具叫postman，它是一个浏览器插件，也有exe的版本，这里我选用了exe版本的postman</p>
-<h2 id="使用post请求"><a href="#使用post请求" class="headerlink" title="使用post请求"></a>使用post请求</h2><p>直接修改postman的设置，如图：<br><img src="/images/httppost.JPG"></p>
-<h2 id="满足use-parameter-UwU-u"><a href="#满足use-parameter-UwU-u" class="headerlink" title="满足use parameter: UwU&#x3D;u"></a>满足use parameter: UwU&#x3D;u</h2><p>在postman的params一栏里设置，也可以直接在网站后面加：<br><img src="/iamges/httpparam.JPG"></p>
-<h2 id="满足post-form-Luv-u"><a href="#满足post-form-Luv-u" class="headerlink" title="满足post form: Luv&#x3D;u"></a>满足post <strong>form</strong>: Luv&#x3D;u</h2><p>这里要求post from-data格式或者x-www-from-urlencoded格式的数据，并且满足Luv&#x3D;u，如图：</p>
-	
-	</div>
-  <a type="button" href="/2023/09/05/http/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -543,7 +542,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Classical-Crypto/">Classical Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">2</span></li></ul></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">2</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -553,41 +552,41 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/Vulnhub/">Vulnhub<span>3</span></a></li>
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
 		
-			<li><a href="/tags/靶场练习/">靶场练习<span>3</span></a></li>
-		
-			<li><a href="/tags/Classical-Crypto/">Classical Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
-		
-			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
 			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
 		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+			<li><a href="/tags/Vulnhub/">Vulnhub<span>3</span></a></li>
 		
 			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>3</span></a></li>
-		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
 		
 			<li><a href="/tags/OSCP/">OSCP<span>3</span></a></li>
 		
-			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+		
+			<li><a href="/tags/速查/">速查<span>3</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
+		
+			<li><a href="/tags/靶场练习/">靶场练习<span>3</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
 		
 			<li><a href="/tags/项目/">项目<span>3</span></a></li>
 		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -599,6 +598,10 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 <div class="widget">
   <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2024/12/20/ctfshowpwn02/" ><i class="fa fa-file-o"></i></a>
+      </li>
     
       <li>
         <a href="/2024/12/19/OSCP-symfonos2/" ><i class="fa fa-file-o"></i>OSCP-Intermediate-symfonos_2</a>
@@ -614,10 +617,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
     
       <li>
         <a href="/2024/07/13/infogather/" ><i class="fa fa-file-o"></i>信息搜集指南</a>
-      </li>
-    
-      <li>
-        <a href="/2024/05/23/awdfix/" ><i class="fa fa-file-o"></i>AWD（P）常见FIX</a>
       </li>
     
   </ul>
