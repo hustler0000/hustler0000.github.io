@@ -137,38 +137,6 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2023/10/05/ctfpic/" >Misc-broken picture_2</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-10-05  </div>
-		</div>
-	</div>
-	
-
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>题目来源：2023MOECTF</p>
-<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>又是一张打不开的图片，但这一次“牛头不对马嘴”，先导入winhex查看：<br><img src="/images/ctfpic2.JPG"></p>
-<h1 id="png文件头"><a href="#png文件头" class="headerlink" title="png文件头"></a>png文件头</h1><p>检查发现是png的文件头：<br><img src="/images/ctfpic1.png"></p>
-<h1 id="获得flag"><a href="#获得flag" class="headerlink" title="获得flag"></a>获得flag</h1><p>修改后将文件后缀改为png，打开获得flag：<br><img src="/images/ctfpicflag.png"><br>是马男波杰克！！！</p>
-<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.一开始被jpg的后缀骗了，卡了好久</p>
-
-	
-	</div>
-  <a type="button" href="/2023/10/05/ctfpic/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
 			<a href="/2023/10/03/pwnintof/" >PWN-Int Overflow</a>
 		</h3>
 		</div>
@@ -451,7 +419,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <div class="row">
 	
 	
-		<p>题目来源：DGUTCTF</p>
+		<p>题目来源：其他CTF</p>
 <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
 <h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
 <h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
@@ -483,7 +451,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
   <div class="row">
 	
 	
-		<p>来源：DGUTCTF</p>
+		<p>来源：其他CTF</p>
 <h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgctfserial1.JPG"><br>审计代码，题目大意是让我们将username变为admin就会给flag</p>
 <h1 id="思路过程"><a href="#思路过程" class="headerlink" title="思路过程"></a>思路过程</h1><p>我们需要传入参数，但是遇到这种改怎么传参呢？我们注意到源代码有<code>if($_GET[&#39;user&#39;])</code>这样一段，这样的代码就是php获取网址后的参数的，比方这里就是获取user的值，那么我们传参时就可以写<code>?user=需要传入的数据</code>这种结构是可以直接写在网址后面的。<br>知道了如何传参，那我们要传入什么数据呢？我们注意到，题目里有一个<code>unserialize()</code>函数，这就是反序列化函数，那什么是序列和反序列呢？以下摘录网络的解释：<br>php程序为了保存和转储对象，提供了序列化的方法。php序列化是为了在程序运行的过程中对对象进行转储而产生的。序列化可以将对象转换成字符串，但仅保留对象里的成员变量，不保留函数方法。</p>
 <p>php序列化的函数为serialize，可以将对象中的成员变量转换成字符串。</p>
@@ -494,6 +462,38 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 	
 	</div>
   <a type="button" href="/2023/09/07/dgutctf1/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
+			<a href="/2023/09/05/http/" >Web-http</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-09-05  </div>
+		</div>
+	</div>
+	
+
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/http1.JPG"><br>满足题目的5点要求即可得到flag</p>
+<h1 id="使用Postman"><a href="#使用Postman" class="headerlink" title="使用Postman"></a>使用Postman</h1><p>要满足这些要求，有一个十分好用的工具叫postman，它是一个浏览器插件，也有exe的版本，这里我选用了exe版本的postman</p>
+<h2 id="使用post请求"><a href="#使用post请求" class="headerlink" title="使用post请求"></a>使用post请求</h2><p>直接修改postman的设置，如图：<br><img src="/images/httppost.JPG"></p>
+<h2 id="满足use-parameter-UwU-u"><a href="#满足use-parameter-UwU-u" class="headerlink" title="满足use parameter: UwU&#x3D;u"></a>满足use parameter: UwU&#x3D;u</h2><p>在postman的params一栏里设置，也可以直接在网站后面加：<br><img src="/iamges/httpparam.JPG"></p>
+<h2 id="满足post-form-Luv-u"><a href="#满足post-form-Luv-u" class="headerlink" title="满足post form: Luv&#x3D;u"></a>满足post <strong>form</strong>: Luv&#x3D;u</h2>
+	
+	</div>
+  <a type="button" href="/2023/09/05/http/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -542,7 +542,7 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">20</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">2</span></li></ul></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">22</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">2</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -552,27 +552,17 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/PWN/">PWN<span>4</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>3</span></a></li>
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
 		
 			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
 		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+			<li><a href="/tags/CTF/">CTF<span>21</span></a></li>
 		
-			<li><a href="/tags/CTF/">CTF<span>20</span></a></li>
+			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+			<li><a href="/tags/PWN/">PWN<span>5</span></a></li>
 		
-			<li><a href="/tags/OSCP/">OSCP<span>3</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
-			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
-		
-			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
+			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
 		
 			<li><a href="/tags/博客/">博客<span>1</span></a></li>
 		
@@ -580,18 +570,30 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 		
 			<li><a href="/tags/Vulnhub/">Vulnhub<span>3</span></a></li>
 		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
 		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
 		
-			<li><a href="/tags/DGUTCTF/">DGUTCTF<span>2</span></a></li>
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
 		
 			<li><a href="/tags/靶场练习/">靶场练习<span>3</span></a></li>
 		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
 		
 			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
 		
+			<li><a href="/tags/速查/">速查<span>3</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/OSCP/">OSCP<span>3</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+		
+		   <li><a href="/tags">...<span>21</span></a></li>
 		 
 		</ul>
 	</div>
@@ -602,10 +604,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 <div class="widget">
   <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
-    
-      <li>
-        <a href="/2024/12/20/ctfshowpwn02/" ><i class="fa fa-file-o"></i></a>
-      </li>
     
       <li>
         <a href="/2024/12/19/OSCP-symfonos2/" ><i class="fa fa-file-o"></i>OSCP-Intermediate-symfonos_2</a>
@@ -621,6 +619,10 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
     
       <li>
         <a href="/2024/07/13/infogather/" ><i class="fa fa-file-o"></i>信息搜集指南</a>
+      </li>
+    
+      <li>
+        <a href="/2024/05/23/awdfix/" ><i class="fa fa-file-o"></i>AWD（P）常见FIX</a>
       </li>
     
   </ul>
