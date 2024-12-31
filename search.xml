@@ -4,6 +4,41 @@
   
     
     <entry>
+      <title>OSCP-Easy-prime_1</title>
+      <link href="/2024/12/31/OSCP-prime1/"/>
+      <url>/2024/12/31/OSCP-prime1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="prime-1"><a href="#prime-1" class="headerlink" title="prime-1"></a>prime-1</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Eazy"><a href="#难度：Eazy" class="headerlink" title="难度：Eazy"></a>难度：Eazy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>发现目标<code>192.168.36.136</code>开启了<code>80,22</code>端口，对应web，ssh服务<br>访问80端口，发现有网页，尝试爆破目录：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/  <span class="token comment"># 默认部分递归扫描</span>dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <span class="token comment"># 不递归扫描</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>发现wordpress，dev等路径，访问&#x2F;dev路径提示要更加仔细的挖掘，且下一个敏感文件的文件名为location.txt，尝试指定后缀文件爆破（dirb默认指定爆破的很有限）</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/ <span class="token parameter variable">-X</span> .php,.txt<span class="token comment"># 指定用php和txt后缀字典爆破</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>爆破出来secret.txt文件，访问提示使用wfuzz对之前爆出来的php文件进行参数爆破：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wfuzz <span class="token parameter variable">-c</span> <span class="token parameter variable">-w</span> /usr/share/wfuzz/wordlist/general/common.txt <span class="token parameter variable">--hc</span> <span class="token number">404</span> http://192.168.36.136/index.php?FUZZ<span class="token operator">=</span>something<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="/images/OSCPprime1/1.JPG"><br>发现有一行返回数据的长度不一样<code>206ch</code>，是file参数，尝试使用这个参数去读取location.txt文件（?file&#x3D;location.txt），得到新的参数提示，随即去读取&#x2F;etc&#x2F;passwd文件，发现有提示密码在&#x2F;home&#x2F;saket&#x2F;password.txt里面，读取此文件得到密码，尝试使用saket和密码登录ssh无果，猜测是wordpress的用户和密码<br>使用wpscan：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wpscan <span class="token parameter variable">--url</span> http://192.168.36.136/wordpress/ <span class="token parameter variable">--enumerate</span> u<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>得到用户victor，使用刚才得到的密码成功登录wordpress，尝试修改主题，找到可以修改的secret.php文件，修改后访问</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://192.168.36.136/wordpress/wp-content/themes/twentynineteen/secret.php<span class="token comment"># /wp-content/themes/twentynineteen/secret.php</span><span class="token comment"># 注意记住这个路径</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>得到反弹shell，使用python得到ttyshell，上传linpeas.sh脚本，在内核漏洞最后找到一个highly probable<br><img src="/images/OSCPprime1/2.JPG"><br>这提示我们一定要每个都看一遍 一开始就是以为没有highly probable导致掉入兔子洞<br>使用poc直接提权即可</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 靶场练习 </category>
+          
+          <category> OSCP </category>
+          
+          <category> Vulnhub </category>
+          
+          <category> Easy </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> OSCP </tag>
+            
+            <tag> 靶场练习 </tag>
+            
+            <tag> Vulnhub </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>PWN-StackOverflow</title>
       <link href="/2024/12/20/ctfshowpwn02/"/>
       <url>/2024/12/20/ctfshowpwn02/</url>
@@ -29,41 +64,6 @@
             <tag> PWN </tag>
             
             <tag> CTFshow </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>OSCP-Easy-prime_1</title>
-      <link href="/2024/12/19/OSCP-prime1/"/>
-      <url>/2024/12/19/OSCP-prime1/</url>
-      
-        <content type="html"><![CDATA[<h1 id="prime-1"><a href="#prime-1" class="headerlink" title="prime-1"></a>prime-1</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Eazy"><a href="#难度：Eazy" class="headerlink" title="难度：Eazy"></a>难度：Eazy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><p>发现目标<code>192.168.36.136</code>开启了<code>80,22</code>端口，对应web，ssh服务<br>访问80端口，发现有网页，尝试爆破目录：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/  <span class="token comment"># 默认部分递归扫描</span>dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <span class="token comment"># 不递归扫描</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>发现wordpress，dev等路径，访问&#x2F;dev路径提示要更加仔细的挖掘，且下一个敏感文件的文件名为location.txt，尝试指定后缀文件爆破（dirb默认指定爆破的很有限）</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/ <span class="token parameter variable">-X</span> .php,.txt<span class="token comment"># 指定用php和txt后缀字典爆破</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><p>爆破出来secret.txt文件，访问提示使用wfuzz对之前爆出来的php文件进行参数爆破：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wfuzz <span class="token parameter variable">-c</span> <span class="token parameter variable">-w</span> /usr/share/wfuzz/wordlist/general/common.txt <span class="token parameter variable">--hc</span> <span class="token number">404</span> http://192.168.36.136/index.php?FUZZ<span class="token operator">=</span>something<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><img src="/images/OSCPprime1/1.JPG"><br>发现有一行返回数据的长度不一样<code>206ch</code>，是file参数，尝试使用这个参数去读取location.txt文件（?file&#x3D;location.txt），得到新的参数提示，随即去读取&#x2F;etc&#x2F;passwd文件，发现有提示密码在&#x2F;home&#x2F;saket&#x2F;password.txt里面，读取此文件得到密码，尝试使用saket和密码登录ssh无果，猜测是wordpress的用户和密码<br>使用wpscan：</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wpscan <span class="token parameter variable">--url</span> http://192.168.36.136/wordpress/ <span class="token parameter variable">--enumerate</span> u<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>得到用户victor，使用刚才得到的密码成功登录wordpress，尝试修改主题，找到可以修改的secret.php文件，修改后访问</p><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://192.168.36.136/wordpress/wp-content/themes/twentynineteen/secret.php<span class="token comment"># /wp-content/themes/twentynineteen/secret.php</span><span class="token comment"># 注意记住这个路径</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><p>得到反弹shell，使用python得到ttyshell，上传linpeas.sh脚本，在内核漏洞最后找到一个highly probable<br><img src="/images/OSCPprime1/2.JPG"><br>这提示我们一定要每个都看一遍 一开始就是以为没有highly probable导致掉入兔子洞<br>使用poc直接提权即可</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 靶场练习 </category>
-          
-          <category> OSCP </category>
-          
-          <category> Vulnhub </category>
-          
-          <category> Easy </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> OSCP </tag>
-            
-            <tag> 靶场练习 </tag>
-            
-            <tag> Vulnhub </tag>
             
         </tags>
       
