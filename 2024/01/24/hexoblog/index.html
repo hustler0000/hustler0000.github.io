@@ -255,18 +255,18 @@ deploy:
     intro: <span class="token string">"Subscribe me."</span>
     <span class="token comment"># icon: "fa fa-user"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1 id="写作技巧"><a href="#写作技巧" class="headerlink" title="写作技巧"></a>写作技巧</h1><h2 id="文件头格式"><a href="#文件头格式" class="headerlink" title="文件头格式"></a>文件头格式</h2><pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token front-matter-block"><span class="token punctuation">---</span>
-<span class="token front-matter yaml language-yaml">title: 文章标题
-date: 2023-01-01 01:01:00 #日期和时间，需要写两位
-tags: [笔记,编程语言] #标签
-categories:
-- 编程语言     #有几种写法，像这种写法只会把文章分类到
-- C          #“编程语言——C”这一个分级分类下
+<span class="token front-matter yaml language-yaml"><span class="token key atrule">title</span><span class="token punctuation">:</span> 文章标题
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2023-01-01 01:01:00</span> <span class="token comment">#日期和时间，需要写两位</span>
+<span class="token key atrule">tags</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>笔记<span class="token punctuation">,</span>编程语言<span class="token punctuation">]</span> <span class="token comment">#标签</span>
+<span class="token key atrule">categories</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> 编程语言     <span class="token comment">#有几种写法，像这种写法只会把文章分类到</span>
+<span class="token punctuation">-</span> C          <span class="token comment">#“编程语言——C”这一个分级分类下</span>
 
-categories:
-- [M1,s1]    #这样会将文章同时分类到M1——s1
--[M2,s2]    #和M2——s2两个分级分类目录下
+<span class="token key atrule">categories</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> <span class="token punctuation">[</span>M1<span class="token punctuation">,</span>s1<span class="token punctuation">]</span>    <span class="token comment">#这样会将文章同时分类到M1——s1</span>
+<span class="token punctuation">-</span><span class="token punctuation">[</span>M2<span class="token punctuation">,</span>s2<span class="token punctuation">]</span>    <span class="token comment">#和M2——s2两个分级分类目录下</span>
 
-password: password #如需加密单篇文章，可以这样设置密码</span>
+<span class="token key atrule">password</span><span class="token punctuation">:</span> password <span class="token comment">#如需加密单篇文章，可以这样设置密码</span></span>
 <span class="token punctuation">---</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="插入视频"><a href="#插入视频" class="headerlink" title="插入视频"></a>插入视频</h2><p>插入视频也很简单，直接插入一个html语句即可：</p>
 <pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>video</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>/videos/flying.mp4<span class="token punctuation">'</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>video/mp4<span class="token punctuation">'</span></span> <span class="token attr-name">controls</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>controls<span class="token punctuation">'</span></span>  <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>100%<span class="token punctuation">'</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>100%<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
@@ -397,13 +397,6 @@ password: password #如需加密单篇文章，可以这样设置密码</span>
     <hr>
 	
 </div><!-- col-md-3 -->
-
-<p>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<span id="busuanzi_container_page_pv">
-  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
-</span>
-</p>
 		
 
 	</div>
