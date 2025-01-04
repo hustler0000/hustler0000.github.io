@@ -1,0 +1,661 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>Misc-bronken picture_1 | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Misc-bronken picture_1"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> Misc-bronken picture_1</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>题目为打不开的图片，下载附件后用winhex打开：<br><img src="/images/miscpic1.JPG"><br>发现是一个图片文件，有exif信息但是无法打开</p>
+<h1 id="文件头"><a href="#文件头" class="headerlink" title="文件头"></a>文件头</h1><p>上网搜索相关信息，发现一种修改文件头的题型，检查发现图片的文件尾是jpeg图片的文件尾，但文件头经过修改，将文件头修改为jpeg的可以打开图片：<br><img src="/images/miscpic2.JPG"><br><img src="/images/miscpic3.JPG"><br>是一张西电的风景图</p>
+<h1 id="获取flag"><a href="#获取flag" class="headerlink" title="获取flag"></a>获取flag</h1><p>查看文件属性，发现有flag的提示：<br><img src="/images/miscpic4.JPG"><br>猜测是hex格式的flag，进行hex转字符后得到flag：<br><img src="/images/miscpicflag.JPG"></p>
+<h1 id="踩坑总结"><a href="#踩坑总结" class="headerlink" title="踩坑总结"></a>踩坑总结</h1><p>1.第一次做做到解密flag的时候卡住了，不知道这是hex码，以后知道了<br>2.附上关于文件头隐写的知识：<br>常见文件文件头和隐写术总结 CTF中Misc必备<br>前言</p>
+<p>对常见文件文件头和隐写术做个归纳总结</p>
+<pre><code>文件头文件尾
+图片隐写
+音频隐写
+电子文档隐写
+</code></pre>
+<p>一、文件头文件尾<br>1、图片</p>
+<pre><code>JPEG
+文件头：FF D8 FF 
+文件尾：FF D9
+TGA
+未压缩的前4字节 00 00 02 00
+RLE压缩的前5字节 00 00 10 00 00
+PNG
+文件头：89 50 4E 47 0D 0A 1A 0A 
+文件尾：AE 42 60 82
+GIF
+文件头：47 49 46 38 39(37) 61 
+文件尾：00 3B
+BMP
+文件头：42 4D
+文件头标识(2 bytes) 42(B) 4D(M)
+TIFF (tif)
+文件头：49 49 2A 00
+ico
+文件头：00 00 01 00
+Adobe Photoshop (psd)
+文件头：38 42 50 53
+</code></pre>
+<p>2、office文件</p>
+<pre><code>MS Word/Excel (xls.or.doc)
+文件头：D0 CF 11 E0
+MS Access (mdb)
+文件头：53 74 61 6E 64 61 72 64 20 4A
+WordPerfect (wpd)
+文件头：FF 57 50 43
+Adobe Acrobat (pdf)
+文件头：25 50 44 46 2D 31 2E
+application/vnd.visio(vsd)
+文件头：D0 CF 11 E0 A1 B1 1A E1
+Email [thorough only] (eml)
+文件头：44 65 6C 69 76 65 72 79 2D 64 61 74 65 3A
+Outlook Express (dbx)
+文件头：CF AD 12 FE C5 FD 74 6F
+Outlook (pst)
+文件头：21 42 44 4E
+Rich Text Format (rtf)
+文件头：7B 5C 72 74 66
+txt 文件(txt)
+文件头：Unicode：FE FF / Unicode big endian：FF FE / UTF-8：EF BB BF /ANSI编码是没有文件头的
+</code></pre>
+<p>3、压缩包文件</p>
+<pre><code>ZIP Archive (zip)
+文件头：50 4B 03 04
+文件尾：50 4B
+RAR Archive (rar)
+文件头：52 61 72 21
+</code></pre>
+<p>4、音频文件</p>
+<pre><code>Wave (wav)
+文件头：57 41 56 45
+audio(Audio)
+文件头： 4D 54 68 64
+audio/x-aac（aac）
+文件头：FF F1(9)
+</code></pre>
+<p>5、视频文件</p>
+<pre><code>AVI (avi)
+文件头：41 56 49 20
+Real Audio (ram)
+文件头：2E 72 61 FD
+Real Media (rm)
+文件头：2E 52 4D 46
+MPEG (mpg)
+文件头：00 00 01 BA(3)
+Quicktime (mov)
+文件头：6D 6F 6F 76
+Windows Media (asf)
+文件头：30 26 B2 75 8E 66 CF 11
+MIDI (mid)
+文件头：4D 54 68 64
+</code></pre>
+<p>6、代码文件</p>
+<pre><code>XML (xml)
+文件头：3C 3F 78 6D 6C
+HTML (html)
+文件头：68 74 6D 6C 3E
+Quicken (qdf)
+文件头：AC 9E BD 8F
+Windows Password (pwl)
+文件头：E3 82 85 96
+</code></pre>
+<p>7、其他类型</p>
+<pre><code>windows证书文件(der)
+文件头：30 82 03 C9
+CAD (dwg)
+文件头：41 43 31 30
+Windows Shortcut (lnk)
+文件头：4C 00 00 00
+Windows reg(reg)
+文件头：52 45 47 45 44 49 54 34
+</code></pre>
+<p>二、图片隐写<br>1、附加式的图片隐写</p>
+<p>操作系统识别，从文件头标志，到文件的结束标志位<br>当系统识别到图片的结束标志位后，默认是不再继续识别的<br>所以可以在文件尾后面加东西<br>（1）附加字符串</p>
+<p>最简单的是附加字符串</p>
+<p>附加方法</p>
+<pre><code>winhex直接附加再保存
+copy /b a.jpg+b.txt c.jpg，在a图片里加b的内容，得到c图片
+</code></pre>
+<p>识别方法</p>
+<pre><code>winhex直接看
+notepad也可以看
+linux的strings指令
+</code></pre>
+<p>应用</p>
+<pre><code>制作图片马，即把木马放到图片的最后
+</code></pre>
+<p>实例</p>
+<pre><code>Aesop_secret
+Training-Stegano-1
+</code></pre>
+<p>（2）隐藏压缩文件</p>
+<p>可以把压缩文件藏在图片文件尾后<br>看起来还是图片</p>
+<p>附加方法</p>
+<pre><code>winhex直接附加再保存
+</code></pre>
+<p>识别方法</p>
+<pre><code>有些直接改扩展名就可以用
+linux的binwalk指令
+stegsolve分离
+winhex复制压缩文件内容重新保存
+</code></pre>
+<p>实例</p>
+<pre><code>a_good_idea
+攻防世界 Misc高手进阶区 2分题 Ditf
+攻防世界 Misc高手进阶区 2分题 再见李华
+攻防世界 Misc高手进阶区 3分题 miscmisc
+攻防世界 Misc高手进阶区 3分题 3-11
+</code></pre>
+<p>2、基于文件结构的图片隐写</p>
+<p>主要是针对PNG图片</p>
+<p>标准的PNG文件结构应包括：</p>
+<pre><code>PNG文件标志
+PNG数据块：关键数据块和辅助数据块，其中正常的关键数据块有长度、数据块类型码、数据块数据和CRC这4种
+</code></pre>
+<p>（1）png图片文件头数据块（IHDR）</p>
+<p>PNG图片的第一个数据块</p>
+<pre><code>一张PNG图片仅有一个IHDR数据块
+包括了图片的宽，高，图像深度，颜色类型，压缩方法等信息
+</code></pre>
+<p>蓝色部分就是IHDR</p>
+<p>可以修改高度值或宽度值对部分信息进行隐藏</p>
+<pre><code>如果图片原本是800(宽)*600(高)，然后图片的高度从600变成500
+这样下面800×100区域的信息就无法从图片中显示出来，我们可见的只有上方800*500的区域，这样就达成了图片隐写的目的
+同理可知图片的宽度也可以进行类似的修改以达到隐藏信息的目的
+</code></pre>
+<p>识别方法</p>
+<pre><code>用winhex或者010Editor等编辑器打开图片
+修改长度或宽度值
+在修改文件后，需要利用CRC Calculator对CRC校验码进行重新计算赋值，以防图片被修改后，自身的CRC校验报错，导致图片不能正常打开
+</code></pre>
+<p>实例</p>
+<pre><code>攻防世界 Misc高手进阶区 2分题 Ditf
+攻防世界 Misc高手进阶区 3分题 2-1
+</code></pre>
+<p>（2）IDAT 数据块</p>
+<pre><code>存储实际的数据
+在数据流中可包含多个连续顺序的图像数据块
+写入一个多余的IDAT也不会多大影响肉眼对图片的观察
+</code></pre>
+<p>识别方法</p>
+<pre><code>用pngcheck对图片进行检测pngcheck -v hidden.png
+</code></pre>
+<p>可能会出现一个size为0的异常块</p>
+<p>提取内容的脚本</p>
+<p>#!&#x2F;usr&#x2F;bin&#x2F;python</p>
+<p>from struct import unpack<br>from binascii import hexlify, unhexlify<br>import sys, zlib</p>
+<h1 id="Returns-Position-Chunk-Size-Chunk-Type-Chunk-Data-Chunk-CRC"><a href="#Returns-Position-Chunk-Size-Chunk-Type-Chunk-Data-Chunk-CRC" class="headerlink" title="Returns [Position, Chunk Size, Chunk Type, Chunk Data, Chunk CRC]"></a>Returns [Position, Chunk Size, Chunk Type, Chunk Data, Chunk CRC]</h1><p>def getChunk(buf, pos):<br>    a &#x3D; []<br>    a.append(pos)<br>    size &#x3D; unpack(‘!I’, buf[pos:pos+4])[0]<br>    # Chunk Size<br>    a.append(buf[pos:pos+4])<br>    # Chunk Type<br>    a.append(buf[pos+4:pos+8])<br>    # Chunk Data<br>    a.append(buf[pos+8:pos+8+size])<br>    # Chunk CRC<br>    a.append(buf[pos+8+size:pos+12+size])<br>    return a</p>
+<p>def printChunk(buf, pos):<br>    print ‘Pos : ‘+str(pos)+’’<br>    print ‘Type: ‘ + str(buf[pos+4:pos+8])<br>    size &#x3D; unpack(‘!I’, buf[pos:pos+4])[0]<br>    print ‘Size: ‘ + str(size)<br>    #print ‘Cont: ‘ + str(hexlify(buf[pos+8:pos+8+size]))<br>    print ‘CRC : ‘ + str(hexlify(buf[pos+size+8:pos+size+12]).upper())<br>    print</p>
+<p>if len(sys.argv)!&#x3D;2:<br>    print ‘Usage: .&#x2F;this Stegano_PNG’<br>    sys.exit(2)</p>
+<p>buf &#x3D; open(sys.argv[1]).read()<br>pos&#x3D;0</p>
+<p>print “PNG Signature: “ + str(unpack(‘cccccccc’, buf[pos:pos+8]))<br>pos+&#x3D;8</p>
+<p>chunks &#x3D; []<br>for i in range(3):<br>    chunks.append(getChunk(buf, pos))<br>    printChunk(buf, pos)<br>    pos+&#x3D;unpack(‘!I’,chunks[i][1])[0]+12</p>
+<p>decompressed &#x3D; zlib.decompress(chunks[1][3])</p>
+<h1 id="Decompressed-data-length-height-x-width-3-1"><a href="#Decompressed-data-length-height-x-width-3-1" class="headerlink" title="Decompressed data length &#x3D; height x (width * 3 + 1)"></a>Decompressed data length &#x3D; height x (width * 3 + 1)</h1><p>print “Data length in PNG file : “, len(chunks[1][3])<br>print “Decompressed data length: “, len(decompressed)</p>
+<p>height &#x3D; unpack(‘!I’,(chunks[0][3][4:8]))[0]<br>width &#x3D; unpack(‘!I’,(chunks[0][3][:4]))[0]<br>blocksize &#x3D; width * 3 + 1<br>filterbits &#x3D; ‘’<br>for i in range(0,len(decompressed),blocksize):<br>    bit &#x3D; unpack(‘2401c’, decompressed[i:i+blocksize])[0]<br>    if bit &#x3D;&#x3D; ‘\x00’: filterbits+&#x3D;’0’<br>    elif bit &#x3D;&#x3D; ‘\x01’: filterbits+&#x3D;’1’<br>    else:<br>        print ‘Bit is not 0 or 1… Default is 0 - MAGIC!’<br>        sys.exit(3)</p>
+<p>s &#x3D; filterbits<br>endianess_filterbits &#x3D; [filterbits[i:i+8][::-1] for i in xrange(0, len(filterbits), 8)]</p>
+<p>flag &#x3D; ‘’<br>for x in endianess_filterbits:<br>    if x&#x3D;&#x3D;’00000000’: break<br>    flag +&#x3D; unhexlify(‘%x’ % int(‘0b’+str(x), 2))</p>
+<p>print ‘Flag: ‘ + flag</p>
+<p>3、LSB隐写</p>
+<p>LSB，最低有效位，英文是Least Significant Bit</p>
+<pre><code>容量大、嵌入速度快、对载体图像质量影响小
+在PNG和BMP上可以实现
+</code></pre>
+<p>原理</p>
+<pre><code>图片中的像素一般是由三种颜色组成，即三原色(红绿蓝)，由这三种原色可以组成其他各种颜色
+在png图片的存储中,每个颜色占有8bit,即有256种颜色，一共包含256的三次方颜色，即16777216种颜色
+人类的眼睛可以区分约1,000万种不同的颜色，剩下无法区分的颜色就有6777216
+LSB隐写就是修改了像素中的最低位，把一些信息隐藏起来
+</code></pre>
+<p>给个直观例子</p>
+<p>这人眼看不出颜色区别，但最低位不一样</p>
+<p>嵌入脚本</p>
+<p>from PIL import Image<br>import math</p>
+<p>class LSB:<br>  def <strong>init</strong>(self):<br>    self.im&#x3D;None</p>
+<p>  def load_bmp(self,bmp_file):<br>    self.im&#x3D;Image.open(bmp_file)<br>    self.w,self.h&#x3D;self.im.size<br>    self.available_info_len&#x3D;self.w*self.h # 不是绝对可靠的<br>    print (“Load&gt;&gt; 可嵌入”,self.available_info_len,”bits的信息”)</p>
+<p>  def write(self,info):<br>    “””先嵌入信息的长度，然后嵌入信息”””<br>    info&#x3D;self._set_info_len(info)<br>    info_len&#x3D;len(info)<br>    info_index&#x3D;0<br>    im_index&#x3D;0<br>    while True:<br>      if info_index&gt;&#x3D;info_len:<br>        break<br>      data&#x3D;info[info_index]<br>      x,y&#x3D;self._get_xy(im_index)<br>      self._write(x,y,data)<br>      info_index+&#x3D;1<br>      im_index+&#x3D;1</p>
+<p>  def save(self,filename):<br>    self.im.save(filename)</p>
+<p>  def read(self):<br>    “””先读出信息的长度，然后读出信息”””<br>    _len,im_index&#x3D;self._get_info_len()<br>    info&#x3D;[]<br>    for i in range(im_index,im_index+_len):<br>      x,y&#x3D;self._get_xy(i)<br>      data&#x3D;self._read(x,y)<br>      info.append(data)<br>    return info</p>
+<p>  #&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;#<br>  def _get_xy(self,l):<br>    return l%self.w,int(l&#x2F;self.w)</p>
+<p>  def _set_info_len(self,info):<br>    l&#x3D;int(math.log(self.available_info_len,2))+1<br>    info_len&#x3D;[0]*l<br>    _len&#x3D;len(info)<br>    info_len[-len(bin(_len))+2:]&#x3D;[int(i) for i in bin(_len)[2:]]<br>    return info_len+info</p>
+<p>  def _get_info_len(self):<br>    l&#x3D;int(math.log(self.w*self.h,2))+1<br>    len_list&#x3D;[]<br>    for i in range(l):<br>      x,y&#x3D;self._get_xy(i)<br>      _d&#x3D;self._read(x,y)<br>      len_list.append(str(_d))<br>    _len&#x3D;’’.join(len_list)<br>    _len&#x3D;int(_len,2)<br>    return _len,l</p>
+<p>  def _write(self,x,y,data):<br>    origin&#x3D;self.im.getpixel((x,y))<br>    lower_bit&#x3D;origin%2<br>    if lower_bit&#x3D;&#x3D;data:<br>      pass<br>    elif (lower_bit,data) &#x3D;&#x3D; (0,1):<br>      self.im.putpixel((x,y),origin+1)<br>    elif (lower_bit,data) &#x3D;&#x3D; (1,0):<br>      self.im.putpixel((x,y),origin-1)</p>
+<p>  def _read(self,x,y):<br>    data&#x3D;self.im.getpixel((x,y))<br>    return data%2</p>
+<p>if <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“:<br>  lsb&#x3D;LSB()</p>
+<h1 id="写"><a href="#写" class="headerlink" title="写"></a>写</h1><p>  lsb.load_bmp(‘test.bmp’)<br>  info1&#x3D;[0,1,0,1,1,0,1,0]<br>  lsb.write(info1)<br>  lsb.save(‘lsb.bmp’)</p>
+<h1 id="读"><a href="#读" class="headerlink" title="读"></a>读</h1><p>  lsb.load_bmp(‘lsb.bmp’)<br>  info2&#x3D;lsb.read()<br>  print (info2)</p>
+<p>识别方法</p>
+<pre><code>stegsolve，调通道
+zsteg，神一样的工具
+</code></pre>
+<p>提取脚本</p>
+<p>from PIL import Image</p>
+<p>im &#x3D; Image.open(“extracted.bmp”)<br>pix &#x3D; im.load()<br>width, height &#x3D; im.size</p>
+<p>extracted_bits &#x3D; []<br>for y in range(height):<br>    for x in range(width):<br>        r, g, b &#x3D; pix[(x,y)]<br>        extracted_bits.append(r &amp; 1)<br>        extracted_bits.append(g &amp; 1)<br>        extracted_bits.append(b &amp; 1)</p>
+<p>extracted_byte_bits &#x3D; [extracted_bits[i:i+8] for i in range(0, len(extracted_bits), 8)]<br>with open(“extracted2.bmp”, “wb”) as out:<br>    for byte_bits in extracted_byte_bits:<br>                byte_str &#x3D; ‘’.join(str(x) for x in byte_bits)<br>        byte &#x3D; chr(int(byte_str, 2))<br>        out.write(byte)</p>
+<p>实例</p>
+<pre><code>pure_color
+攻防世界 Misc高手进阶区 2分题 stage1
+攻防世界 Misc高手进阶区 2分题 打野
+攻防世界 Misc高手进阶区 2分题 倒立屋
+攻防世界 Misc高手进阶区 2分题 Erik-Baleog-and-Olaf
+攻防世界 Misc高手进阶区 3分题 flag_universe
+攻防世界 Misc高手进阶区 3分题 Excaliflag
+</code></pre>
+<p>4、基于DCT域的JPG图片隐写</p>
+<p>JPEG图像格式使用离散余弦变换（Discrete Cosine Transform，DCT）函数来压缩图像</p>
+<pre><code>通过识别每个8×8像素块中相邻像素中的重复像素来减少显示图像所需的位数
+使用近似估算法降低其冗余度
+有损压缩（Loss Compression）技术
+常见的隐写方法有JSteg、JPHide、Outguess、F5
+</code></pre>
+<p>Jsteg隐写</p>
+<pre><code>将秘密信息嵌入在量化后的DCT系数的LSB上
+原始值为-1,0，+1的DCT系数除外
+量化后的DCT系数中有负数
+</code></pre>
+<p>实现</p>
+<p>import math<br>import cv2<br>import numpy as np</p>
+<p>def dct(m):<br>    m &#x3D; np.float32(m)&#x2F;255.0<br>    return cv2.dct(m)*255</p>
+<p>class Jsteg:<br>  def <strong>init</strong>(self):<br>    self.sequence_after_dct&#x3D;None</p>
+<p>  def set_sequence_after_dct(self,sequence_after_dct):<br>    self.sequence_after_dct&#x3D;sequence_after_dct<br>    self.available_info_len&#x3D;len([i for i in self.sequence_after_dct if i not in (-1,1,0)]) # 不是绝对可靠的<br>    print (“Load&gt;&gt; 可嵌入”,self.available_info_len,’bits’)</p>
+<p>  def get_sequence_after_dct(self):<br>    return self.sequence_after_dct</p>
+<p>  def write(self,info):<br>    “””先嵌入信息的长度，然后嵌入信息”””<br>    info&#x3D;self._set_info_len(info)<br>    info_len&#x3D;len(info)<br>    info_index&#x3D;0<br>    im_index&#x3D;0<br>    while True:<br>      if info_index&gt;&#x3D;info_len:<br>        break<br>      data&#x3D;info[info_index]<br>      if self._write(im_index,data):<br>        info_index+&#x3D;1<br>      im_index+&#x3D;1</p>
+<p>  def read(self):<br>    “””先读出信息的长度，然后读出信息”””<br>    _len,sequence_index&#x3D;self._get_info_len()<br>    info&#x3D;[]<br>    info_index&#x3D;0</p>
+<pre><code>while True:
+  if info_index&gt;=_len:
+    break
+  data=self._read(sequence_index)
+  if data!=None:
+    info.append(data)
+    info_index+=1
+  sequence_index+=1
+ 
+return info
+</code></pre>
+<p>  #&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;#</p>
+<p>  def _set_info_len(self,info):<br>    l&#x3D;int(math.log(self.available_info_len,2))+1<br>    info_len&#x3D;[0]*l<br>    _len&#x3D;len(info)<br>    info_len[-len(bin(_len))+2:]&#x3D;[int(i) for i in bin(_len)[2:]]<br>    return info_len+info</p>
+<p>  def _get_info_len(self):<br>    l&#x3D;int(math.log(self.available_info_len,2))+1<br>    len_list&#x3D;[]<br>    _l_index&#x3D;0<br>    _seq_index&#x3D;0<br>    while True:<br>      if _l_index&gt;&#x3D;l:<br>        break<br>      _d&#x3D;self._read(_seq_index)<br>      if _d!&#x3D;None:<br>        len_list.append(str(_d))<br>        _l_index+&#x3D;1<br>      _seq_index+&#x3D;1<br>    _len&#x3D;’’.join(len_list)<br>    _len&#x3D;int(_len,2)<br>    return _len,_seq_index</p>
+<p>  def _write(self,index,data):<br>    origin&#x3D;self.sequence_after_dct[index]<br>    if origin in (-1,1,0):<br>      return False</p>
+<pre><code>lower_bit=origin%2
+if lower_bit==data:
+  pass
+elif origin&gt;0:
+  if (lower_bit,data) == (0,1):
+    self.sequence_after_dct[index]=origin+1
+  elif (lower_bit,data) == (1,0):
+    self.sequence_after_dct[index]=origin-1
+elif origin&lt;0:
+  if (lower_bit,data) == (0,1):
+    self.sequence_after_dct[index]=origin-1
+  elif (lower_bit,data) == (1,0):
+    self.sequence_after_dct[index]=origin+1
+ 
+return True
+</code></pre>
+<p>  def _read(self,index):<br>    if self.sequence_after_dct[index] not in (-1,1,0):<br>      return self.sequence_after_dct[index]%2<br>    else:<br>      return None</p>
+<p>if <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“:<br>  jsteg&#x3D;Jsteg()</p>
+<h1 id="写-1"><a href="#写-1" class="headerlink" title="写"></a>写</h1><p>  sequence_after_dct&#x3D;[-1,0,1]*100+[i for i in range(-7,500)]<br>  jsteg.set_sequence_after_dct(sequence_after_dct)<br>  info1&#x3D;[0,1,0,1,1,0,1,0]<br>  jsteg.write(info1)<br>  sequence_after_dct2&#x3D;jsteg.get_sequence_after_dct()</p>
+<h1 id="读-1"><a href="#读-1" class="headerlink" title="读"></a>读</h1><p>  jsteg.set_sequence_after_dct(sequence_after_dct2)<br>  info2&#x3D;jsteg.read()<br>  print (info2)</p>
+<p>Outgusee算法</p>
+<pre><code>针对Jsteg算法的缺陷提出的一种方法
+嵌入过程不修改ECT系数值为0，1的DCT系数
+利用为随机数发生器产生间隔以决定下一个要嵌入的DCT系数的位置
+纠正过程消除对效应的出现
+</code></pre>
+<p>识别方法</p>
+<pre><code>Stegdetect：检测到通过JSteg、JPHide、OutGuess、Invisible Secrets、F5、appendX和Camouflage等这些隐写工具隐藏的信息
+JPHS：针对JPHide
+Outguess：针对OutGuess
+</code></pre>
+<p>5、数字水印隐写</p>
+<p>数字水印（digital watermark）</p>
+<pre><code>在数字化的数据内容中嵌入不明显的记号
+被嵌入的记号通常是不可见或不可察的
+可以通过计算操作检测或者提取
+</code></pre>
+<p>盲水印</p>
+<pre><code>对图像进行傅里叶变换，起始是一个二维离散傅里叶变换，图像的频率是指图像灰度变换的强烈程度
+将二维图像由空间域变为频域后，图像上的每个点的值都变成了复数，也就是所谓的复频域，通过复数的实部和虚部，可以计算出幅值和相位，计算幅值即对复数取模值，将取模值后的矩阵显示出来，即为其频谱图
+对模值再取对数，在在0~255的范围内进行归一化，这样才能够准确的反映到图像上，发现数据之间的差别，区分高频和低频分量
+</code></pre>
+<p>识别方法</p>
+<pre><code>bwm
+</code></pre>
+<p>实例</p>
+<pre><code>攻防世界 Misc高手进阶区 3分题 warmup
+攻防世界 Misc高手进阶区 3分题 信号不好先挂了
+</code></pre>
+<p>6、图片容差隐写</p>
+<p>容差</p>
+<pre><code>在选取颜色时所设置的选取范围
+容差越大，选取的范围也越大
+其数值是在0-255之间
+</code></pre>
+<p>容差比较的隐写</p>
+<pre><code>若是有两张图片，则对两张图片的每一个像素点进行对比，设置一个容差的阈值α，超出这个阈值的像素点RGB值设置为(255,255,255),若是没超过阈值，则设置该像素点的RGB值为(0,0,0)。因此，通过调整不同的α值，可以使对比生成的图片呈现不同的画面。比如两张图完全一样，设置阈值α为任何值，最后得到的对比图都只会是全黑。若两张图每一个像素点都不同，阈值α设置为1，则对比图将是全白。如果将隐藏信息附加到某些像素点上，这时调整阈值α即可看到隐藏信息。
+如果是一张图片，则根据每一像素点周围像素的值进行判断，同样设置一个阈值，若当前像素点超过周围像素点的均值，或者其它的某种规则，则将该像素点RGB值置为(255,255,255)，反之则不进行处理，或者设置为全0.这样也可以获得隐藏的信息。
+</code></pre>
+<p>识别方法</p>
+<pre><code>beyond compare比较图片
+</code></pre>
+<p>7、打乱进制</p>
+<p>比如把整个二进制都逆序<br>得到一堆乱码</p>
+<p>识别方法</p>
+<pre><code>winhex，看文件头尾是不是互换且逆序
+</code></pre>
+<p>实例</p>
+<pre><code>攻防世界 Misc高手进阶区 2分题 Reverse-it
+</code></pre>
+<p>8、GIF的组合</p>
+<p>gif每帧是某个图的一部分<br>提取每帧再拼接</p>
+<p>工具</p>
+<pre><code>ps
+</code></pre>
+<p>实例</p>
+<pre><code>攻防世界 Misc高手进阶区 2分题 glance-50
+攻防世界 Misc高手进阶区 3分题 双色块
+</code></pre>
+<p>三、音频隐写</p>
+<p>简单提一下</p>
+<pre><code>频谱图藏信息
+高低位二进制
+波形藏摩斯密码
+MP3Stego
+音频中也有LSB
+</code></pre>
+<p>本来想自己整理下<br>看到国光大佬的很全面<br>就直接放个链接</p>
+<p>CTF中音频隐写的一些整理总结</p>
+<p>实例</p>
+<pre><code>攻防世界 Misc高手进阶区 2分题 Hear-with-your-Eyes
+攻防世界 Misc高手进阶区 3分题 很普通的Disco
+攻防世界 Misc高手进阶区 4分题 intoU
+</code></pre>
+<p>四、电子文档隐写<br>1、隐藏文字</p>
+<p>看图说话<br>2、文件隐藏</p>
+<p>类似图片隐藏文件<br>直接看例子吧<br>攻防世界 Misc高手进阶区 3分题 小小的PDF<br>结语</p>
+<p>对常见文件文件头和图片音频文档隐写术做了个总结</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/10/03/pwnintof/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2023/10/02/pwnshell0/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-10-03 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/竞赛/">竞赛<span>22</span></a></li> <li><a href="/categories/竞赛/CTF/">CTF<span>21</span></a></li> <li><a href="/categories/竞赛/CTF/Misc/">Misc<span>5</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">22</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">3</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/CTF/">CTF<span>21</span></a></li> <li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li> <li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

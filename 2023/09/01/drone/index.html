@@ -1,0 +1,653 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>自制树莓派无人机 | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="自制树莓派无人机"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 自制树莓派无人机</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><p>灵感来源于watch dogs里面的黑客无人机，以树莓派+pixhawk为主体，搭载大疆F450机架，配以2000毫安锂电池，可以凭借pixhawk出色的飞控能力，以及树莓派优秀的运算能力，在空中完成近源渗透，人脸识别，数据转发（星链），无人机送货等多项功能。</p>
+<hr>
+<p>注意：建议先给pixhawk和树莓派刷入固件，调试好各项参数（根据情况可以无线调试，建议先调试完可以无线调试的项目），再组装飞机（gps，电机电调调试必须先组装好飞机），不一定要按照文章顺序来做</p>
+<hr>
+<h1 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h1><p>大概要这些<br><img src="/images/dronemt1.jpg"></p>
+<h2 id="F450机架（动力套装）"><a href="#F450机架（动力套装）" class="headerlink" title="F450机架（动力套装）"></a>F450机架（动力套装）</h2><p>如果懂得焊接可以更自由的购买电机电调来组装，不懂焊接的建议直接咸鱼（淘宝上很少或者没有组装好的）买F450的动力套装，因为动力套装插上飞控就可以操作，不需焊接，购买前请注意是否真的不需要焊接。<br><img src="/images/djijia1.jpg"><br><img src="/images/djijia2.jpg"></p>
+<h2 id="减震板"><a href="#减震板" class="headerlink" title="减震板"></a>减震板</h2><p>用于给pixhawk和树莓派减震，不同的机架组装方式会有不同的减震组装方案，对飞机的保护起重要作用。<br><img src="/images/dprotect.jpg"></p>
+<h2 id="电池"><a href="#电池" class="headerlink" title="电池"></a>电池</h2><p>2000毫安4S足够了，电池尺寸长155mm<em>宽45mm</em>高28mm已经很极限了，建议买以下这种款式的电池<br><img src="/images/dbattery.jpg"></p>
+<h2 id="机载电脑（树莓派或其他嵌入式开发设备）"><a href="#机载电脑（树莓派或其他嵌入式开发设备）" class="headerlink" title="机载电脑（树莓派或其他嵌入式开发设备）"></a>机载电脑（树莓派或其他嵌入式开发设备）</h2><p>经费足够所以采用了8G树莓派4b做机载电脑，记载电脑建议配套散热措施<br><img src="/images/draspi.jpg"></p>
+<h2 id="pixhawk套件（也可其他飞控但pixhawk配件较为齐全）"><a href="#pixhawk套件（也可其他飞控但pixhawk配件较为齐全）" class="headerlink" title="pixhawk套件（也可其他飞控但pixhawk配件较为齐全）"></a>pixhawk套件（也可其他飞控但pixhawk配件较为齐全）</h2><p>经费足够所以购买了全套的pixhawk套件，包括M8NGPS以及支架，电流计，pixhawk飞控，减震板<br><img src="/images/dpixhawk.jpg"></p>
+<h2 id="游戏手柄（或遥控器）"><a href="#游戏手柄（或遥控器）" class="headerlink" title="游戏手柄（或遥控器）"></a>游戏手柄（或遥控器）</h2><p>买个便宜的就行，游戏手柄可以连接手机，手机4g控制无人机，没有距离限制，但对网络稳定性有要求。遥控器稳定性会比4g好，但是控制距离十分有限，而且要额外加装接收机。<br><img src="/images/dxbox.jpg"></p>
+<h2 id="摄像头"><a href="#摄像头" class="headerlink" title="摄像头"></a>摄像头</h2><p>购买十几块钱的树莓派配套摄像头（或者其他机载电脑的配套摄像头）<br><img src="/images/dcam.jpg"></p>
+<h2 id="随身WIFI"><a href="#随身WIFI" class="headerlink" title="随身WIFI"></a>随身WIFI</h2><p>随身WIFI用于树莓派上网，也可以用4g模块，但随身WIFI可以插手机卡，而且可以很方便的插入usb口<br><img src="/images/dwifi.jpg"></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>锂电池T插转usb，锂电池T插一公分二母，平衡充，BB响，3M胶或者强力双面胶若干，扎带若干，魔术贴带子一条，无线网卡（渗透用）……可以根据需要设计模块来购买，任君想象，任君选择</p>
+<h2 id="购物清单"><a href="#购物清单" class="headerlink" title="购物清单"></a>购物清单</h2><p>这里是我为项目购买的所有东西，供参考<br><img src="/images/dsplist1.jpg"><br><img src="/images/dsplist2.jpg"><br><img src="/images/dsplist3.jpg"><br><img src="/images/dsplist4.jpg"><br><img src="/images/dsplist5.jpg"><br><img src="/images/dsplist6.jpg"><br><img src="/images/dsplist7.jpg"><br><img src="/images/dsplist8.jpg"><br><img src="/images/splist9.jpg"><br><img src="/images/dsplist10.jpg"><br><img src="/images/dsplist11.jpg"><br><img src="/images/dsplist12.jpg"><br><img src="/images/dsplist13.jpg"><br><img src="/images/dsplist14.jpg"><br><img src="/images/dsplist15.jpg"></p>
+<h1 id="硬件组装"><a href="#硬件组装" class="headerlink" title="硬件组装"></a>硬件组装</h1><h2 id="机架焊接（如果不用焊接可以跳过）"><a href="#机架焊接（如果不用焊接可以跳过）" class="headerlink" title="机架焊接（如果不用焊接可以跳过）"></a>机架焊接（如果不用焊接可以跳过）</h2><p>第一步：底板焊接</p>
+<p>   将4个电调，XT60电源线，和2根JST公头线如图所示焊接在底板上。如下所示：</p>
+<p><img src="/images/dronef1.jpg"></p>
+<p>注意：</p>
+<p>1.电调与底板之间的焊点不能虚焊。飞行器启动后电流比较大，虚焊会导致发热严重并脱落，造成飞行中的严重事故！</p>
+<p>2.前后四个焊点（上图）不能太大，否则会阻挡以后电池的安装。</p>
+<p>3.JST公头线作为预留给云台和图传供电的接口。以往的教程没有提及这点，在后期加装云台图传时稍显不便，需要重新焊接电源线比较麻烦。</p>
+<p>焊点要光滑饱满，焊锡覆盖整个焊点和接线。焊接好以后用手拖拽测试是否牢固。</p>
+<p>第二步：电机香蕉头焊接和套上热缩管</p>
+<p>  很多电机出厂都没有焊接香蕉头，需要自己焊接。香蕉头焊接也是组装过程中一个重要的地方。香蕉头焊接不好，通电后会导致电机缺相烧毁。</p>
+<p>  香蕉头用纸巾包裹好，夹在老虎钳上。用纸巾的目的是防止焊锡里面的松香融化后流到插头部分，会造成接触不好。焊接时先将焊锡融入香蕉头内并填满，然后再插入电机线。如下图所示：</p>
+<p><img src="/images/dronef2.jpg"></p>
+<p>  焊接好冷却后，用手拖拽测试是否牢固。</p>
+<p>   确认没有问题，就可以将热宿管套上，用热风枪或则电吹风高温档或则打火机，吹烤包裹部分。使其紧贴。如下所示：</p>
+<p><img src="/images/dronef3.jpg"></p>
+<p><img src="/images/dronef4.jpg"></p>
+<p>2812电机焊接好香蕉头如下：</p>
+<p><img src="/images/dronef5.jpg"></p>
+<h2 id="机架组装"><a href="#机架组装" class="headerlink" title="机架组装"></a>机架组装</h2><p>1.将电机固定在机臂上。注意：用机架里面配套的银色大螺丝安装电机。如下所示：</p>
+<p><img src="/images/dronef6.jpg"></p>
+<p>2.用机架里面的银色小螺丝将机臂固定在底板上，螺丝先不用拧得太紧，方便后面调节，如下图:</p>
+<p><img src="/images/dronef7.jpg"></p>
+<p><img src="/images/dronef8.jpg"></p>
+<p>注意：银色头电机和黑色头电机的安装位置不能装错！！！</p>
+<p>银色电机螺帽是反丝，以后是顺时针旋转；黑色电机螺帽是正丝，以后是逆时针旋转，这样安装以后才不会射桨！</p>
+<ol start="3">
+<li>安装机架上板</li>
+</ol>
+<p><img src="/images/dronef9.jpg"></p>
+<p>4.上板安装好以后，再拧紧底板螺丝！紧固所有螺丝。</p>
+<p>5.连接电机与电调</p>
+<p>将电机焊接好的香蕉头分别插到电调的3个香蕉头里面</p>
+<p>注意：先任意连接。要无人机正常飞行对电机的旋转方向是有要求的。但做到这步电机还无法启动，等后面飞控调试好以后，我们再来调整电机的旋转方向。</p>
+<p><img src="/images/dronef10.jpg"></p>
+<p>四个电机和电调都要分别接好。</p>
+<h2 id="安装飞控以及机载电脑（两种减震方案）"><a href="#安装飞控以及机载电脑（两种减震方案）" class="headerlink" title="安装飞控以及机载电脑（两种减震方案）"></a>安装飞控以及机载电脑（两种减震方案）</h2><p>首先先将减震板组装好，两种减震方案都需要先将减震板这样安装好：<br>先把减震板和减震球组装好，小技巧：先将减震球安装于小板上，然后再连接大板。注意：减震球不可用尖锐的工具安装，减震球破损后就没有减震的功能了。（小球硬塞进去）</p>
+<p><img src="/images/diprotect1.jpg"></p>
+<p>取一块3M胶，将减震板粘在机架上板中心。可在四个角用尼龙扎带绑扎一下，进一步加固减震板。</p>
+<p><img src="/images/diprotect2.jpg"></p>
+<p><img src="/images/diprotect3.jpg"><br>然后，在减震板上方也贴上胶：<br><img src="/images/diprotect4.jpg"></p>
+<h3 id="第一种（材料少，美观，对机载电脑的保护性更好，成本高）"><a href="#第一种（材料少，美观，对机载电脑的保护性更好，成本高）" class="headerlink" title="第一种（材料少，美观，对机载电脑的保护性更好，成本高）"></a>第一种（材料少，美观，对机载电脑的保护性更好，成本高）</h3><p>先将机载电脑贴在减震板上，树莓派4b要将usb口朝向机头（即机架红色臂的方向）随后在机载电脑上用螺丝安装一块装载飞控的塑胶板，再将飞控贴在塑胶板上（飞控箭头方向为机头方向），塑胶板的3D打印文件在下方给出，这个方案贵就贵在这个3d打印板，普遍要50+一块<br><img src="/images/d3dprint.jpg"><br><a href="/files/3dprint.stl">飞控装载板（点击下载）</a></p>
+<h3 id="第二种（材料体积大，不太美观，对飞控板的保护性更好，对机载电脑的减震效果不太好，成本稍微便宜）"><a href="#第二种（材料体积大，不太美观，对飞控板的保护性更好，对机载电脑的减震效果不太好，成本稍微便宜）" class="headerlink" title="第二种（材料体积大，不太美观，对飞控板的保护性更好，对机载电脑的减震效果不太好，成本稍微便宜）"></a>第二种（材料体积大，不太美观，对飞控板的保护性更好，对机载电脑的减震效果不太好，成本稍微便宜）</h3><p>按照第一种的方法，不过是先将飞控板安装在减震板上，然后再加装上文购物清单中的碳钎维扩展版，再将机载电脑装载在扩展版上</p>
+<hr>
+<p>我的成品一开始采用的是方案一，后来操作不当炸机后因为经费不足，改用了方案二，实测两种方案对飞行影响不大，不过个人更喜欢方案一</p>
+<hr>
+<h2 id="安装GPS支架，蜂鸣器，安全开关等"><a href="#安装GPS支架，蜂鸣器，安全开关等" class="headerlink" title="安装GPS支架，蜂鸣器，安全开关等"></a>安装GPS支架，蜂鸣器，安全开关等</h2><p>这些的安装十分简单，用扎带和胶等工具固定即可。需要注意的是，GPS支架有高矮两种，建议选择高的那种，我的成品一开始也是选高款，但炸机之后我就选了矮款（轻信了淘宝商家的“防屏蔽”，其实感觉没啥用）以下附上成品关于这些细节的图片：<br><img src="/images/droneok1.jpg"><br><img src="/images/droneok2.jpg"><br><img src="/images/droneok3.jpg"><br><img src="/images/droneok4.jpg"><br><img src="/images/droneok5.jpg"><br><img src="/images/droneok6.jpg"><br><img src="/images/droneok7.jpg"><br>（图片拍的不好请见谅，但足够清晰，可以使用）<br>注意图中没有安装bb响，bb响的安装要求锂电池引出的pin从左到右插入bb响（或者从右到左，不记得了，都试试吧），树莓派采用的是锂电池T插转usb供电（注意输出电压，不然会烧坏树莓派）</p>
+<h2 id="Pixhawk的连接"><a href="#Pixhawk的连接" class="headerlink" title="Pixhawk的连接"></a>Pixhawk的连接</h2><p>像蜂鸣器，安全开关，gps等都要与pixhawk连接，具体的连接如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">器件</th>
+<th align="center">pixhawk接口1</th>
+<th align="center">pixhawk接口2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">蜂鸣器</td>
+<td align="center">buzzer</td>
+<td align="center">——</td>
+</tr>
+<tr>
+<td align="center">安全开关</td>
+<td align="center">switch</td>
+<td align="center">——</td>
+</tr>
+<tr>
+<td align="center">GPS</td>
+<td align="center">GPS</td>
+<td align="center">I2C</td>
+</tr>
+<tr>
+<td align="center">6pin线数传（连接机载电脑）</td>
+<td align="center">telem 2</td>
+<td align="center">——</td>
+</tr>
+<tr>
+<td align="center">电流计</td>
+<td align="center">power</td>
+<td align="center">——</td>
+</tr>
+</tbody></table>
+<h2 id="电调与飞控的连接"><a href="#电调与飞控的连接" class="headerlink" title="电调与飞控的连接"></a>电调与飞控的连接</h2><p>这里直接摘录：<br>按照下图上面的电机标识，将电机对应的电调连接到飞控主要输出口（main out）1<del>4通道。电调线从机臂之间穿过到飞控后方。注意：main out接口是从右边开始第7针脚开始（前面是AUX1</del>AUX6辅助接口）</p>
+<p>电调连接飞控的顺序不能接错。否则会导致飞机解锁推油门就翻跟斗。</p>
+<p><img src="/images/dfpow1.jpg"></p>
+<p><img src="/images/dfpow2.jpg"></p>
+<p>和S500机架的接线一样，注意黑色负极在上，白色信号在下：</p>
+<p><img src="/images/dfpow3.jpg"><br>下面再附上一张跟桨动力有关的图片，方便理解与调试：<br>正桨—CCW—逆时针旋转 反桨—CW—顺时针旋转<br>判断方法一：用桨叶迎风面区分正反桨：螺旋桨横着放，桨叶有字的一面向上，右边桨叶的迎风面在后面的是正桨，右边桨叶的迎风面在前面的是反桨。<br>判断方法二：桨叶平放，左高右低为反桨，反之为正桨<br><img src="/images/dfpow4.jpg"></p>
+<h2 id="飞控与机载电脑连接（以树莓派为例）"><a href="#飞控与机载电脑连接（以树莓派为例）" class="headerlink" title="飞控与机载电脑连接（以树莓派为例）"></a>飞控与机载电脑连接（以树莓派为例）</h2><p>通过pixhawk侧边的micro-usb与树莓派的usb连接是最方便最稳定的，但是usb线不够美观而且很占位置，于是我采用了serial串口连接方式，以下给出树莓派接口图和pixhawk数传的接口图<br>树莓派：<br><img src="/images/draspisport.png"><br>图片下方是树莓派USB接口的朝向<br>pixhawk：<br><img src="/images/dpixhawksp.jpg"><br>pixhawk的图可能有点看不清，解释一下：telem2口右6个pin，pixhawk箭头朝下，telem从左往右数前三个分别是：5V，Tx，Rx 最右边的是Ground。在连接时，如果pixhawk连接了电流计，则不需要将5V供电和Ground连接树莓派，如果没有连接电流计，则需要将5V和Ground连接树莓派，让树莓派给pixhawk供电。连接时，将pixhawk的5V和树莓派的5V连接，将Ground与Ground连接，将pixhawk的Tx与树莓派的Rx连接，将pixhawk的Rx与树莓派的Tx连接（图片中的连接方式是错的）</p>
+<h2 id="摄像头与树莓派连接"><a href="#摄像头与树莓派连接" class="headerlink" title="摄像头与树莓派连接"></a>摄像头与树莓派连接</h2><p>将摄像头相机朝向树莓派usb口的方向(金手指朝着typec口，即与usb口反向），缕直摄像头的数据线，直接将金手指插入树莓派靠近usb口的那个插摄像头的接口（大力出奇迹）</p>
+<h1 id="软件设置"><a href="#软件设置" class="headerlink" title="软件设置"></a>软件设置</h1><h2 id="烧录pixhawk"><a href="#烧录pixhawk" class="headerlink" title="烧录pixhawk"></a>烧录pixhawk</h2><p>在以下网址下载mission planner到电脑：<br><a target="_blank" rel="noopener" href="https://ardupilot.org/planner/docs/mission-planner-installation.html">https://ardupilot.org/planner/docs/mission-planner-installation.html</a><br>打开mission planner后，将烧录好的sd卡（4G以上，FAT32格式）插入pixhawk的卡槽内，将pixhawk通过usb线连接电脑。点击初始设置-安装固件-All Options 记住上方相应飞机的最新支持版本（例如copter v4.4.0）<br><img src="/images/dmp.JPG"><br>在跳出的弹窗里最上一栏版本选择相应的版本，platform选择Pixhawk 1，下面version选择与最上一栏相应的，最下面firmware选择相应的apj文件（比如我选择的是copter）<br><img src="/images/dmpfirm.JPG"><br>这套配置适合pixhawk2.4.8的硬件使用<br>最后点击upload firmware上传固件到pixhawk</p>
+<h3 id="离线烧录"><a href="#离线烧录" class="headerlink" title="离线烧录"></a>离线烧录</h3><p>可能有时会因为网路问题无法联网烧录，可以选择load costume firmware加载本地固件，文件我放在下面：<br><a href="/files/firmware.apj">离线固件（点击下载）</a></p>
+<h2 id="烧录树莓派"><a href="#烧录树莓派" class="headerlink" title="烧录树莓派"></a>烧录树莓派</h2><p>在网上下载树莓派官方烧录工具：<a target="_blank" rel="noopener" href="https://www.raspberrypi.com/software/">https://www.raspberrypi.com/software/</a><br>根据树莓派的不同，选择相应位数的带桌面版本的pi os镜像，（可以在官方烧录工具中联网烧录，也可以使用本地镜像，如果使用本地镜像，先到给出网址下载相应镜像文件）我购买的8G树莓派，可以选择64位的镜像：<a target="_blank" rel="noopener" href="https://www.raspberrypi.com/software/operating-systems/">https://www.raspberrypi.com/software/operating-systems/</a><br>找一张32G以上的sd卡，使用官方烧录软件格式化（选择操作系统-擦除），格式化后，选择相应系统，先别急着烧录，在烧录界面找到一个高级设置之类的东西，将树莓派初始的账户，连接WiFi等设置好再烧录，不然可能出现无法登录，无法联网等问题（无法连接wifi还可以接网线后ssh，进入桌面连接wifi，但无法登录只能重新烧录）<br>烧录完成后将sd卡插入树莓派卡槽，给树莓派上电开机，如果树莓派红灯常亮，绿灯不定时闪烁则正常启动。</p>
+<h2 id="设置树莓派"><a href="#设置树莓派" class="headerlink" title="设置树莓派"></a>设置树莓派</h2><p>ssh进入树莓派，敲入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> raspi-config <span class="token comment">#这个config还可以改很多东西，比如修改分配给相机的内存大小，或者优化性能</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在出来的界面选择interface options，将Legacy camera打开，将vnc打开，进入serial port，将通过serial登录shell关闭，将serial port hardware打开，然后树莓派会询问是否要重启，先不要重启，修改&#x2F;boot&#x2F;config.txt，在末尾加上：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">enable_uart</span><span class="token operator">=</span><span class="token number">1</span>
+<span class="token assign-left variable">dtoverlay</span><span class="token operator">=</span>disable-bt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>保存修改后重启树莓派</p>
+<h3 id="安装motion以及飞控软件"><a href="#安装motion以及飞控软件" class="headerlink" title="安装motion以及飞控软件"></a>安装motion以及飞控软件</h3><p>在树莓派上执行以下命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> motion python3 python3-dev python3-opencv python3-wxgtk4.0 python3-pip python3-matplotlib python3-lxml python3-pygame
+pip3 <span class="token function">install</span> PyYAML mavproxy <span class="token parameter variable">--user</span>
+<span class="token builtin class-name">echo</span> <span class="token string">'export PATH="$PATH:$HOME/.local/bin"'</span> <span class="token operator">>></span> ~/.bashrc <span class="token comment">#这一行我印象中没用过，算式非必要？</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>安装好motion后，将树莓派&#x2F;etc&#x2F;motion&#x2F;motion.conf文件中的内容改成以下内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># Rename this distribution example file to motion.conf</span>
+<span class="token comment">#</span>
+<span class="token comment"># This config file was generated by motion 4.5.1</span>
+<span class="token comment"># Documentation:  /usr/share/doc/motion/motion_guide.html</span>
+<span class="token comment">#</span>
+<span class="token comment"># This file contains only the basic configuration options to get a</span>
+<span class="token comment"># system working.  There are many more options available.  Please</span>
+<span class="token comment"># consult the documentation for the complete list of all options.</span>
+<span class="token comment">#</span>
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># System control configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Start in daemon (background) mode and release terminal.</span>
+daemon on
+
+<span class="token comment"># Start in Setup-Mode, daemon disabled.</span>
+setup_mode off
+
+<span class="token comment"># File to store the process ID.</span>
+<span class="token punctuation">;</span> pid_file value
+
+<span class="token comment"># File to write logs messages into.  If not defined stderr and syslog is used.</span>
+log_file /var/log/motion/motion.log
+
+<span class="token comment"># Level of log messages [1..9] (EMG, ALR, CRT, ERR, WRN, NTC, INF, DBG, ALL).</span>
+log_level <span class="token number">6</span>
+
+<span class="token comment"># Target directory for pictures, snapshots and movies</span>
+target_dir /var/lib/motion
+
+<span class="token comment"># Video device (e.g. /dev/video0) to be used for capturing.</span>
+video_device /dev/video0
+
+<span class="token comment"># Parameters to control video device.  See motion_guide.html</span>
+<span class="token punctuation">;</span> video_params value
+
+<span class="token comment"># The full URL of the network camera stream.</span>
+<span class="token punctuation">;</span> netcam_url value
+
+<span class="token comment"># Name of mmal camera (e.g. vc.ril.camera for pi camera).</span>
+<span class="token punctuation">;</span> mmalcam_name value
+
+<span class="token comment"># Camera control parameters (see raspivid/raspistill tool documentation)</span>
+<span class="token punctuation">;</span> mmalcam_params value
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Image Processing configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Image width in pixels.</span>
+width <span class="token number">640</span>
+
+<span class="token comment"># Image height in pixels.</span>
+height <span class="token number">480</span>
+
+<span class="token comment"># Maximum number of frames to be captured per second.</span>
+framerate <span class="token number">15</span>
+
+<span class="token comment"># Text to be overlayed in the lower left corner of images</span>
+text_left CAMERA1
+
+<span class="token comment"># Text to be overlayed in the lower right corner of images.</span>
+text_right %Y-%m-%d<span class="token punctuation">\</span>n%T-%q
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Motion detection configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Always save pictures and movies even if there was no motion.</span>
+emulate_motion off
+
+<span class="token comment"># Threshold for number of changed pixels that triggers motion.</span>
+threshold <span class="token number">1500</span>
+
+<span class="token comment"># Noise threshold for the motion detection.</span>
+<span class="token punctuation">;</span> noise_level <span class="token number">32</span>
+
+<span class="token comment"># Despeckle the image using (E/e)rode or (D/d)ilate or (l)abel.</span>
+despeckle_filter EedDl
+
+<span class="token comment"># Number of images that must contain motion to trigger an event.</span>
+minimum_motion_frames <span class="token number">1</span>
+
+<span class="token comment"># Gap in seconds of no motion detected that triggers the end of an event.</span>
+event_gap <span class="token number">60</span>
+
+<span class="token comment"># The number of pre-captured (buffered) pictures from before motion.</span>
+pre_capture <span class="token number">3</span>
+
+<span class="token comment"># Number of frames to capture after motion is no longer detected.</span>
+post_capture <span class="token number">0</span>
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Script execution configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Command to be executed when an event starts.</span>
+<span class="token punctuation">;</span> on_event_start value
+
+<span class="token comment"># Command to be executed when an event ends.</span>
+<span class="token punctuation">;</span> on_event_end value
+
+<span class="token comment"># Command to be executed when a movie file is closed.</span>
+<span class="token punctuation">;</span> on_movie_end value
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Picture output configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Output pictures when motion is detected</span>
+picture_output off
+
+<span class="token comment"># File name(without extension) for pictures relative to target directory</span>
+picture_filename %Y%m%d%H%M%S-%q
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Movie output configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Create movies of motion events.</span>
+movie_output off
+
+<span class="token comment"># Maximum length of movie in seconds.</span>
+movie_max_time <span class="token number">60</span>
+
+<span class="token comment"># The encoding quality of the movie. (0=use bitrate. 1=worst quality, 100=best)</span>
+movie_quality <span class="token number">45</span>
+
+<span class="token comment"># Container/Codec to used for the movie. See motion_guide.html</span>
+movie_codec mkv
+
+<span class="token comment"># File name(without extension) for movies relative to target directory</span>
+movie_filename %t-%v-%Y%m%d%H%M%S
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Webcontrol configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># Port number used for the webcontrol.</span>
+webcontrol_port <span class="token number">8080</span>
+
+<span class="token comment"># Restrict webcontrol connections to the localhost.</span>
+webcontrol_localhost off
+
+<span class="token comment"># Type of configuration options to allow via the webcontrol.</span>
+webcontrol_parms <span class="token number">0</span>
+
+<span class="token comment">############################################################</span>
+<span class="token comment"># Live stream configuration parameters</span>
+<span class="token comment">############################################################</span>
+
+<span class="token comment"># The port number for the live stream.</span>
+stream_port <span class="token number">8081</span>
+
+<span class="token comment"># Restrict stream connections to the localhost.</span>
+stream_localhost off
+
+<span class="token comment">##############################################################</span>
+<span class="token comment"># Camera config files - One for each camera.</span>
+<span class="token comment">##############################################################</span>
+<span class="token punctuation">;</span> camera /usr/etc/motion/camera1.conf
+<span class="token punctuation">;</span> camera /usr/etc/motion/camera2.conf
+<span class="token punctuation">;</span> camera /usr/etc/motion/camera3.conf
+<span class="token punctuation">;</span> camera /usr/etc/motion/camera4.conf
+
+<span class="token comment">##############################################################</span>
+<span class="token comment"># Directory to read '.conf' files for cameras.</span>
+<span class="token comment">##############################################################</span>
+<span class="token punctuation">;</span> camera_dir /usr/etc/motion/conf.d
+stream_maxrate <span class="token number">15</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>更改后键入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">vcgencmd get_camera<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果返回：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">supported</span><span class="token operator">=</span><span class="token number">1</span> <span class="token assign-left variable">detected</span><span class="token operator">=</span><span class="token number">1</span>, libcamera <span class="token assign-left variable">interfaces</span><span class="token operator">=</span><span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>则说明成功，使用<code>sudo motion</code> 来启动motion服务，并在浏览器中打开相应ip的8080端口来管理摄像头，通过打开8081端口来查看摄像头画面，使用<code>sudo motion stop</code>来停止motion的服务</p>
+<hr>
+<p>我也尝试过很多其他的摄像头方案，但motion是最稳定同时也还算方便的，于是采用了motion</p>
+<hr>
+<h2 id="树莓派连接地面站以及内网穿透"><a href="#树莓派连接地面站以及内网穿透" class="headerlink" title="树莓派连接地面站以及内网穿透"></a>树莓派连接地面站以及内网穿透</h2><p>在手机谷歌商店中下载mission planner和qgc（qgc也可以在其官网下载app），将地面站安装至手机。确保pixhawk和树莓派均已上电，并且pixhawk已经连接好树莓派，打开树莓派键入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mavproxy.py <span class="token parameter variable">--master</span><span class="token operator">=</span>/dev/ttyAMA0 <span class="token parameter variable">--aircraft</span><span class="token operator">=</span>test <span class="token parameter variable">--out</span><span class="token operator">=</span><span class="token number">127.0</span>.0.1:14550<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这句命令的语法是：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mavproxy.py <span class="token parameter variable">--master</span><span class="token operator">=</span>pixhawk连接的端口文件 <span class="token parameter variable">--aircraft</span><span class="token operator">=</span>自己选一个名字 <span class="token parameter variable">--out</span><span class="token operator">=</span>ip:端口<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这里推流到本地端口，然后将本地端口映射出去，就可以通过qgc访问了，推流对带宽的需求不高，2m已经很足够了（你也可以将手机的端口通过natapp映射出去，然后推流到qgc）</p>
+<hr>
+<p>注意事项：<br>1.qgc默认使用14550端口<br>2.地面站软件和mavproxy默认使用udp协议推流，如果要使用tcp协议则要写成<code>--out=tcpin:0.0.0.0:&lt;port&gt;</code>这点会影响到你在内网穿透时隧道的选择（比如natapp不限流量隧道只有tcp）</p>
+<hr>
+<p>除了与地面站的通讯需要内网穿透，ssh以及motion也要内网穿透，具体操作不赘述，课自行查看natapp官网：<a target="_blank" rel="noopener" href="https://natapp.cn/">https://natapp.cn/</a></p>
+<h1 id="飞机调试"><a href="#飞机调试" class="headerlink" title="飞机调试"></a>飞机调试</h1><p>一切连接好设置好之后还不能起飞，我们可以根据以下的教程在mission planner里调试（注意飞行模式一定要设置，一定要在mission planner里面设置）同时因为我们没有配遥控器，于是就省去了遥控器调试的部分，建议在mission planner里设置完飞行模式后到qgc里调试，调试方法大同小异，在调试完加速度计，罗盘，地平线，电池等后（需要电流计）：<br>飞控连接地面站以后，初始设置 页面会多出 必要硬件，选择 机架类型 ，选择与图片相应的类型<br><img src="/images/dtest1.jpg"></p>
+<p>注意：新版固件如果不设置机架类型，就会警报：check firmware or FRAME_CLASS</p>
+<p>第三步：加速度校准<br>初始设置 页面，点 加速度计校准</p>
+<p>做加速度计校准前，将飞机水平放置，校准过程会执行 6个动作，每次按电脑回车键或则空格键确认，点击 校准加速度计</p>
+<ol>
+<li>Place vehicle level and press any key(水平放置)完成后回车</li>
+</ol>
+<p><img src="/images/dtest2.jpg"></p>
+<ol start="2">
+<li>Place vehicle on its LEFT side and press any key（向左边放置）完成后回车</li>
+</ol>
+<p><img src="/images/dtest3.jpg"></p>
+<ol start="3">
+<li>Place vehicle on its RIGHT side and press any key（向右边放置）完成后回车</li>
+</ol>
+<p><img src="/images/dtest4.jpg"></p>
+<ol start="4">
+<li>Place vehicle nose DOWN and press any key（向下放置）完成后回车</li>
+</ol>
+<p><img src="/images/dtest5.jpg"></p>
+<ol start="5">
+<li>Place vehicle nose UP and press any key（向上放置）完成后回车</li>
+</ol>
+<p><img src="/images/dtest6.jpg"></p>
+<ol start="6">
+<li>Place vehicle on its BACK and press any key（反过来放置）完成后回车</li>
+</ol>
+<p><img src="/images/dtest7.jpg"></p>
+<p>校准完成，会显示calibration Successful。</p>
+<p>如果校准失败，请重新校准。</p>
+<p>第四步：指南针校准</p>
+<p>点击初始设置下的必要硬件菜单，请确保GPS接线正确。</p>
+<p>选择指南针菜单，按下图勾选对应的设置以后点击开始，如下所示：</p>
+<p><img src="/images/dtest8.jpg"></p>
+<p>飞控里面和GPS模块里分别各有一个指南针。</p>
+<p>GPS里集成的指南针一般叫做外置罗盘是1#，飞控里面的指南针叫内置罗盘是2#。</p>
+<p>注意：校准罗盘请远离金属构件、喇叭等强磁性东西。</p>
+<p>校准时要求将飞机每个面都朝上旋转1~2圈（正反均可）。</p>
+<p>1.水平放置旋转1~2周</p>
+<p>旋转的时候注意USB线打结，可顺时针旋转一周，逆时针旋转一周。</p>
+<p>或则用数传模块代替USB线，就能避免USB线缠绕。</p>
+<p><img src="/images/dtest9.jpg"></p>
+<p>2.左侧朝下旋转1~2周</p>
+<p><img src="/images/dtest10.jpg"></p>
+<p>3.右侧朝下旋转1~2周</p>
+<p><img src="/images/dtest11.jpg"></p>
+<p>4.机头朝下旋转1~2周</p>
+<p><img src="/images/dtest12.jpg"></p>
+<p>5.机头朝上旋转1~2周</p>
+<p><img src="/images/dtest13.jpg"></p>
+<p>6.底朝上旋转1~2周</p>
+<p><img src="/images/dtest14.jpg"></p>
+<p>校准过程会伴随着2个进度条的行进，当进度条行进完毕，校准就完成了。如果不能校准，请断开连接检查接线是否正确，重新执行校准。</p>
+<p>校准完成后要求重启飞控。</p>
+<p>重新连接USB后，再连接地面站，指南针页面就能看到指南针的数据。数值小于 400 为绿色代表数值正常可用，当大于 400 黄色代表警告，当超过 600为红色完全不可用。大于400数值需要重新校准。<br>然后，在对飞行模式，手柄等进行调试和设置，以下给出我的一些设置参考：<br><img src="/images/dtest15.jpg"><br><img src="/images/dtest16.jpg"><br><img src="/images/dtest17.jpg"><br><img src="/images/dtest18.jpg"><br><img src="/images/dtest19.jpg"><br><img src="/images/dtest20.jpg"><br><img src="/images/dtest21.jpg"><br><img src="/images/dtest22.jpg"><br>调试好后装上螺旋桨，在电机一栏以很小的速度旋转电机，确保风是吹向地下的，飞机才能起飞</p>
+<h1 id="起飞时刻"><a href="#起飞时刻" class="headerlink" title="起飞时刻"></a>起飞时刻</h1><p>起飞前先使用<code>screen -R 喜欢的名字</code>创建一个screen来运行mavproxy，以防mavproxy掉线，这里的演示时是没有装螺旋桨的，这样不会太危险，实际上电机的转速是非常快的，所以装上螺旋桨飞行时要远离人群，而且要通过练习操作熟练<br>（视频飞机电机的声音会有些大，提前调小一点音量，因为是用github pages做的博客，视频可能加载不出来）<br><video src='/videos/flying.mp4' type='video/mp4' controls='controls'  width='100%' height='100%'><br></video></p>
+<h1 id="飞机保养"><a href="#飞机保养" class="headerlink" title="飞机保养"></a>飞机保养</h1><p>注意以下两点：<br>1.飞机的锂电池一定要使用专门的充电器，这样可以监测电压不至于过充，如果充电器不支持监测电压，那就人工监测bb响的数值，充电时一定要清楚电池是什么电池（比如纳米聚合物电池），每一节电池的满电电压是4.2V，最低电压是3.6V，保存电压是3.8V到3.9V，过放和过充都会影响电池的寿命和性能。<br>2.飞机的四个着陆位置均装上防震海绵胶，有钱的可以买个脚架，但不可以不装任何防护措施</p>
+<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.飞机的成本还可以压缩，比如可以购买更小的机架，更便宜的机载电脑和飞控<br>2.可以研究更好更方便，可以直接在地面站观看，基于推流的飞行摄像系统<br>3.飞机的飞行并不好，怀疑是电磁屏蔽导致的，也可能是没有调试好<br>4.应该在电源处加装开关，而不是靠插拔电源线来启动或关闭飞机电源</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2023/09/05/http/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2023/08/28/webxxe/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2023-09-01 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/个人项目/">个人项目<span>3</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">22</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">3</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/项目/">项目<span>3</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

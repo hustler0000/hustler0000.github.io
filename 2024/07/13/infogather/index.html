@@ -1,0 +1,526 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>信息搜集指南 | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="信息搜集指南"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> 信息搜集指南</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p>信息搜集大致可分为两部分，被动信息搜集和主动信息搜集，主要需要搜集目标的组织架构，资产信息和人员信息等，一次好的信息搜集是渗透测试成功的必备基础</p>
+<h2 id="被动信息搜集"><a href="#被动信息搜集" class="headerlink" title="被动信息搜集"></a>被动信息搜集</h2><p>被动信息搜集又称开源情报，是指能在网上使用各种开放的被动的方法来进行的信息搜集，比如whois查询，dns解析查询，子域名证书查询，icp备案查询等等，这类搜集往往是正常的交互，目标几乎不会有感知</p>
+<h3 id="组织架构信息"><a href="#组织架构信息" class="headerlink" title="组织架构信息"></a>组织架构信息</h3><p>我们可以使用小蓝本，天眼查，企查查等平台来查询目标的相关组织架构，资产要精确定位，如子公司，孙公司，一般选择控股占比%50以上的单位，并要确认是否目标单位确认资产<br>这里使用企查查的股权穿透图，可以看到这家公司的组织架构情况，可以看到，这家公司完全由一个股东掌握，旗下没有子公司和其他组织架构：<br><img src="/images/InformationGather/hw11-1.JPG"><br>在天眼查和爱企查上得到了相同的结果，可以基本确定这个企业只有这一家公司<br>同时我们还可以获得人员的一些相关信息，比如老板的姓名，电话，邮箱，公司的官网等，为下一步的资产搜集和钓鱼做准备<br>还可进入官网，搜集相关的电话和联系方式，结合这些信息和SGK工具，基本能得到一些人员的个人敏感信息，接下来可以检查以下这些信息，筛选处有效的供下面的流程使用<br><img src="/images/InformationGather/hw11-28.JPG"></p>
+<h3 id="资产搜集"><a href="#资产搜集" class="headerlink" title="资产搜集"></a>资产搜集</h3><p>来到了比较重要的部分，在这里我们开始搜集暴露在公网上可以被访问到的服务器等资产，这些资产，这些资产的质量参差不齐，需要我们筛选</p>
+<h4 id="绕过CDN"><a href="#绕过CDN" class="headerlink" title="绕过CDN"></a>绕过CDN</h4><p>有的网站可能会做cdn防护，将自己的真实ip隐藏起来，我们可以通过一些方法绕过cdn来获取真实ip<br>1.邮箱地址，如果目标有类似验证码等邮件服务，可以通过查看邮件的源ip来发现真实ip，因为邮件服务器一般不上cdn<br>2.phpinfo文件，phpinfo文件的server_addr字段中可能写有真实的ip地址，测试过程中可以尝试获取这个文件<br>3.分站和子域名，有些网站会用cdn来保护主站，但是没有保护分站<br>4.国外访问获取真实ip地址，有些网站会针对国内ip进行防护，所以使用国外ip访问可以获取真实ip<br>5.域名历史解析记录，有些网站可能之前没有上cdn，解析记录了之前的真实ip<br>6.有的网站有app，app里的请求可能是真实ip</p>
+<h4 id="whois"><a href="#whois" class="headerlink" title="whois"></a>whois</h4><p>使用kali查询其官网相关信息（也可以用在线的），不过自从新的政策出台后，whois的数据变少了，现在的whois比较鸡肋：<br><img src="/images/InformationGather/hw11-2.JPG"></p>
+<h4 id="Wayback-Machine网页快照"><a href="#Wayback-Machine网页快照" class="headerlink" title="Wayback Machine网页快照"></a>Wayback Machine网页快照</h4><p><a target="_blank" rel="noopener" href="https://web.archive.org/">https://web.archive.org/</a><br>需要科学上网，可以查看这个域名以前的网页的一些信息</p>
+<h4 id="DNS记录查询"><a href="#DNS记录查询" class="headerlink" title="DNS记录查询"></a>DNS记录查询</h4><p>网站的综合查询建议使用爱站网，站长之家这些<br>我们尝试DNS记录查询，看看域名对应了什么主机，同时也可以根据ip地址反查解析的域名，看看同一台服务器上是否还运行着其他可能较弱的站点，dns查询的平台网上有很多，这里不赘述<br>我们可以使用nslookup命令：<br><img src="/images/InformationGather/hw11-3.JPG"><br>也可以用在线网站：<br><a target="_blank" rel="noopener" href="https://www.itdog.cn/dns/">https://www.itdog.cn/dns/</a><br><img src="/images/InformationGather/hw11-4.JPG"><br><img src="/images/InformationGather/hw11-5.JPG"><br>效果不错，分别访问解析到的两个ip，发现都运行着公司官网，而且是阿里云服务器，看来是有效资产</p>
+<h4 id="SpiderFoot"><a href="#SpiderFoot" class="headerlink" title="SpiderFoot"></a>SpiderFoot</h4><p><a target="_blank" rel="noopener" href="https://github.com/smicallef/spiderfoot">https://github.com/smicallef/spiderfoot</a><br>一款开源自动自动化信息搜集工具，集成了dns解析，端口扫描，资产搜集等功能，我们来试一下<br>可以看到，这款工具甚至为我们制作了一个图表，能够快速的梳理资产分布：<br><img src="/images/InformationGather/hw11-6.JPG"><br>美中不足的时，工具对一些无关紧要的域名等信息也做了搜集，导致数据多而杂，需要人工去提取，不过我们也发现了一个之前没有发现的邮箱，还有一个<code>www.ylxweb.cn</code>的域名及其ip，访问发现跟<code>www.ylxweb.com</code>有着相同内容，这下可以确定三个ip的资产了<br>同时，这个工具发现了很多端口，需要进一步排查是否误报，至于报告中的C段，考虑到这是一个小公司，并且已经获取了三个有效资产的ip，姑且视为无效信息</p>
+<h4 id="空间测绘引擎"><a href="#空间测绘引擎" class="headerlink" title="空间测绘引擎"></a>空间测绘引擎</h4><p>我们可以通过查找一些共性的特征来找资产，比如同一个icon的站点等等</p>
+<h5 id="FOFA"><a href="#FOFA" class="headerlink" title="FOFA"></a>FOFA</h5><p>使用语法分别搜索ylxweb.com和ylxweb.cn：</p>
+<pre class="line-numbers language-none"><code class="language-none">domain&#x3D;&quot;ylxweb.com&quot; &amp;&amp; country&#x3D;&quot;CN&quot; &amp;&amp; region!&#x3D;&quot;HK&quot; &amp;&amp; region!&#x3D;&quot;TW&quot; &amp;&amp; region!&#x3D;&quot;MO&quot;
+# 搜索中国大陆域名为ylxweb.com的资产
+
+&quot;亿路航&quot; &amp;&amp; country&#x3D;&quot;CN&quot; &amp;&amp; region!&#x3D;&quot;HK&quot; &amp;&amp; region!&#x3D;&quot;TW&quot; &amp;&amp; region!&#x3D;&quot;MO&quot; &amp;&amp; (title&#x3D;&quot;登录&quot; || title&#x3D;&quot;系统&quot; || title&#x3D;&quot;后台&quot; || title&#x3D;&quot;平台&quot; || title&#x3D;&quot;管理&quot; || title&#x3D;&quot;入口&quot;)
+# 搜索亿路航相关信息<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>找到有趣的资产：<br><img src="/images/InformationGather/hw11-7.JPG"><br>还有数个子域名或子站点：</p>
+<pre class="line-numbers language-none"><code class="language-none">120.76.52.201 nginx
+120.76.52.201:8080
+api.ylxweb.com Kaede&#x2F;3.5.3.865 120.24.174.159 
+nb.api.ylxweb.com Kaede&#x2F;3.5.3.865 120.24.174.159 
+https:&#x2F;&#x2F;nb.api.ylxweb.com
+https:&#x2F;&#x2F;api.ylxweb.com
+static.ylxweb.com Tengine 121.207.229.250 
+https:&#x2F;&#x2F;static.ylxweb.com
+
+test.ylxweb.com:3306 119.23.146.168 
+Mysql Version: 5.7.24-log 
+
+N\x00\x00\x00
+5.7.24-log\x00\xf6\x1a\x00\x00OnJe\x0e kj\x00\xff\xf7-\x02\x00\xff\x81\x15\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#123;AXj8|\x0e&#125;(&quot;\x05q\x00mysql_native_password\x00
+
+https:&#x2F;&#x2F;mail.ylxweb.com 183.47.114.101  nginx
+https:&#x2F;&#x2F;treayoung.ylxweb.cn
+https:&#x2F;&#x2F;tbsdev.ylxweb.cn<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="Hunter"><a href="#Hunter" class="headerlink" title="Hunter"></a>Hunter</h5><p>发现数个站点：</p>
+<pre class="line-numbers language-none"><code class="language-none">使用语法：
+domain&#x3D;&quot;ylxweb.com&quot; &amp;&amp; ip.country&#x3D;&quot;CN&quot;
+web.body&#x3D;&quot;亿路航&quot;&amp;&amp;ip.country&#x3D;&quot;CN&quot;
+
+hdcx.66239779.com nginx1.19.6 39.108.69.220 登录界面
+work.ylxweb.com
+sfc.ylxweb.com:9092
+cd.ylxweb.cn
+sfc.ylxweb.com:9093
+sfc.ylxweb.com:9094
+sfc.ylxweb.com:9091 #nginx1.9.9<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-8.JPG"><br>发现sfc.ylxweb.com有不同的情况</p>
+<h5 id="360-QUAKE"><a href="#360-QUAKE" class="headerlink" title="360 QUAKE"></a>360 QUAKE</h5><p>同样使用了上文的语法，发现以下可疑站点：</p>
+<pre class="line-numbers language-none"><code class="language-none">test.ylxweb.com:9094
+test.ylxweb.com:9093
+test.ylxweb.com:9092
+test.ylxweb.com:9091 #nginx1.9.9
+wxkfpt.ylxweb.com
+sfc.api.ylxweb.com
+wxkfpt.te.ylxweb.com
+tbs.ylxweb.cn 登录口
+m.ylxweb.cn<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-9.JPG"><br><img src="/images/InformationGather/hw11-10.JPG"><br><img src="/images/InformationGather/hw11-11.JPG"><br>还能看到貌似是使用了阿里云的Tengine和nginx1.9.9，特别是tbs.ylxweb.cn这个站，是一个登录口，跟主站的运营业务相关，有趣的是tbs.ylxweb.cn也开启了9091-9094端口，也是返回的ok</p>
+<h5 id="钟馗之眼"><a href="#钟馗之眼" class="headerlink" title="钟馗之眼"></a>钟馗之眼</h5><p><a target="_blank" rel="noopener" href="https://www.zoomeye.org/">https://www.zoomeye.org/</a><br>居然还活着，好久没用了，但是没搜出来什么，略</p>
+<h5 id="Shodan"><a href="#Shodan" class="headerlink" title="Shodan"></a>Shodan</h5><p><a target="_blank" rel="noopener" href="https://www.shodan.io/">https://www.shodan.io</a><br>这个搜国外的可能会好点，以前常用，也没搜出来什么，略</p>
+<h5 id="censys"><a href="#censys" class="headerlink" title="censys"></a>censys</h5><p><a target="_blank" rel="noopener" href="https://search.censys.io/">https://search.censys.io/</a><br>小众平台，适合海外</p>
+<h4 id="Google-Hacking"><a href="#Google-Hacking" class="headerlink" title="Google Hacking"></a>Google Hacking</h4><p>Google Hacking常用语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">查找后台地址：
+site:域名 inurl:login|admin|manage|member|admin_login|login_admin|system|login|user|main|cms
+
+查找文本内容：
+site:域名 intext:管理|后台|登录|用户名|密码|验证码|系统|账号|admin|login|sys|managetem|password|username
+
+查找可注入点：
+site:域名 inurl:aspx|jsp|php|asp
+
+查找上传漏洞：
+site:域名 inurl:file|load|editor|Files
+
+查找敏感文件
+site:gdupt.edu.cn filetype:doc|pdf|docx|csv|xls|xlsx|xlsb|xlsm|txt|log|xml|dot|map|dotx|rtf|zip|rar|gz|xz|tar
+
+找eweb编辑器：
+site:域名 inurl:ewebeditor|editor|uploadfile|eweb|edit
+
+存在的数据库：
+site:域名 filetype:mdb|asp|#
+
+查看脚本类型：
+site:域名 filetype:asp|aspx|php|jsp
+
+迂回策略入侵：
+site:域名 inurl:cms|data|templates|images|index|<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>查了一下，没有什么成果</p>
+<h4 id="证书反查子域名"><a href="#证书反查子域名" class="headerlink" title="证书反查子域名"></a>证书反查子域名</h4><p>还可以通过这个网站来查看证书注册相关信息，查找子域名和未暴露资产（使用同一证书的即为同一公司或机构）：<br><a target="_blank" rel="noopener" href="https://crt.sh/">https://crt.sh</a><br><img src="/images/InformationGather/hw11-12.JPG"><br><img src="/images/InformationGather/hw11-13.JPG"><br>发现几个新的域名</p>
+<pre class="line-numbers language-none"><code class="language-none">tbsdev.ylxweb.cn
+gitlab.ylxweb.cn
+illkx.ylxweb.cn
+treayoung.ylxweb.cn<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>还可以使用wappalyzer这个插件来检查网站使用的组件信息，同时，我们知道这个公司有微信和小程序服务，我们也可以上去看看有没有暴露的域名：<br><img src="/images/InformationGather/hw11-14.JPG"><br><img src="/images/InformationGather/hw11-15.JPG"><br><img src="/images/InformationGather/hw11-16.JPG"><br>报了一些登录口和敏感url，除此之外没有新发现</p>
+<h2 id="主动信息搜集"><a href="#主动信息搜集" class="headerlink" title="主动信息搜集"></a>主动信息搜集</h2><p>在进行了被动信息搜集之后，就可以根据结果有针对性的进行主动侦察了，需要注意的是，主动侦察的动静一般会比较大，有可能会打草惊蛇，所以一定要谨慎</p>
+<h3 id="子域名挖掘"><a href="#子域名挖掘" class="headerlink" title="子域名挖掘"></a>子域名挖掘</h3><h4 id="Goby"><a href="#Goby" class="headerlink" title="Goby"></a>Goby</h4><p>Goby也是一款不错的工具，集成乐服务探测，端口扫描，子域名挖掘等功能：<br><img src="/images/InformationGather/hw11-17.JPG"><br><img src="/images/InformationGather/hw11-18.JPG"><br>除了有更详细的服务相关信息（如log4j）之外，没有发现新的有价值的信息</p>
+<h4 id="OneForAll"><a href="#OneForAll" class="headerlink" title="OneForAll"></a>OneForAll</h4><p>也是一款集成工具，使用了各种api和爆破等方式来查找子域名，注意运行时请不要使用过高的python版本，会因为库的变更导致错误，在python3.7上测试可以运行<br>使用命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python3 oneforall.py <span class="token parameter variable">--target</span> example.com run<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-19.JPG"><br>没有什么新的发现</p>
+<h4 id="Xary"><a href="#Xary" class="headerlink" title="Xary"></a>Xary</h4><p>由长亭开发的一款扫描器，集成了众多POC和子域名挖掘等功能<br>使用命令：</p>
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">xray_windows_64.exe sd -t example.com --ho htmloutput.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-20.JPG"><br>同样没有什么新发现</p>
+<h4 id="KSubdomain"><a href="#KSubdomain" class="headerlink" title="KSubdomain"></a>KSubdomain</h4><p>无状态子域名爆破工具<br>使用指令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./ksubdomain <span class="token parameter variable">-d</span> example.com <span class="token parameter variable">-full</span> <span class="token parameter variable">-csv</span> <span class="token parameter variable">-o</span> /root/name.csv<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-21.JPG"><br>没有什么发现</p>
+<h4 id="Layer子域名挖掘"><a href="#Layer子域名挖掘" class="headerlink" title="Layer子域名挖掘"></a>Layer子域名挖掘</h4><p>感觉字典挺大的，成也字典败也字典，大字典加上递归扫描，在面对这种只有数个子域名的公司时效率就低了<br><img src="/images/InformationGather/hw11-22.JPG"><br>没有什么新发现</p>
+<h4 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h4><p>aort subfinder dnsenum dnsmap dnsrecon dnswalk fierce<br>一般来说会先运行fierce以确认所有可能的目标已经被识别，然后运行至少两个集成工具（如dnsenum和dnsrecon）以产生最大的数据量并提供一定程度的交叉验证<br>我尝试了一下感觉没有那么好用，可能这一套会比较适用于国外环境</p>
+<h4 id="子域名总结"><a href="#子域名总结" class="headerlink" title="子域名总结"></a>子域名总结</h4><p>总的来说Goby，oneforall和Xray会比较好用，如果这几个都没有发现可疑的目标，那么用其他应该也不会有什么效果<br>根据上面的所有扫描结果（包括被动信息搜集）找到总结了几个高价值，高可疑的资产，以下的一些搜集手段将针对这些资产：</p>
+<pre class="line-numbers language-none"><code class="language-none">120.76.52.201
+tbsdev.ylxweb.cn
+gitlab.ylxweb.cn
+illkx.ylxweb.cn
+treayoung.ylxweb.cn
+test.ylxweb.com
+wxkfpt.ylxweb.com
+sfc.api.ylxweb.com
+wxkfpt.te.ylxweb.com
+tbs.ylxweb.cn
+m.ylxweb.cn
+hdcx.66239779.com
+work.ylxweb.com
+cd.ylxweb.cn
+api.ylxweb.com
+120.24.174.159 
+nb.api.ylxweb.com
+static.ylxweb.com
+121.207.229.250 
+39.108.69.220
+119.23.146.168
+183.47.114.101<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="C段探测"><a href="#C段探测" class="headerlink" title="C段探测"></a>C段探测</h3><p>在收集了一些域名和ip资产后，我们可以根据解析的ip+ip资产的范围去扩大C段的范围<br><img src="/images/InformationGather/hw11-23.JPG"><br>如图我们可以猜测，210.38.250.0&#x2F;24 和 121.10.176.0&#x2F;24 网段中可能有更多未暴露的相关资产，即可将他们列为待扫描的C段</p>
+<h4 id="小米饭web查找器"><a href="#小米饭web查找器" class="headerlink" title="小米饭web查找器"></a>小米饭web查找器</h4><p>使用java8运行更佳<br><a target="_blank" rel="noopener" href="https://github.com/Liqunkit/webfinder-next">https://github.com/Liqunkit/webfinder-next</a><br>好用，但是在扫描大量资产时速度堪忧，不过利大于弊，支持扫描多个C段，线程设置，全端口扫描等<br><img src="/images/InformationGather/hw11-35.JPG"></p>
+<h4 id="Whatweb"><a href="#Whatweb" class="headerlink" title="Whatweb"></a>Whatweb</h4><p>kali自带，跟小米饭差不多，支持多C段，感觉速度会快一点</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 等级分1-4 四种，强度和时间逐渐递增</span>
+whatweb <span class="token parameter variable">-v</span> <span class="token parameter variable">-a</span> 等级 域名<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-36.JPG"><br>感觉除了速度快一点也没比小米饭强多少</p>
+<h4 id="各类测绘引擎"><a href="#各类测绘引擎" class="headerlink" title="各类测绘引擎"></a>各类测绘引擎</h4><p>神中神，跟上文讲到的测绘类似，只是要把域名换成我们要探测的响应的C段即可</p>
+<h4 id="在线网站"><a href="#在线网站" class="headerlink" title="在线网站"></a>在线网站</h4><p>有一些在线网站也提供C段扫描功能：<br><a target="_blank" rel="noopener" href="https://c.webscan.cc/">https://c.webscan.cc/</a><br>这个也比较好用，能扫出来很多甚至连测绘引擎都搞不出来的域名，但是会很容易崩溃，而且速度会比较慢，但也是利大于弊，附上部分扫描结果：<br><img src="/images/InformationGather/hw11-37.JPG"></p>
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>在对域名和ip资产的挖掘完成后，我们可以针对部分可能存在弱点，或者情报较少的资产进行端口扫描来发现更多潜在的可能性</p>
+<h4 id="fscan"><a href="#fscan" class="headerlink" title="fscan"></a>fscan</h4><p>伟大无需多言，自带POC检测，可疑快速扫描大量ip，先将上面要针对的ip保存到文件，然后适用fscan通过文件读取目标扫描</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">fscan <span class="token parameter variable">-hf</span> ip.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-23.JPG"><br>目标好像并没有开放除了80和443之外的端口，我们用nmap在试一下</p>
+<h4 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h4><p>也是一款十分强大的扫描工具，提供了多种扫描方式和极高的自定义程度，还可以通过人工配置来绕过防火墙</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap  <span class="token parameter variable">-vv</span> <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> <span class="token parameter variable">-Pn</span> -p0-65535 <span class="token parameter variable">-iL</span> ip.txt <span class="token parameter variable">-oA</span> ylx.xml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>扫到出来一个mysql，版本还挺低的：<br><img src="/images/InformationGather/hw11-33.JPG"></p>
+<h3 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h3><h4 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h4><p>比较不错，使用命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python dirsearch.py <span class="token parameter variable">-u</span> example.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>扫出来一些可能有操作空间的点：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;static.ylxweb.com&#x2F;README.md
+https:&#x2F;&#x2F;static.ylxweb.com&#x2F;admin.html
+https:&#x2F;&#x2F;work.ylxweb.com&#x2F;svn
+http:&#x2F;&#x2F;hdcx.66239779.com&#x2F;admin_login.html
+http:&#x2F;&#x2F;tbs.ylxweb.cn&#x2F;
+
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;robots.txt
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;web
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;adminweb&#x2F;login
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;admin.html
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;admin2.html
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;admin_login.html
+https:&#x2F;&#x2F;m.ylxweb.cn&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-24.JPG"><br><img src="/images/InformationGather/hw11-25.JPG"><br><img src="/images/InformationGather/hw11-26.JPG"></p>
+<h4 id="Xray"><a href="#Xray" class="headerlink" title="Xray"></a>Xray</h4><p>使用指令：</p>
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">xray_windows_amd64.exe ws --basic-crawler https:&#x2F;&#x2F;example.com --html-output vuln.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>集成了很多常见的poc和目录扫描等功能，一般来说应该挺好用，但是没发现什么新东西</p>
+<h4 id="Dirb"><a href="#Dirb" class="headerlink" title="Dirb"></a>Dirb</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://example.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>可以递归扫描，自定义程度高，这里扫出来一些二层目录，但是实际访问报403：<br><img src="/images/InformationGather/hw11-27.JPG"></p>
+<h4 id="其他工具-1"><a href="#其他工具-1" class="headerlink" title="其他工具"></a>其他工具</h4><p>还尝试了dirmap，gobuster和dirbuster这几款工具，其中dirmap有很高的自定义性，而剩下两个比较依靠字典</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>比较推荐使用dirsearch，xray，dirb和dirmap这几款工具来做目录扫描，需要注意的是，目录扫描后的结果需要自己人工查看去过滤打点</p>
+<h3 id="WAF探测和指纹识别"><a href="#WAF探测和指纹识别" class="headerlink" title="WAF探测和指纹识别"></a>WAF探测和指纹识别</h3><p>根据目录扫描的结果，又筛选了一些可疑的点：</p>
+<pre class="line-numbers language-none"><code class="language-none">登录口：
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;adminweb&#x2F;login
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;admin.html
+http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;admin_login.html
+https:&#x2F;&#x2F;m.ylxweb.cn&#x2F;admin.html
+https:&#x2F;&#x2F;m.ylxweb.cn&#x2F;admin_login.html
+https:&#x2F;&#x2F;m.ylxweb.cn&#x2F;adminweb&#x2F;login
+http:&#x2F;&#x2F;hdcx.66239779.com&#x2F;admin_login.html
+http:&#x2F;&#x2F;tbs.ylxweb.cn&#x2F;
+https:&#x2F;&#x2F;www.ylxweb.com&#x2F;admin_login_wap.html
+https:&#x2F;&#x2F;www.ylxweb.com&#x2F;admin_login.html
+https:&#x2F;&#x2F;www.ylxweb.com&#x2F;admin_login_pc.html
+
+信息泄露：
+https:&#x2F;&#x2F;work.ylxweb.com&#x2F;svn
+https:&#x2F;&#x2F;static.ylxweb.com&#x2F;README.md
+
+其他可疑：
+https:&#x2F;&#x2F;static.ylxweb.com&#x2F;admin.html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="WAF检测"><a href="#WAF检测" class="headerlink" title="WAF检测"></a>WAF检测</h4><p>先使用wafw00f工具识别一下waf：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wafw00f <span class="token parameter variable">-i</span> url.txt <span class="token comment"># 批量扫描文件中的url</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-29.JPG"><br>结果以下站点可能有waf：</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;cd.ylxweb.cn&#x2F;adminweb&#x2F;login
+http:&#x2F;&#x2F;tbs.ylxweb.cn&#x2F; <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a>指纹识别</h4><p>指纹识别可以帮助我们更好地了解目标运行的服务</p>
+<h5 id="Wappalyzer"><a href="#Wappalyzer" class="headerlink" title="Wappalyzer"></a>Wappalyzer</h5><p>逐个访问目标站点，可以看到返回了一些服务的信息：<br><img src="/images/InformationGather/hw11-30.JPG"></p>
+<h5 id="EHole"><a href="#EHole" class="headerlink" title="EHole"></a>EHole</h5><p><a target="_blank" rel="noopener" href="https://github.com/EdgeSecurityTeam/EHole">https://github.com/EdgeSecurityTeam/EHole</a><br>可以本地还可以fofa</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Ehole finger <span class="token parameter variable">-l</span> <span class="token punctuation">..</span><span class="token punctuation">\</span>wafurl.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-31.JPG"><br>还不错，如果上fofa估计会更好</p>
+<h5 id="Glass"><a href="#Glass" class="headerlink" title="Glass"></a>Glass</h5><p><a target="_blank" rel="noopener" href="https://github.com/s7ckTeam/Glass">https://github.com/s7ckTeam/Glass</a><br>针对资产列表的快速指纹识别工具</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python Glass.py <span class="token parameter variable">-w</span> wafurl.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="/images/InformationGather/hw11-32.JPG"><br>还可以</p>
+<h5 id="长亭Xapp"><a href="#长亭Xapp" class="headerlink" title="长亭Xapp"></a>长亭Xapp</h5><p>github地址：<br><a target="_blank" rel="noopener" href="https://github.com/chaitin/xray/releases?q=xapp">https://github.com/chaitin/xray/releases?q=xapp</a><br>指纹库：<br><a target="_blank" rel="noopener" href="https://github.com/chaitin/xray-plugins">https://github.com/chaitin/xray-plugins</a><br>下载后运行一次，会在<code>C:\Users\username\.xray\xapp</code>生成一些文件，此时我们需要进入这个目录添加配置文件：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">xapp</span><span class="token punctuation">:</span> <span class="token important">&amp;xapp</span>
+  <span class="token key atrule">concurrent</span><span class="token punctuation">:</span> <span class="token number">100</span>
+  <span class="token key atrule">workflow</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> scan
+      <span class="token key atrule">base</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> util<span class="token punctuation">-</span>target<span class="token punctuation">-</span>split
+        <span class="token punctuation">-</span> util<span class="token punctuation">-</span>get<span class="token punctuation">-</span>env
+        <span class="token punctuation">-</span> detect<span class="token punctuation">-</span>url
+        <span class="token punctuation">-</span> detect<span class="token punctuation">-</span>website
+        <span class="token punctuation">-</span> list<span class="token punctuation">-</span>enable
+        <span class="token punctuation">-</span> fingerprint
+        <span class="token punctuation">-</span> util<span class="token punctuation">-</span>reminder
+      <span class="token key atrule">output</span><span class="token punctuation">:</span> <span class="token punctuation">[</span> <span class="token string">"event.website"</span> <span class="token punctuation">]</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> output
+      <span class="token key atrule">base</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> util<span class="token punctuation">-</span>result<span class="token punctuation">-</span>printer
+      <span class="token key atrule">input</span><span class="token punctuation">:</span> <span class="token punctuation">[</span> <span class="token string">"event.website"</span> <span class="token punctuation">]</span>
+
+<span class="token key atrule">strategies</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">&lt;&lt;</span><span class="token punctuation">:</span> <span class="token important">*xapp</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> l1
+    <span class="token key atrule">description</span><span class="token punctuation">:</span> 我的自定义命令
+    <span class="token key atrule">path</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> g<span class="token punctuation">:</span>C<span class="token punctuation">:</span>\Users\username\.xray\xapp\plugins<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后将指纹库<code>finger/ehole</code>下的所有yml文件直接复制到<code>xapp/plugins</code>插件目录下，然后运行：</p>
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">xapp -t https:&#x2F;&#x2F;example.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>即可自动使用加载的所有指纹，并且这个工具已经集成了EHole，长亭出品还是很不错的<br>附图：<br><img src="/images/InformationGather/hw11-38.JPG"></p>
+<h5 id="Finger"><a href="#Finger" class="headerlink" title="Finger"></a>Finger</h5><p>文章就说的很厉害，但实际用起来感觉也就那样，可能是我不会用吧<br>下载安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/EASY233/Finger.git
+pip3 <span class="token function">install</span> <span class="token parameter variable">-r</span> requirements.txt
+python3 Finger.py <span class="token parameter variable">-h</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>附图：<br><img src="/images/InformationGather/hw11-39.JPG"></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>大致的整个信息搜集流程就是这样，通过这个流程，我们成功的从只有一个公司名称到找到登陆点还有可疑站点，接下来就到了漏扫等更加有趣的部分了</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2024/09/05/OSCPBTRsys/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2024/05/23/awdfix/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2024-07-13 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/速查/">速查<span>4</span></a></li> <li><a href="/categories/渗透测试/">渗透测试<span>4</span></a></li> <li><a href="/categories/SRC挖掘/">SRC挖掘<span>2</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">22</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">3</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/Web/">Web<span>10</span></a></li> <li><a href="/tags/速查/">速查<span>3</span></a></li> <li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>

