@@ -156,7 +156,7 @@ https://www.gitkraken.com/download<span aria-hidden="true" class="line-numbers-r
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 官方wp ffuf</span>
 ffuf <span class="token parameter variable">-u</span> http://siteisup.htb <span class="token parameter variable">-H</span> <span class="token string">"Host: FUZZ.siteisup.htb"</span> <span class="token parameter variable">-w</span> 
 /root/allinsub.txt
-<span class="token comment"># 先不加任何限制条件地扫描，发现错误的子域名数据包的大小均为1131，随机过滤这个大小在次扫描</span>
+<span class="token comment"># 先不加任何限制条件地扫描，发现错误的子域名数据包的大小均为1131，过滤这个大小再次扫描</span>
 ffuf <span class="token parameter variable">-u</span> http://siteisup.htb <span class="token parameter variable">-H</span> <span class="token string">"Host: FUZZ.siteisup.htb"</span> <span class="token parameter variable">-w</span> 
 /root/allinsub.txt <span class="token parameter variable">-fs</span> <span class="token number">1131</span>
 
