@@ -154,6 +154,7 @@ sshpass <span class="token parameter variable">-p</span> sshpassword sshuttle <s
 <span class="token comment"># 在0.0.0.0:1080上开启</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>这个方法的优点在于，可以开启一个socks5代理，使得连接这个代理的流量都被转发（浏览器代理插件也可以用），当然，这个方法也会有空闲时断开的问题，也可以写个类似的脚本</p>
 <h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><p>1.在做好上面的准备之后我们就可以愉快的使用这个方案来打靶了，但是要注意的是当我们需要修改host来解析的时候，务必在vps和本地的hosts里都配置解析，否则解析会出问题，之前就是因为这个问题卡了很久<br>2.像nmap扫描，反弹shell，目录扫描等不需要图形化的操作要在vps上进行（使用vps扫描，shell弹到vps上），而浏览器访问，抓包等可以在本地机器进行</p>
+<p>2025&#x2F;3&#x2F;28 更新：<br>这个方法已经被禁用 建议使用前置代理方法</p>
 
 	  <div class="article-footer-copyright">
 
