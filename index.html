@@ -230,6 +230,35 @@ gobuster vhost <span class="token parameter variable">-w</span> /root/allinsub.t
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2025/01/16/OSCPsau/" >OSCP-Sau</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-01-16  </div>
+		</div>
+	</div>
+	
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="Sau"><a href="#Sau" class="headerlink" title="Sau"></a>Sau</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">10.10</span>.11.224<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>发现目标开放了80，22，55555，8338，并且80和8338端口处于过滤状态，猜测他开在127.0.0.1上导致不能直接访问<br>直接访问55555，发现是一个requests baskets的网页组件，测试没有结果，查看其github的issue页面发现之前提过ssrf漏洞的issue：<br><img src="/images/OSCPsau/1.JPG"><br>并且附上了poc地址，尝试利用POC，成功用ssrf漏洞访问到靶机本地的80和8338端口，又是一个新的组件，searchsploit发现有POC，打POC getshell，随后拿一个ttyshell<br>使用sudo  -l 检查sudo配置：<br><img src="/images/OSCPsau/2.JPG"><br>发现可以以root权限运行systemctl，猜测提权漏洞可能与systemctl有关，遂查询版本，在searchsploit中找到相关漏洞：<br><img src="/images/OSCPsau/3.JPG"><br>（systemctl —&gt; systemd）<br>中文解释：<br>漏洞描述<br>Systemd 是一个Linux系统的初始化系统和服务管理器。<br>该项目受影响版本存在权限管理不当漏洞，当Linux中的LESSSECURE未设置为1且sudoers文件对于执行”systemctl status”等命令没有限制时，攻击者则可将终端窗口调小随后执行sudo systemctl ，迫使系统以默认的root权限自动调用”less”命令输出结果，进而实现权限提升<br>解决建议<br>“将组件 Systemd 升级至 247 及以上版本” </p>
+<p>根据漏洞提权即可，经典user.txt和&#x2F;root目录找flag</p>
+
+	
+	</div>
+  <a type="button" href="/2025/01/16/OSCPsau/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2025/01/15/OSCP-Busqueda/" >OSCP-Busqueda</a>
 		</h3>
 		</div>
@@ -475,42 +504,6 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2024/12/31/OSCP-prime1/" >OSCP-Easy-prime_1</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2024-12-31  </div>
-		</div>
-	</div>
-	
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="prime-1"><a href="#prime-1" class="headerlink" title="prime-1"></a>prime-1</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Eazy"><a href="#难度：Eazy" class="headerlink" title="难度：Eazy"></a>难度：Eazy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1
-
-<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>发现目标<code>192.168.36.136</code>开启了<code>80,22</code>端口，对应web，ssh服务<br>访问80端口，发现有网页，尝试爆破目录：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/  <span class="token comment"># 默认部分递归扫描</span>
-dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <span class="token comment"># 不递归扫描</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>发现wordpress，dev等路径，访问&#x2F;dev路径提示要更加仔细的挖掘，且下一个敏感文件的文件名为location.txt，尝试指定后缀文件爆破（dirb默认指定爆破的很有限）</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/ <span class="token parameter variable">-X</span> .php,.txt
-<span class="token comment"># 指定用php和txt后缀字典爆破</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>爆破出来secret.txt文件，访问提示使用wfuzz对之前爆出来的php文件进行参数爆破：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wfuzz <span class="token parameter variable">-c</span> <span class="token parameter variable">-w</span> /usr/share/wfuzz/wordlist/general/common.txt <span class="token parameter variable">--hc</span> <span class="token number">404</span> http://192.168.36.136/index.php?FUZZ<span class="token operator">=</span>something<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-	
-	</div>
-  <a type="button" href="/2024/12/31/OSCP-prime1/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -556,7 +549,7 @@ dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <s
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -566,45 +559,45 @@ dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <s
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
-		
-			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
-		
-			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>4</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
-		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
-		
-			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
-		
-			<li><a href="/tags/HackTheBox/">HackTheBox<span>2</span></a></li>
-		
-			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
-		
-			<li><a href="/tags/靶场练习/">靶场练习<span>10</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
-			<li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
-		
-			<li><a href="/tags/博客/">博客<span>1</span></a></li>
-		
-			<li><a href="/tags/OSCP/">OSCP<span>10</span></a></li>
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
 		
 			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
 		
+			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
+		
+			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
+		
+			<li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
+		
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
 			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
 		
+			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
+		
+			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
 			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
+		
+			<li><a href="/tags/靶场练习/">靶场练习<span>11</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
+		
+			<li><a href="/tags/速查/">速查<span>4</span></a></li>
+		
+			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>24</span></a></li>
@@ -628,15 +621,15 @@ dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <s
       </li>
     
       <li>
+        <a href="/2025/01/16/OSCPsau/" ><i class="fa fa-file-o"></i>OSCP-Sau</a>
+      </li>
+    
+      <li>
         <a href="/2025/01/15/OSCP-Busqueda/" ><i class="fa fa-file-o"></i>OSCP-Busqueda</a>
       </li>
     
       <li>
         <a href="/2025/01/15/OSCPVPN/" ><i class="fa fa-file-o"></i>OSCP-VPS加速靶场OpenVPN</a>
-      </li>
-    
-      <li>
-        <a href="/2025/01/15/buuctfpwn2/" ><i class="fa fa-file-o"></i>PWN-ret2text-3</a>
       </li>
     
   </ul>

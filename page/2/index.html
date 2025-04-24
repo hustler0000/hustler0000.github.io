@@ -134,6 +134,42 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2024/12/31/OSCP-prime1/" >OSCP-Easy-prime_1</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2024-12-31  </div>
+		</div>
+	</div>
+	
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="prime-1"><a href="#prime-1" class="headerlink" title="prime-1"></a>prime-1</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Eazy"><a href="#难度：Eazy" class="headerlink" title="难度：Eazy"></a>难度：Eazy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1
+
+<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>发现目标<code>192.168.36.136</code>开启了<code>80,22</code>端口，对应web，ssh服务<br>访问80端口，发现有网页，尝试爆破目录：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/  <span class="token comment"># 默认部分递归扫描</span>
+dirb http://192.168.36.136/ <span class="token parameter variable">-r</span>  <span class="token comment"># 不递归扫描</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>发现wordpress，dev等路径，访问&#x2F;dev路径提示要更加仔细的挖掘，且下一个敏感文件的文件名为location.txt，尝试指定后缀文件爆破（dirb默认指定爆破的很有限）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirb http://192.168.36.136/ <span class="token parameter variable">-X</span> .php,.txt
+<span class="token comment"># 指定用php和txt后缀字典爆破</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>爆破出来secret.txt文件，访问提示使用wfuzz对之前爆出来的php文件进行参数爆破：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">wfuzz <span class="token parameter variable">-c</span> <span class="token parameter variable">-w</span> /usr/share/wfuzz/wordlist/general/common.txt <span class="token parameter variable">--hc</span> <span class="token number">404</span> http://192.168.36.136/index.php?FUZZ<span class="token operator">=</span>something<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+	
+	</div>
+  <a type="button" href="/2024/12/31/OSCP-prime1/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2024/12/20/ctfshowpwn02/" >PWN-ret2text-1</a>
 		</h3>
 		</div>
@@ -479,36 +515,6 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2024/02/04/wxbot/" >Linux服务器微信机器人</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2024-02-04  </div>
-		</div>
-	</div>
-	
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p>xiaozhao为本项目的测试工作给予了很大帮助，感谢<br>这里是他的博客地址：<a target="_blank" rel="noopener" href="https://aaaaaaamua.github.io/">https://aaaaaaamua.github.io</a></p>
-<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为实验室群需要统计最后发言时间，于是写了一个微信机器人，代码和注意事项已经存放在github上，这里仅作个人记录,并备份主程序和部分程序代码<br>项目地址：<a target="_blank" rel="noopener" href="https://github.com/hustler0000/ALinuxSimpleWxbot/">https://github.com/hustler0000/ALinuxSimpleWxbot/</a></p>
-<h1 id="帮助-功能文档"><a href="#帮助-功能文档" class="headerlink" title="帮助&#x2F;功能文档"></a>帮助&#x2F;功能文档</h1><p>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令，机器人每天会在群内推送新闻消息，每个小时都会自动微信发送存活信息到我微信</p>
-<h2 id="改昵称必看（重要）"><a href="#改昵称必看（重要）" class="headerlink" title="改昵称必看（重要）"></a>改昵称必看（重要）</h2><p>roomname 群昵称 新老群成员可以使用这个修改在数据库里的群昵称，方便机器人称呼和统计最后发言时间，此功能只有在自己修改了群昵称后需要操作一次<br>username 群昵称 此指令可以修改在数据库里的微信昵称，如果机器人没有提示请不要操作<br>以上两条指令，如无必要请不要操作，并且不要同时修改群昵称和微信昵称，不然机器人可能会坏掉</p>
-<h2 id="常规指令"><a href="#常规指令" class="headerlink" title="常规指令"></a>常规指令</h2><p>help 显示本帮助文档<br>last 显示本人最后发言时间<br>search 某人 输出某人的最后发言时间<br>all 输出一个文件，里面是所有人的最后发言时间<br>check 检查机器人存活状态<br>feedback 反馈内容 发送反馈</p>
-	
-	</div>
-  <a type="button" href="/2024/02/04/wxbot/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
 			<a href="/2024/02/04/winwxbot/" >Windows服务器微信机器人</a>
 		</h3>
 		</div>
@@ -539,11 +545,11 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2024/01/24/hexoblog/" >从零开始的hexo博客搭建</a>
+			<a href="/2024/02/04/wxbot/" >Linux服务器微信机器人</a>
 		</h3>
 		</div>
 	<div class="col-md-4">
-		<div class="date">post @ 2024-01-24  </div>
+		<div class="date">post @ 2024-02-04  </div>
 		</div>
 	</div>
 	
@@ -552,24 +558,14 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
   <div class="row">
 	
 	
-		<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为想总结一下博客的搭建过程，但是忘记都改了什么地方，所以干脆直接重新搭建一次好了</p>
-<h1 id="基本安装"><a href="#基本安装" class="headerlink" title="基本安装"></a>基本安装</h1><p>首先我们要在设备上安装nodejs，我这里使用的是termux环境，其他linux环境和windows环境应该大同小异，执行以下命令以安装基础包：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pkg <span class="token function">install</span> nodejs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>然后安装hexo，这里是hexo官方的安装方法</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli <span class="token parameter variable">-g</span>
-hexo init blog <span class="token comment">#blog只是一个名字，可以改成自己想要的</span>
-<span class="token builtin class-name">cd</span> blog
-<span class="token function">npm</span> <span class="token function">install</span>
-hexo server <span class="token comment">#启动hexo博客</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="主题安装"><a href="#主题安装" class="headerlink" title="主题安装"></a>主题安装</h1><p>这里安装了freemind-bithack这个主题，后面我们会改动这个主题，使其更加实用<br>安装命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> blog/theme <span class="token comment">#进入博客的theme目录</span>
-<span class="token function">git</span> clone https://github.com/Ares-X/hexo-theme-freemind.bithack
-<span class="token function">mv</span> hexo-theme-freemind.bithack freemind.bithack <span class="token comment">#将名字改为freemind.bithack</span>
-<span class="token function">npm</span> <span class="token function">install</span> hexo-tag-bootstrap <span class="token parameter variable">--save</span>
-<span class="token function">npm</span> <span class="token function">install</span> hexo-generator-search <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+		<h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p>xiaozhao为本项目的测试工作给予了很大帮助，感谢<br>这里是他的博客地址：<a target="_blank" rel="noopener" href="https://aaaaaaamua.github.io/">https://aaaaaaamua.github.io</a></p>
+<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为实验室群需要统计最后发言时间，于是写了一个微信机器人，代码和注意事项已经存放在github上，这里仅作个人记录,并备份主程序和部分程序代码<br>项目地址：<a target="_blank" rel="noopener" href="https://github.com/hustler0000/ALinuxSimpleWxbot/">https://github.com/hustler0000/ALinuxSimpleWxbot/</a></p>
+<h1 id="帮助-功能文档"><a href="#帮助-功能文档" class="headerlink" title="帮助&#x2F;功能文档"></a>帮助&#x2F;功能文档</h1><p>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令，机器人每天会在群内推送新闻消息，每个小时都会自动微信发送存活信息到我微信</p>
+<h2 id="改昵称必看（重要）"><a href="#改昵称必看（重要）" class="headerlink" title="改昵称必看（重要）"></a>改昵称必看（重要）</h2><p>roomname 群昵称 新老群成员可以使用这个修改在数据库里的群昵称，方便机器人称呼和统计最后发言时间，此功能只有在自己修改了群昵称后需要操作一次<br>username 群昵称 此指令可以修改在数据库里的微信昵称，如果机器人没有提示请不要操作<br>以上两条指令，如无必要请不要操作，并且不要同时修改群昵称和微信昵称，不然机器人可能会坏掉</p>
+<h2 id="常规指令"><a href="#常规指令" class="headerlink" title="常规指令"></a>常规指令</h2><p>help 显示本帮助文档<br>last 显示本人最后发言时间<br>search 某人 输出某人的最后发言时间<br>all 输出一个文件，里面是所有人的最后发言时间<br>check 检查机器人存活状态<br>feedback 反馈内容 发送反馈</p>
 	
 	</div>
-  <a type="button" href="/2024/01/24/hexoblog/#more" class="btn btn-default more">Read More</a>
+  <a type="button" href="/2024/02/04/wxbot/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -618,7 +614,7 @@ hexo server <span class="token comment">#启动hexo博客</span><span aria-hidde
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -628,45 +624,45 @@ hexo server <span class="token comment">#启动hexo博客</span><span aria-hidde
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
 		
-			<li><a href="/tags/HackTheBox/">HackTheBox<span>2</span></a></li>
+			<li><a href="/tags/靶场练习/">靶场练习<span>11</span></a></li>
 		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+			<li><a href="/tags/OSCP/">OSCP<span>11</span></a></li>
 		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
+			<li><a href="/tags/HackTheBox/">HackTheBox<span>3</span></a></li>
 		
 			<li><a href="/tags/速查/">速查<span>4</span></a></li>
 		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
 			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
 		
-			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
 		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
 		
-			<li><a href="/tags/PWN/">PWN<span>7</span></a></li>
+			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
 		
 			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
 		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
-			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
-		
-			<li><a href="/tags/OSCP/">OSCP<span>10</span></a></li>
-		
-			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
 		
 			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
 		
-			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
+			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>7</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
+		
+			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
+		
+			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>24</span></a></li>
@@ -690,15 +686,15 @@ hexo server <span class="token comment">#启动hexo博客</span><span aria-hidde
       </li>
     
       <li>
+        <a href="/2025/01/16/OSCPsau/" ><i class="fa fa-file-o"></i>OSCP-Sau</a>
+      </li>
+    
+      <li>
         <a href="/2025/01/15/OSCP-Busqueda/" ><i class="fa fa-file-o"></i>OSCP-Busqueda</a>
       </li>
     
       <li>
         <a href="/2025/01/15/OSCPVPN/" ><i class="fa fa-file-o"></i>OSCP-VPS加速靶场OpenVPN</a>
-      </li>
-    
-      <li>
-        <a href="/2025/01/15/buuctfpwn2/" ><i class="fa fa-file-o"></i>PWN-ret2text-3</a>
       </li>
     
   </ul>

