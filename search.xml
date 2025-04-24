@@ -4,6 +4,41 @@
   
     
     <entry>
+      <title>OSCP-Sau</title>
+      <link href="/2025/04/24/OSCPsau/"/>
+      <url>/2025/04/24/OSCPsau/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Sau"><a href="#Sau" class="headerlink" title="Sau"></a>Sau</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">10.10</span>.11.224<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>发现目标开放了80，22，55555，8338，并且80和8338端口处于过滤状态，猜测他开在127.0.0.1上导致不能直接访问<br>直接访问55555，发现是一个requests baskets的网页组件，测试没有结果，查看其github的issue页面发现之前提过ssrf漏洞的issue：<br><img src="/images/OSCPsau/1.JPG"><br>并且附上了poc地址，尝试利用POC，成功用ssrf漏洞访问到靶机本地的80和8338端口，又是一个新的组件，searchsploit发现有POC，打POC getshell，随后拿一个ttyshell<br>使用sudo  -l 检查sudo配置：<br><img src="/images/OSCPsau/2.JPG"><br>发现可以以root权限运行systemctl，猜测提权漏洞可能与systemctl有关，遂查询版本，在searchsploit中找到相关漏洞：<br><img src="/images/OSCPsau/3.JPG"><br>（systemctl —&gt; systemd）<br>中文解释：<br>漏洞描述<br>Systemd 是一个Linux系统的初始化系统和服务管理器。<br>该项目受影响版本存在权限管理不当漏洞，当Linux中的LESSSECURE未设置为1且sudoers文件对于执行”systemctl status”等命令没有限制时，攻击者则可将终端窗口调小随后执行sudo systemctl ，迫使系统以默认的root权限自动调用”less”命令输出结果，进而实现权限提升<br>解决建议<br>“将组件 Systemd 升级至 247 及以上版本” </p><p>根据漏洞提权即可，经典user.txt和&#x2F;root目录找flag</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 靶场练习 </category>
+          
+          <category> OSCP </category>
+          
+          <category> HackTheBox </category>
+          
+          <category> Easy </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> OSCP </tag>
+            
+            <tag> 靶场练习 </tag>
+            
+            <tag> HackTheBox </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>浅谈应急响应</title>
       <link href="/2025/01/26/Incident_Respond/"/>
       <url>/2025/01/26/Incident_Respond/</url>
@@ -49,41 +84,6 @@
           <category> HackTheBox </category>
           
           <category> Medium </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> OSCP </tag>
-            
-            <tag> 靶场练习 </tag>
-            
-            <tag> HackTheBox </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>OSCP-Sau</title>
-      <link href="/2025/01/16/OSCPsau/"/>
-      <url>/2025/01/16/OSCPsau/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Sau"><a href="#Sau" class="headerlink" title="Sau"></a>Sau</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Easy"><a href="#难度：Easy" class="headerlink" title="难度：Easy"></a>难度：Easy</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">10.10</span>.11.224<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p>发现目标开放了80，22，55555，8338，并且80和8338端口处于过滤状态，猜测他开在127.0.0.1上导致不能直接访问<br>直接访问55555，发现是一个requests baskets的网页组件，测试没有结果，查看其github的issue页面发现之前提过ssrf漏洞的issue：<br><img src="/images/OSCPsau/1.JPG"><br>并且附上了poc地址，尝试利用POC，成功用ssrf漏洞访问到靶机本地的80和8338端口，又是一个新的组件，searchsploit发现有POC，打POC getshell，随后拿一个ttyshell<br>使用sudo  -l 检查sudo配置：<br><img src="/images/OSCPsau/2.JPG"><br>发现可以以root权限运行systemctl，猜测提权漏洞可能与systemctl有关，遂查询版本，在searchsploit中找到相关漏洞：<br><img src="/images/OSCPsau/3.JPG"><br>（systemctl —&gt; systemd）<br>中文解释：<br>漏洞描述<br>Systemd 是一个Linux系统的初始化系统和服务管理器。<br>该项目受影响版本存在权限管理不当漏洞，当Linux中的LESSSECURE未设置为1且sudoers文件对于执行”systemctl status”等命令没有限制时，攻击者则可将终端窗口调小随后执行sudo systemctl ，迫使系统以默认的root权限自动调用”less”命令输出结果，进而实现权限提升<br>解决建议<br>“将组件 Systemd 升级至 247 及以上版本” </p><p>根据漏洞提权即可，经典user.txt和&#x2F;root目录找flag</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 靶场练习 </category>
-          
-          <category> OSCP </category>
-          
-          <category> HackTheBox </category>
-          
-          <category> Easy </category>
           
       </categories>
       
