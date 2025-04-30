@@ -134,6 +134,40 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2025/01/02/OSCP-symfonos3/" >OSCP-Intermediate-symfonos_3</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-01-02  </div>
+		</div>
+	</div>
+	
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="symfonos-3"><a href="#symfonos-3" class="headerlink" title="symfonos-3"></a>symfonos-3</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Intermediate"><a href="#难度：Intermediate" class="headerlink" title="难度：Intermediate"></a>难度：Intermediate</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.1
+
+<span class="token comment"># 对除了192.168.36.1之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>发现目标<code>192.168.36.137</code>开启了<code>80,22,21</code>端口，对应web，ssh，ftp服务<br>尝试阵队ftp服务的攻击没有效果，尝试网页目录爆破，发现<code>/cgi-bin``````/gate``````index.html</code>等目录，递归扫描发现<code>/gate/</code>目录后貌似没有东西，尝试爆破<code>/cgi-bin</code>（403目录爆破：遇到403可以尝试在后面爆破，可能可以拼出200的目录），使用dirbuster（只有dirbuster才跑的出来，字典太大，需要多线程），直接在终端输入<code>dirbuster</code>打开，并如下图配置：<br><img src="/images/OSCPsymfonos3/1.JPG"><br>反选Recursive取消递归，爆破出<code>/cgi-bin/underworld</code>目录，在<code>/cgi-bin-underworld/</code>后拼接任何路径均返回服务器执行<code>uptime</code>的结果<br><img src="/images/OSCPsymfonos3/2.JPG"><br>命令执行+cgi-bin，有经验的师傅可能已经可以才出来是旧版本bash导致的shellshock了<br>Shellshock漏洞，又称bashdoor，bash4.3版本之前都存在这个漏洞，漏洞编号为CVE-2014-6271，各大安全平台均有详细分析说明<br>具体漏洞说明请看：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43864567/article/details/115723566">https://blog.csdn.net/weixin_43864567/article/details/115723566</a></p>
+<hr>
+<p>这里仅作简要说明：<br>Bash解释器在解释环境变量时，不仅仅是简单地替换变量的值，它还会对变量的内容进行解释，包括其中可能存在的特殊字符和命令。这就是为什么插入恶意函数之后，这些函数能够被执行的原因。</p>
+<p>在Shellshock漏洞中，攻击者可以通过在环境变量中插入恶意代码，例如函数定义，然后触发Bash解释器执行这些代码。这是因为Bash解释器在解释环境变量时，并不仅仅是将变量的值替换为文本，而是会尝试解释其中的特殊字符和命令。</p>
+<p>如果在环境变量中插入了以下内容：</p>
+<p>env FUNC&#x3D;’() { echo “66666!”; }; echo “shellshock” ‘</p>
+	
+	</div>
+  <a type="button" href="/2025/01/02/OSCP-symfonos3/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2024/12/31/OSCP-prime1/" >OSCP-Easy-prime_1</a>
 		</h3>
 		</div>
@@ -539,36 +573,6 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2024/02/04/wxbot/" >Linux服务器微信机器人</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2024-02-04  </div>
-		</div>
-	</div>
-	
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p>xiaozhao为本项目的测试工作给予了很大帮助，感谢<br>这里是他的博客地址：<a target="_blank" rel="noopener" href="https://aaaaaaamua.github.io/">https://aaaaaaamua.github.io</a></p>
-<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>因为实验室群需要统计最后发言时间，于是写了一个微信机器人，代码和注意事项已经存放在github上，这里仅作个人记录,并备份主程序和部分程序代码<br>项目地址：<a target="_blank" rel="noopener" href="https://github.com/hustler0000/ALinuxSimpleWxbot/">https://github.com/hustler0000/ALinuxSimpleWxbot/</a></p>
-<h1 id="帮助-功能文档"><a href="#帮助-功能文档" class="headerlink" title="帮助&#x2F;功能文档"></a>帮助&#x2F;功能文档</h1><p>机器人会默默记下群成员的最后发言时间，@机器人发消息可以触发指令，机器人每天会在群内推送新闻消息，每个小时都会自动微信发送存活信息到我微信</p>
-<h2 id="改昵称必看（重要）"><a href="#改昵称必看（重要）" class="headerlink" title="改昵称必看（重要）"></a>改昵称必看（重要）</h2><p>roomname 群昵称 新老群成员可以使用这个修改在数据库里的群昵称，方便机器人称呼和统计最后发言时间，此功能只有在自己修改了群昵称后需要操作一次<br>username 群昵称 此指令可以修改在数据库里的微信昵称，如果机器人没有提示请不要操作<br>以上两条指令，如无必要请不要操作，并且不要同时修改群昵称和微信昵称，不然机器人可能会坏掉</p>
-<h2 id="常规指令"><a href="#常规指令" class="headerlink" title="常规指令"></a>常规指令</h2><p>help 显示本帮助文档<br>last 显示本人最后发言时间<br>search 某人 输出某人的最后发言时间<br>all 输出一个文件，里面是所有人的最后发言时间<br>check 检查机器人存活状态<br>feedback 反馈内容 发送反馈</p>
-	
-	</div>
-  <a type="button" href="/2024/02/04/wxbot/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -614,7 +618,7 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">11</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -624,45 +628,45 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/其他/">其他<span>1</span></a></li>
-		
-			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
-		
-			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
 			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
-		
-			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
-		
-			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
-		
-			<li><a href="/tags/HackTheBox/">HackTheBox<span>3</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>4</span></a></li>
 		
 			<li><a href="/tags/博客/">博客<span>1</span></a></li>
 		
-			<li><a href="/tags/靶场练习/">靶场练习<span>11</span></a></li>
-		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
 			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
 		
-			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/OSCP/">OSCP<span>12</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
 		
 			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
 		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
+		
+			<li><a href="/tags/靶场练习/">靶场练习<span>12</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
+		
+			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
 			<li><a href="/tags/PWN/">PWN<span>7</span></a></li>
+		
+			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>24</span></a></li>
@@ -678,7 +682,11 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
   <ul class="entry list-unstyled">
     
       <li>
-        <a href="/2025/04/24/OSCPsau/" ><i class="fa fa-file-o"></i>OSCP-Sau</a>
+        <a href="/2025/04/28/OSCP-HELP/" ><i class="fa fa-file-o"></i>OSCP-Help</a>
+      </li>
+    
+      <li>
+        <a href="/2025/04/24/OSCP-sau/" ><i class="fa fa-file-o"></i>OSCP-Sau</a>
       </li>
     
       <li>
@@ -691,10 +699,6 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
     
       <li>
         <a href="/2025/01/15/OSCP-Busqueda/" ><i class="fa fa-file-o"></i>OSCP-Busqueda</a>
-      </li>
-    
-      <li>
-        <a href="/2025/01/15/OSCPVPN/" ><i class="fa fa-file-o"></i>OSCP-VPS加速靶场OpenVPN</a>
       </li>
     
   </ul>

