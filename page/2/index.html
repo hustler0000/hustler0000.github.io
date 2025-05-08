@@ -134,6 +134,39 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2025/01/12/OSCP-symfonos5/" >OSCP-Intermediate-symfonos_5</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2025-01-12  </div>
+		</div>
+	</div>
+	
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<h1 id="symfonos-5"><a href="#symfonos-5" class="headerlink" title="symfonos-5"></a>symfonos-5</h1><h2 id="来源：Vulnhub"><a href="#来源：Vulnhub" class="headerlink" title="来源：Vulnhub"></a>来源：Vulnhub</h2><h3 id="难度：Intermediate"><a href="#难度：Intermediate" class="headerlink" title="难度：Intermediate"></a>难度：Intermediate</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-O</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-Pn</span> <span class="token parameter variable">-sV</span> <span class="token parameter variable">-sS</span> -p- <span class="token number">192.168</span>.36.0/24 <span class="token parameter variable">-vv</span> <span class="token parameter variable">-exclude</span> <span class="token number">192.168</span>.36.132
+<span class="token comment"># 对除了192.168.36.132之外的目标进行全端口SYN半开扫描，探测系统和服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>发现目标<code>192.168.36.137</code>开启了<code>80,22,389,636</code>端口，对应web，ssh，ldap，ldap_ssl服务<br>使用dirb扫描发现登录口，结合ldap服务，猜测是ldap注入漏洞，此处简要做一下漏洞介绍：</p>
+<hr>
+<p>ldap服务是轻量级目录访问协议，用于在目录的资源中搜索和查询，类似理解为数据库。既然需要查询，就有它自己的查询语句，就像关系型数据库有sql语句来查询，此时就想到了sql注入，对于登录框，也许也存在类似于sql注入的漏洞。于是特意查了一下是否存在ldap的注入，也确实存在这样的注入漏洞。</p>
+<p>此处断开，简（我）单（也）介（只）绍（会）一（这）下（些）ldap注入漏洞，内容不一定正确，都是我自己的理解：</p>
+<p>既然类似于sql注入，学会sql注入，就要先了解sql语句。学习ldap注入漏洞，就要学会其基本语法。</p>
+<p>先介绍基本语法：</p>
+	
+	</div>
+  <a type="button" href="/2025/01/12/OSCP-symfonos5/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2025/01/11/OSCP-symfonos4/" >OSCP-Intermediate-symfonos_4</a>
 		</h3>
 		</div>
@@ -494,36 +527,6 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
-			<a href="/2024/07/13/infogather/" >信息搜集指南</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2024-07-13  </div>
-		</div>
-	</div>
-	
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p>信息搜集大致可分为两部分，被动信息搜集和主动信息搜集，主要需要搜集目标的组织架构，资产信息和人员信息等，一次好的信息搜集是渗透测试成功的必备基础</p>
-<h2 id="被动信息搜集"><a href="#被动信息搜集" class="headerlink" title="被动信息搜集"></a>被动信息搜集</h2><p>被动信息搜集又称开源情报，是指能在网上使用各种开放的被动的方法来进行的信息搜集，比如whois查询，dns解析查询，子域名证书查询，icp备案查询等等，这类搜集往往是正常的交互，目标几乎不会有感知</p>
-<h3 id="组织架构信息"><a href="#组织架构信息" class="headerlink" title="组织架构信息"></a>组织架构信息</h3><p>我们可以使用小蓝本，天眼查，企查查等平台来查询目标的相关组织架构，资产要精确定位，如子公司，孙公司，一般选择控股占比%50以上的单位，并要确认是否目标单位确认资产<br>这里使用企查查的股权穿透图，可以看到这家公司的组织架构情况，可以看到，这家公司完全由一个股东掌握，旗下没有子公司和其他组织架构：<br><img src="/images/InformationGather/hw11-1.JPG"><br>在天眼查和爱企查上得到了相同的结果，可以基本确定这个企业只有这一家公司<br>同时我们还可以获得人员的一些相关信息，比如老板的姓名，电话，邮箱，公司的官网等，为下一步的资产搜集和钓鱼做准备<br>还可进入官网，搜集相关的电话和联系方式，结合这些信息和SGK工具，基本能得到一些人员的个人敏感信息，接下来可以检查以下这些信息，筛选处有效的供下面的流程使用<br><img src="/images/InformationGather/hw11-28.JPG"></p>
-<h3 id="资产搜集"><a href="#资产搜集" class="headerlink" title="资产搜集"></a>资产搜集</h3><p>来到了比较重要的部分，在这里我们开始搜集暴露在公网上可以被访问到的服务器等资产，这些资产，这些资产的质量参差不齐，需要我们筛选</p>
-<h4 id="绕过CDN"><a href="#绕过CDN" class="headerlink" title="绕过CDN"></a>绕过CDN</h4><p>有的网站可能会做cdn防护，将自己的真实ip隐藏起来，我们可以通过一些方法绕过cdn来获取真实ip<br>1.邮箱地址，如果目标有类似验证码等邮件服务，可以通过查看邮件的源ip来发现真实ip，因为邮件服务器一般不上cdn<br>2.phpinfo文件，phpinfo文件的server_addr字段中可能写有真实的ip地址，测试过程中可以尝试获取这个文件<br>3.分站和子域名，有些网站会用cdn来保护主站，但是没有保护分站<br>4.国外访问获取真实ip地址，有些网站会针对国内ip进行防护，所以使用国外ip访问可以获取真实ip<br>5.域名历史解析记录，有些网站可能之前没有上cdn，解析记录了之前的真实ip<br>6.有的网站有app，app里的请求可能是真实ip</p>
-	
-	</div>
-  <a type="button" href="/2024/07/13/infogather/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
 			<a href="/2024/05/23/awdfix/" >AWD（P）常见FIX</a>
 		</h3>
 		</div>
@@ -636,43 +639,43 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/速查/">速查<span>4</span></a></li>
-		
-			<li><a href="/tags/HackTheBox/">HackTheBox<span>5</span></a></li>
-		
-			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
-		
-			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
-		
-			<li><a href="/tags/OSCP/">OSCP<span>13</span></a></li>
-		
-			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
-		
-			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
-		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
-			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
-		
-			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
 			<li><a href="/tags/靶场练习/">靶场练习<span>13</span></a></li>
 		
-			<li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+			<li><a href="/tags/速查/">速查<span>4</span></a></li>
 		
 			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
 		
+			<li><a href="/tags/博客/">博客<span>1</span></a></li>
+		
 			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
 		
+			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
 			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
+		
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
+		
+			<li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
+		
+			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
+		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/其他/">其他<span>1</span></a></li>
+		
+			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/HackTheBox/">HackTheBox<span>5</span></a></li>
+		
+			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
+		
+			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
 		
 			<li><a href="/tags/PWN/">PWN<span>7</span></a></li>
 		
@@ -690,6 +693,10 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2099/05/09/infogather/" ><i class="fa fa-file-o"></i>信息搜集指南</a>
+      </li>
+    
+      <li>
         <a href="/2025/05/07/OSCP-Broker/" ><i class="fa fa-file-o"></i>OSCP-Broker</a>
       </li>
     
@@ -703,10 +710,6 @@ baseball<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
     
       <li>
         <a href="/2025/01/26/Incident_Respond/" ><i class="fa fa-file-o"></i>浅谈应急响应</a>
-      </li>
-    
-      <li>
-        <a href="/2025/01/16/OSCP-Updown/" ><i class="fa fa-file-o"></i>OSCP-Updown</a>
       </li>
     
   </ul>
