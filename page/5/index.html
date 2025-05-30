@@ -134,6 +134,39 @@
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/10/02/meoupload/" >Web-another upload</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-10-02  </div>
+		</div>
+	</div>
+	
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>题目来源：2023MOECTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p>先来看题，很经典的一个文件上传：<br><img src="/images/meoupload1.JPG"></p>
+<h1 id="Debug"><a href="#Debug" class="headerlink" title="Debug"></a>Debug</h1><p>看起来没什么问题，那就先debug一下，先上传一个正常的文件，发现返回了地址，点击查看观察地址组成，发现这个地址被images.php处理过，不能直接利用：<br><img src="/images/meoupload2.JPG"><br>尝试访问一个不存在的地址，发现返回错误：<br><img src="/images/meoupload3.JPG"><br>发现有函数file_get_contents()，搜索发现，此函数可能会导致文件包含或者目录穿越，尝试发现有目录穿越漏洞，以下是关于目录穿越的知识：</p>
+<p>什么是目录遍历？</p>
+<p>目录遍历（目录穿越）是一个Web安全漏洞，攻击者可以利用该漏洞读取运行应用程序的服务器上的任意文件。 这可能包括应用程序代码和数据，后端系统的登录信息以及敏感的操作系统文件。</p>
+<p>在某些情况下，攻击者可能能够在服务器上写入任意文件，（如，FFFTP是一款小型的FTP客户端软件。FFFTP客户端没有正确地验证FTP服务器所返回的LIST命令响应中包含有目录遍历序列（斜线）的文件名，如果用户受骗从恶意的FTP服务器下载的目录包含有带有恶意文件名的文件的话，就可能导致向用户系统的任意位置写入文件）从而允许他们修改应用程序数据或行为，并最终完全控制服务器。</p>
+<p>漏洞原理</p>
+<p>若web要显示一个商品的图像，有时候开发者会用通过HTML加载，如：</p>
+	
+	</div>
+  <a type="button" href="/2023/10/02/meoupload/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/10/01/ctfjson/" >Web-cookit and json</a>
 		</h3>
 		</div>
@@ -254,6 +287,37 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 <div class="row">
 	<div class="col-md-8">
 		<h3 class="title">
+			<a href="/2023/09/07/dgctf2/" >Web-Unicode</a>
+		</h3>
+		</div>
+	<div class="col-md-4">
+		<div class="date">post @ 2023-09-07  </div>
+		</div>
+	</div>
+	
+
+			<div class="entry">
+  <div class="row">
+	
+	
+		<p>题目来源：其他CTF</p>
+<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
+<h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
+<h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
+<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
+
+	
+	</div>
+  <a type="button" href="/2023/09/07/dgctf2/#more" class="btn btn-default more">Read More</a>
+</div>
+
+		
+			
+	
+	<!-- display as entry -->
+<div class="row">
+	<div class="col-md-8">
+		<h3 class="title">
 			<a href="/2023/09/07/dgutctf1/" >Web-Unserialize</a>
 		</h3>
 		</div>
@@ -278,37 +342,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 	
 	</div>
   <a type="button" href="/2023/09/07/dgutctf1/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/09/07/dgctf2/" >Web-Unicode</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-09-07  </div>
-		</div>
-	</div>
-	
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>题目来源：其他CTF</p>
-<h1 id="题目简述"><a href="#题目简述" class="headerlink" title="题目简述"></a>题目简述</h1><p><img src="/images/dgutctfuni1.JPG"><br>大致就是一个“买”unicorn的商店，尝试购买，发现价格处只能填写一个字符，并且最后一个商品要1337四位数的价格，显然，题目要求我们使用一个字符来购买这个四位数价格的商品</p>
-<h1 id="思路简析"><a href="#思路简析" class="headerlink" title="思路简析"></a>思路简析</h1><p>我们先什么都不输入，尝试寻找报错：<br><img src="/images/dgctfuni2.JPG"><br>发现需要输入一个只占一个字符的unicode字符，那么有没有只占一个字符，但又能表示1337以上的数字的unicode字符呢？找到这样一个网站：<a target="_blank" rel="noopener" href="https://www.compart.com/en/unicode">https://www.compart.com/en/unicode</a> 查到这个数值表示10000的字符：<br><img src="/images/dgctfuni3.png"><br>由于提交要使用url编码，所以把0xE1 0x8D 0xBC换成%E1%8D%BC即可</p>
-<h1 id="拿flag"><a href="#拿flag" class="headerlink" title="拿flag"></a>拿flag</h1><p><img src="/images/dgctfflag1.JPG"><br><img src="/images/dgctfflag2.JPG"><br>得到flag</p>
-<h1 id="反思总结"><a href="#反思总结" class="headerlink" title="反思总结"></a>反思总结</h1><p>1.有时候会遇到一些很刁钻的知识点，不懂真的做不出来</p>
-
-	
-	</div>
-  <a type="button" href="/2023/09/07/dgctf2/#more" class="btn btn-default more">Read More</a>
 </div>
 
 		
@@ -439,50 +472,6 @@ f<span class="token operator">=</span>str1<span class="token punctuation">.</spa
 </div>
 
 		
-			
-	
-	<!-- display as entry -->
-<div class="row">
-	<div class="col-md-8">
-		<h3 class="title">
-			<a href="/2023/08/26/CTF1/" >PWN-BabyCalculator</a>
-		</h3>
-		</div>
-	<div class="col-md-4">
-		<div class="date">post @ 2023-08-26  </div>
-		</div>
-	</div>
-	
-
-			<div class="entry">
-  <div class="row">
-	
-	
-		<p>题目来源：2023MOECTF</p>
-<h1 id="题目概述"><a href="#题目概述" class="headerlink" title="题目概述"></a>题目概述</h1><p><img src="/images/pwnlook1.PNG"><br><img src="/images/pwnlook2.PNG"><br>大概就是要我们写一个程序来和这个二进制程序交互，还要使用到pwntools这个工具。</p>
-<h1 id="安装pwntools"><a href="#安装pwntools" class="headerlink" title="安装pwntools"></a>安装pwntools</h1><p>上网搜索了一下，pwntools是python的一个库，支持python3 使用pip安装：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt-get</span> update
-<span class="token function">apt-get</span> <span class="token function">install</span> python3 python3-pip python3-dev <span class="token function">git</span> libssl-dev libffi-dev build-essential
-python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pip <span class="token comment">#升级pip，可以不执行 </span>
-python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> <span class="token parameter variable">--upgrade</span> pwntools <span class="token comment">#可能会升级pip，而且使用国外源，比较慢</span>
-python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> pwntools <span class="token parameter variable">-i</span> https://pypi.tuna.tsinghua.edu.cn/simple/ <span class="token comment">#使用国内源，不更新pip，建议使用这条</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="使用pwntools"><a href="#使用pwntools" class="headerlink" title="使用pwntools"></a>使用pwntools</h1><p>稍微了解了一下pwntools的用法，基本够用：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">send<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送数据</span>
-sendline<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token comment">#发送一行数据，相当于在末尾加\n      </span>
-recv<span class="token punctuation">(</span>numb<span class="token operator">=</span><span class="token number">4096</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span>default<span class="token punctuation">)</span>  <span class="token comment">#给出接收字节数,timeout指定超时</span>
-recvuntil<span class="token punctuation">(</span><span class="token string">"hello,world\n"</span><span class="token punctuation">,</span> drop<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span> <span class="token comment">#接收直到我们设置的标志出现</span>
-<span class="token comment">#（以下可以看作until的特例）</span>
-recvline<span class="token punctuation">(</span>keepends<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token comment">#接收到\n，keepends指定保留\n</span>
-recvall<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#接收到EOF</span>
-recvrepeat<span class="token punctuation">(</span>timeout<span class="token operator">=</span>default<span class="token punctuation">)</span> <span class="token comment">#接收到EOF或timeout</span>
-interactive<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#与shell交互</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="编写POC"><a href="#编写POC" class="headerlink" title="编写POC"></a>编写POC</h1>
-	
-	</div>
-  <a type="button" href="/2023/08/26/CTF1/#more" class="btn btn-default more">Read More</a>
-</div>
-
-		
 
 		</div>
 
@@ -498,7 +487,7 @@ interactive<span class="token punctuation">(</span><span class="token punctuatio
 
         <a href="/" type="button" class="btn btn-default"><i class="fa fa-home"></i>Home</a>
  
-          <a type="button" class="btn btn-default disabled">Next<i class="fa fa-arrow-circle-o-right"></i></a>
+       <a href="/page/6/" type="button" class="btn btn-default ">Next<i class="fa fa-arrow-circle-o-right"></i></a>     
         
 
   
@@ -528,7 +517,7 @@ interactive<span class="token punctuation">(</span><span class="token punctuatio
 			
 <div class="widget tag">
   <h3 class="title">Categories</h3>
-     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Hard/">Hard</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
+     <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/SRC%E6%8C%96%E6%8E%98/">SRC挖掘</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/">个人项目</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">23</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Crypto/">Crypto</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Misc/">Misc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/PWN/">PWN</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Reverse/">Reverse</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AB%9E%E8%B5%9B/CTF/Web/">Web</a><span class="category-list-count">9</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/">速查</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E5%8D%9A%E5%AE%A2/">博客</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/">竞赛</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/AWD/">AWD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E7%AB%9E%E8%B5%9B/CTF/">CTF</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%80%9F%E6%9F%A5/%E8%93%9D%E9%98%9F/">蓝队</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/">靶场练习</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/">OSCP</a><span class="category-list-count">16</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/">HackTheBox</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Easy/">Easy</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Hard/">Hard</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/HackTheBox/Medium/">Medium</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/">Vulnhub</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Easy/">Easy</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%B6%E5%9C%BA%E7%BB%83%E4%B9%A0/OSCP/Vulnhub/Intermediate/">Intermediate</a><span class="category-list-count">5</span></li></ul></li></ul></li></ul></li></ul> 
 </div>
  
 
@@ -538,45 +527,45 @@ interactive<span class="token punctuation">(</span><span class="token punctuatio
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
-		
-			<li><a href="/tags/PWN/">PWN<span>7</span></a></li>
-		
-			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
-		
-			<li><a href="/tags/Reverse/">Reverse<span>1</span></a></li>
+			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
 		
 			<li><a href="/tags/CTF/">CTF<span>23</span></a></li>
 		
+			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+		
+			<li><a href="/tags/蓝队/">蓝队<span>1</span></a></li>
+		
+			<li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
+		
+			<li><a href="/tags/靶场练习/">靶场练习<span>16</span></a></li>
+		
 			<li><a href="/tags/其他/">其他<span>1</span></a></li>
-		
-			<li><a href="/tags/Vulnhub/">Vulnhub<span>7</span></a></li>
-		
-			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
-		
-			<li><a href="/tags/靶场练习/">靶场练习<span>15</span></a></li>
-		
-			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
-		
-			<li><a href="/tags/项目/">项目<span>3</span></a></li>
-		
-			<li><a href="/tags/Web/">Web<span>10</span></a></li>
-		
-			<li><a href="/tags/OSCP/">OSCP<span>15</span></a></li>
-		
-			<li><a href="/tags/速查/">速查<span>4</span></a></li>
 		
 			<li><a href="/tags/博客/">博客<span>1</span></a></li>
 		
-			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
-		
 			<li><a href="/tags/AWD/">AWD<span>1</span></a></li>
 		
-			<li><a href="/tags/渗透测试/">渗透测试<span>2</span></a></li>
+			<li><a href="/tags/Crypto/">Crypto<span>1</span></a></li>
 		
-			<li><a href="/tags/SRC挖掘/">SRC挖掘<span>1</span></a></li>
+			<li><a href="/tags/笔记/">笔记<span>1</span></a></li>
 		
-			<li><a href="/tags/BUUCTF/">BUUCTF<span>2</span></a></li>
+			<li><a href="/tags/OSCP/">OSCP<span>16</span></a></li>
+		
+			<li><a href="/tags/Misc/">Misc<span>5</span></a></li>
+		
+			<li><a href="/tags/Web/">Web<span>10</span></a></li>
+		
+			<li><a href="/tags/奇技淫巧/">奇技淫巧<span>2</span></a></li>
+		
+			<li><a href="/tags/CTFshow/">CTFshow<span>1</span></a></li>
+		
+			<li><a href="/tags/PWN/">PWN<span>7</span></a></li>
+		
+			<li><a href="/tags/其他CTF/">其他CTF<span>2</span></a></li>
+		
+			<li><a href="/tags/项目/">项目<span>3</span></a></li>
+		
+			<li><a href="/tags/2023MOECTF/">2023MOECTF<span>17</span></a></li>
 		
 		
 		   <li><a href="/tags">...<span>24</span></a></li>
@@ -596,6 +585,10 @@ interactive<span class="token punctuation">(</span><span class="token punctuatio
       </li>
     
       <li>
+        <a href="/2025/05/30/OSCP-Keeper/" ><i class="fa fa-file-o"></i>OSCP-Keeper</a>
+      </li>
+    
+      <li>
         <a href="/2025/05/22/OSCP-Soccer/" ><i class="fa fa-file-o"></i>OSCP-Soccer</a>
       </li>
     
@@ -605,10 +598,6 @@ interactive<span class="token punctuation">(</span><span class="token punctuatio
     
       <li>
         <a href="/2025/05/07/OSCP-Broker/" ><i class="fa fa-file-o"></i>OSCP-Broker</a>
-      </li>
-    
-      <li>
-        <a href="/2025/04/28/OSCP-HELP/" ><i class="fa fa-file-o"></i>OSCP-Help</a>
       </li>
     
   </ul>
